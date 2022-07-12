@@ -125,6 +125,9 @@ int main(int argc, char** argv)
 	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	//IM_ASSERT(font != NULL);
 
+	ImGui::Text("Mouse Left: drag to add lines,\nMouse Right: drag to scroll, click for context menu.");
+	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
 	// Here is our new entry in the main function
 	glutReshapeFunc(changeSize);
 	glutMainLoop();
