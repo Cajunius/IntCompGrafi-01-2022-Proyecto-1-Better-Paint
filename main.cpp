@@ -2,23 +2,21 @@
 // 1. Bajar freeglut http://www.lighthouse3d.com/tutorials/glut-tutorial/
 // 2. Bajar AntTweakBar http://anttweakbar.sourceforge.net/doc/
 // 3. Bajar "Open File Dialog", "open"
-
+#define FREEGLUT_STATIC
 #ifdef _MSC_VER
 #pragma warning (disable: 4505) // unreferenced local function has been removed
 #endif
-#define FREEGLUT_STATIC
 // FreeGlut
-#include "GL/freeglut.h"
+#include "./GL/freeglut.h"
 // ImGui
-#include "imgui/imgui.h"
+#include "./imgui/imgui.h"
 //#include "imgui/imgui_draw.cpp"
-#include "imgui/backends/imgui_impl_glut.h"
-#include "imgui/backends/imgui_impl_opengl2.h"
+#include "./imgui/backends/imgui_impl_glut.h"
+#include "./imgui/backends/imgui_impl_opengl2.h"
 // Utils
 #include <list>
 #include <iostream>
 #include <memory>
-#include <shape.h>
 #include <line.h>
 
 using namespace std;

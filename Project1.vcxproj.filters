@@ -19,6 +19,9 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{49447907-5cfa-4196-a4c2-aea4ecb51a71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\freeglut">
+      <UniqueIdentifier>{5afdf662-15e9-47fc-8df0-b31a1fece4d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,12 +46,6 @@
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\backends\imgui_impl_opengl2.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\backends\imgui_impl_opengl3.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\backends\imgui_impl_win32.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,14 +80,20 @@
     <ClInclude Include="imgui\backends\imgui_impl_opengl2.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\backends\imgui_impl_opengl3.h">
-      <Filter>Header Files\imgui</Filter>
+    <ClInclude Include="GL\freeglut.h">
+      <Filter>Header Files\freeglut</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\backends\imgui_impl_opengl3_loader.h">
-      <Filter>Header Files\imgui</Filter>
+    <ClInclude Include="GL\freeglut_ext.h">
+      <Filter>Header Files\freeglut</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\backends\imgui_impl_win32.h">
-      <Filter>Header Files\imgui</Filter>
+    <ClInclude Include="GL\freeglut_std.h">
+      <Filter>Header Files\freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="GL\freeglut_ucall.h">
+      <Filter>Header Files\freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="GL\glut.h">
+      <Filter>Header Files\freeglut</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
