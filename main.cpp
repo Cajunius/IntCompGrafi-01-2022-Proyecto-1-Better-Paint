@@ -13,7 +13,7 @@
 using namespace std;
 
 
-int width = 320, height = 240;
+int width = 640, height = 480;
 
 
 
@@ -58,7 +58,10 @@ int main(int argc, char** argv)
 {
 	// init GLUT and create Window
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+#ifdef __FREEGLUT_EXT_H__
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+#endif
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Better Paint - Proyecto 1 - Leonardo Mendoza");
