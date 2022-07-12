@@ -21,13 +21,9 @@
 
 using namespace std;
 
-
 int width = 640, height = 480;
 
-
-
 list <shared_ptr<CShape>> shapes;
-
 shared_ptr<CShape> current_shape;
 
 // Our state
@@ -38,8 +34,8 @@ static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 void my_display_code()
 {
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	//if (show_demo_window)
-	//	ImGui::ShowDemoWindow(&show_demo_window);
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
@@ -92,7 +88,7 @@ void renderScene(void)
 	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
 	// glClearColor(0, 0, 0, 1);
 	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-	glClear(GL_COLOR_BUFFER_BIT);
+	// glClear(GL_COLOR_BUFFER_BIT); // For some unknown reason this clears all
 	glColor3f(1.0f, 0.5f, 0.25f);
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -140,6 +136,7 @@ int main(int argc, char** argv)
 	glLoadIdentity();
 	glOrtho(0, width, 0, height, -1, 1);
 
+	// Aplication Code
 	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
 	shared_ptr<CLine> l2 = make_shared <CLine>(1, 0, 0);
 	
@@ -148,6 +145,7 @@ int main(int argc, char** argv)
 
 	shapes.push_back(l1);
 	shapes.push_back(l2);
+
 
 	// register callbacks
 	glutDisplayFunc(renderScene);
