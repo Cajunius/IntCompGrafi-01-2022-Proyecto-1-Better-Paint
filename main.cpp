@@ -29,7 +29,7 @@ shared_ptr<CShape> current_shape;
 // Our state
 static bool show_demo_window = false;
 static bool show_another_window = true;
-static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
 
 void my_display_code()
 {
@@ -96,7 +96,7 @@ void renderScene(void)
 	// glClearColor(0, 0, 0, 1);
 	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT); // For some unknown reason this clears all
-	//glColor3f(1.0f, 0.5f, 0.25f);
+	glColor3f(1.0f, 0.5f, 0.25f);
 	
 	// Aplication Code
 	int i = 0;
