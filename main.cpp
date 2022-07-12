@@ -21,7 +21,7 @@
 
 using namespace std;
 
-int width = 640, height = 480;
+int width = 1080, height = 720;
 
 list <shared_ptr<CShape>> shapes;
 shared_ptr<CShape> current_shape;
@@ -79,22 +79,37 @@ void renderScene(void)
 
 	my_display_code();
 
-	for (auto const& x : shapes)
-		x->render();
+	/*
+	ImGui::Begin("DIOS AYUDA"); 
+	ImGui::Text("This is some useful text.");
+	ImGui::End();
+	*/
 
 	// Rendering
 	ImGui::Render();
 	ImGuiIO& io = ImGui::GetIO();
 	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, width, 0, height, -1, 1);
 	// glClearColor(0, 0, 0, 1);
 	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-	// glClear(GL_COLOR_BUFFER_BIT); // For some unknown reason this clears all
-	glColor3f(1.0f, 0.5f, 0.25f);
+	glClear(GL_COLOR_BUFFER_BIT); // For some unknown reason this clears all
+	//glColor3f(1.0f, 0.5f, 0.25f);
+	
+	// Aplication Code
+	int i = 0;
+	for (auto const& x : shapes) {
+		x->render();
+		cout << "render shape " << i << endl;
+		i++;
+	}
+	
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	glutSwapBuffers();
-	//glutPostRedisplay();
+	glutPostRedisplay();
 }
 
 void changeSize(int w, int h) 
@@ -125,16 +140,18 @@ int main(int argc, char** argv)
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 #endif
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
-	glutInitWindowPosition(100, 100);
+	//glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Better Paint - Proyecto 1 - Leonardo Mendoza");
 
 	cout << "Hi Hi :,D" << endl;
 
+	/*
 	glViewport(0, 0, width, height);	
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, 0, height, -1, 1);
+	*/
 
 	// Aplication Code
 	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
@@ -185,7 +202,7 @@ int main(int argc, char** argv)
 	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	// Here is our new entry in the main function
-	glutReshapeFunc(changeSize);
+	//glutReshapeFunc(changeSize);
 	glutMainLoop();
 
 	// Cleanup
