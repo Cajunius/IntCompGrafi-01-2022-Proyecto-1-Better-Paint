@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
-	glutCreateWindow("Proyecto 1 - Leonardo Mendoza");
+	glutCreateWindow("Better Paint - Proyecto 1 - Leonardo Mendoza");
 
 	cout << "Hi Hi :,D" << endl;
 
