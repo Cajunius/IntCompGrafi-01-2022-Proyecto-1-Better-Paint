@@ -147,6 +147,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="imgui\backends\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="imgui\examples\example_glut_opengl2\main.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />

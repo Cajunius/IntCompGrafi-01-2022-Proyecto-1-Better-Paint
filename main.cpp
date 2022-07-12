@@ -1,6 +1,7 @@
 
 // 1. Bajar freeglut http://www.lighthouse3d.com/tutorials/glut-tutorial/
-// 2. Bajar AntTweakBar http://anttweakbar.sourceforge.net/doc/
+// 2. Bajar AntTweakBar http://anttweakbar.sourceforge.net/doc/ NO
+// 2.1 Usando ImGUI https://github.com/ocornut/imgui
 // 3. Bajar "Open File Dialog", "open"
 #define FREEGLUT_STATIC
 #ifdef _MSC_VER
@@ -125,9 +126,13 @@ int main(int argc, char** argv)
 	//ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 	//IM_ASSERT(font != NULL);
 
+	//ImGui::ShowDemoWindow();
+
 	// Here is our new entry in the main function
 	glutReshapeFunc(changeSize);
 	glutMainLoop();
+
+	
 
 	// Cleanup
 	ImGui_ImplOpenGL2_Shutdown();
