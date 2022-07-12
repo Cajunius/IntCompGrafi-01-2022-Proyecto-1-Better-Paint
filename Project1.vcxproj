@@ -120,6 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>"C:\Users\Cajunius Laptop\Desktop\LeoLaptop\Universidad\Universidad Central de Venezuela\Personal\Lic. Computación\Semestre VIII\Introducción a la Computación Gráfica\Proyectos\1\Entrega"</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
