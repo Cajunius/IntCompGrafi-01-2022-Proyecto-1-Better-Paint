@@ -270,7 +270,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing dear imgui context. Refer to examples app!");
 
     // Examples Apps (accessible from the "Examples" menu)
-    static bool show_app_main_menu_bar = false;
+    static bool show_app_main_menu_bar = true;
     static bool show_app_documents = false;
 
     static bool show_app_console = false;
@@ -280,7 +280,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     static bool show_app_long_text = false;
     static bool show_app_auto_resize = false;
     static bool show_app_constrained_resize = false;
-    static bool show_app_simple_overlay = false;
+    static bool show_app_simple_overlay = true;
     static bool show_app_fullscreen = false;
     static bool show_app_window_titles = false;
     static bool show_app_custom_rendering = false;
@@ -288,17 +288,17 @@ void ImGui::ShowDemoWindow(bool* p_open)
     if (show_app_main_menu_bar)       ShowExampleAppMainMenuBar();
     if (show_app_documents)           ShowExampleAppDocuments(&show_app_documents);
 
-    if (show_app_console)             ShowExampleAppConsole(&show_app_console);
-    if (show_app_log)                 ShowExampleAppLog(&show_app_log);
-    if (show_app_layout)              ShowExampleAppLayout(&show_app_layout);
-    if (show_app_property_editor)     ShowExampleAppPropertyEditor(&show_app_property_editor);
-    if (show_app_long_text)           ShowExampleAppLongText(&show_app_long_text);
-    if (show_app_auto_resize)         ShowExampleAppAutoResize(&show_app_auto_resize);
-    if (show_app_constrained_resize)  ShowExampleAppConstrainedResize(&show_app_constrained_resize);
+    //if (show_app_console)             ShowExampleAppConsole(&show_app_console);
+    //if (show_app_log)                 ShowExampleAppLog(&show_app_log);
+    //if (show_app_layout)              ShowExampleAppLayout(&show_app_layout);
+    //if (show_app_property_editor)     ShowExampleAppPropertyEditor(&show_app_property_editor);
+    //if (show_app_long_text)           ShowExampleAppLongText(&show_app_long_text);
+    //if (show_app_auto_resize)         ShowExampleAppAutoResize(&show_app_auto_resize);
+    //if (show_app_constrained_resize)  ShowExampleAppConstrainedResize(&show_app_constrained_resize);
     if (show_app_simple_overlay)      ShowExampleAppSimpleOverlay(&show_app_simple_overlay);
-    if (show_app_fullscreen)          ShowExampleAppFullscreen(&show_app_fullscreen);
-    if (show_app_window_titles)       ShowExampleAppWindowTitles(&show_app_window_titles);
-    if (show_app_custom_rendering)    ShowExampleAppCustomRendering(&show_app_custom_rendering);
+    //if (show_app_fullscreen)          ShowExampleAppFullscreen(&show_app_fullscreen);
+    //if (show_app_window_titles)       ShowExampleAppWindowTitles(&show_app_window_titles);
+    //if (show_app_custom_rendering)    ShowExampleAppCustomRendering(&show_app_custom_rendering);
 
     // Dear ImGui Apps (accessible from the "Tools" menu)
     static bool show_app_metrics = false;
@@ -355,7 +355,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
     // Main body of the Demo window starts here.
-    if (!ImGui::Begin("Dear ImGui Demo", p_open, window_flags))
+    if (!ImGui::Begin("Config", p_open, window_flags))
     {
         // Early out if the window is collapsed, as an optimization.
         ImGui::End();
@@ -379,28 +379,28 @@ void ImGui::ShowDemoWindow(bool* p_open)
             ShowExampleMenuFile();
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Examples"))
-        {
-            IMGUI_DEMO_MARKER("Menu/Examples");
-            ImGui::MenuItem("Main menu bar", NULL, &show_app_main_menu_bar);
-            ImGui::MenuItem("Console", NULL, &show_app_console);
-            ImGui::MenuItem("Log", NULL, &show_app_log);
-            ImGui::MenuItem("Simple layout", NULL, &show_app_layout);
-            ImGui::MenuItem("Property editor", NULL, &show_app_property_editor);
-            ImGui::MenuItem("Long text display", NULL, &show_app_long_text);
-            ImGui::MenuItem("Auto-resizing window", NULL, &show_app_auto_resize);
-            ImGui::MenuItem("Constrained-resizing window", NULL, &show_app_constrained_resize);
-            ImGui::MenuItem("Simple overlay", NULL, &show_app_simple_overlay);
-            ImGui::MenuItem("Fullscreen window", NULL, &show_app_fullscreen);
-            ImGui::MenuItem("Manipulating window titles", NULL, &show_app_window_titles);
-            ImGui::MenuItem("Custom rendering", NULL, &show_app_custom_rendering);
-            ImGui::MenuItem("Documents", NULL, &show_app_documents);
-            ImGui::EndMenu();
-        }
-        //if (ImGui::MenuItem("MenuItem")) {} // You can also use MenuItem() inside a menu bar!
         if (ImGui::BeginMenu("Tools"))
         {
             IMGUI_DEMO_MARKER("Menu/Tools");
+            ImGui::MenuItem("Main menu bar", NULL, &show_app_main_menu_bar);
+            //ImGui::MenuItem("Console", NULL, &show_app_console);
+            //ImGui::MenuItem("Log", NULL, &show_app_log);
+            //ImGui::MenuItem("Simple layout", NULL, &show_app_layout);
+            //ImGui::MenuItem("Property editor", NULL, &show_app_property_editor);
+            //ImGui::MenuItem("Long text display", NULL, &show_app_long_text);
+            //ImGui::MenuItem("Auto-resizing window", NULL, &show_app_auto_resize);
+            //ImGui::MenuItem("Constrained-resizing window", NULL, &show_app_constrained_resize);
+            ImGui::MenuItem("Stats overlay", NULL, &show_app_simple_overlay);
+            ////ImGui::MenuItem("Fullscreen window", NULL, &show_app_fullscreen);
+            //ImGui::MenuItem("Manipulating window titles", NULL, &show_app_window_titles);
+            //ImGui::MenuItem("Custom rendering", NULL, &show_app_custom_rendering);
+            //ImGui::MenuItem("Documents", NULL, &show_app_documents);
+            ImGui::EndMenu();
+        }
+        //if (ImGui::MenuItem("MenuItem")) {} // You can also use MenuItem() inside a menu bar!
+        if (ImGui::BeginMenu("Extras"))
+        {
+            IMGUI_DEMO_MARKER("Menu/Extras");
 #ifndef IMGUI_DISABLE_DEBUG_TOOLS
             const bool has_debug_tools = true;
 #else
@@ -416,7 +416,8 @@ void ImGui::ShowDemoWindow(bool* p_open)
         ImGui::EndMenuBar();
     }
 
-    ImGui::Text("dear imgui says hello! (%s) (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
+    //ImGui::Text("dear imgui says hello! (%s) (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
+    ImGui::Text("Better Paint says hello! (%s) (%d)", BETTER_PAINT_VERSION, BETTER_PAINT_VERSION_NUM);
     ImGui::Spacing();
 
     IMGUI_DEMO_MARKER("Help");
@@ -553,10 +554,10 @@ void ImGui::ShowDemoWindow(bool* p_open)
     }
 
     // All demo contents
-    ShowDemoWindowWidgets();
-    ShowDemoWindowLayout();
-    ShowDemoWindowPopups();
-    ShowDemoWindowTables();
+    //ShowDemoWindowWidgets();
+    //ShowDemoWindowLayout();
+    //ShowDemoWindowPopups();
+    //ShowDemoWindowTables();
     ShowDemoWindowMisc();
 
     // End of ShowDemoWindow()
@@ -5656,6 +5657,7 @@ namespace ImGui { extern ImGuiKeyData* GetKeyData(ImGuiKey key); }
 
 static void ShowDemoWindowMisc()
 {
+    /*
     IMGUI_DEMO_MARKER("Filtering");
     if (ImGui::CollapsingHeader("Filtering"))
     {
@@ -5673,7 +5675,7 @@ static void ShowDemoWindowMisc()
             if (filter.PassFilter(lines[i]))
                 ImGui::BulletText("%s", lines[i]);
     }
-
+    */
     IMGUI_DEMO_MARKER("Inputs, Navigation & Focus");
     if (ImGui::CollapsingHeader("Inputs, Navigation & Focus"))
     {
@@ -5820,6 +5822,7 @@ static void ShowDemoWindowMisc()
             ImGui::TreePop();
         }
 
+        /*
         IMGUI_DEMO_MARKER("Inputs, Navigation & Focus/Tabbing");
         if (ImGui::TreeNode("Tabbing"))
         {
@@ -5877,7 +5880,7 @@ static void ShowDemoWindowMisc()
             ImGui::TextWrapped("NB: Cursor & selection are preserved when refocusing last used item in code.");
             ImGui::TreePop();
         }
-
+        */
         IMGUI_DEMO_MARKER("Inputs, Navigation & Focus/Dragging");
         if (ImGui::TreeNode("Dragging"))
         {
@@ -7316,7 +7319,7 @@ static void ShowExampleAppConstrainedResize(bool* p_open)
 // + a context-menu to choose which corner of the screen to use.
 static void ShowExampleAppSimpleOverlay(bool* p_open)
 {
-    static int corner = 0;
+    static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (corner != -1)
@@ -7334,11 +7337,12 @@ static void ShowExampleAppSimpleOverlay(bool* p_open)
         window_flags |= ImGuiWindowFlags_NoMove;
     }
     ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
-    if (ImGui::Begin("Example: Simple overlay", p_open, window_flags))
+    if (ImGui::Begin("Stats overlay", p_open, window_flags))
     {
         IMGUI_DEMO_MARKER("Examples/Simple Overlay");
-        ImGui::Text("Simple overlay\n" "in the corner of the screen.\n" "(right-click to change position)");
-        ImGui::Separator();
+        ImGui::Text("Application average %.3f ms/frame\n (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        //ImGui::Text("Simple overlay\n" "in the corner of the screen.\n" "(right-click to change position)");
+        //ImGui::Separator();
         if (ImGui::IsMousePosValid())
             ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
         else
@@ -7353,6 +7357,9 @@ static void ShowExampleAppSimpleOverlay(bool* p_open)
             if (p_open && ImGui::MenuItem("Close")) *p_open = false;
             ImGui::EndPopup();
         }
+        ImGui::Separator();
+        //ImGui::Text("Stats overlay\n" "in the corner of the screen.\n");
+        ImGui::Text("(right-click to change position)");
     }
     ImGui::End();
 }

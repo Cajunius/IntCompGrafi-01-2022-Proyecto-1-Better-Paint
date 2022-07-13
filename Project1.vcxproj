@@ -171,6 +171,9 @@
     <ClInclude Include="line.h" />
     <ClInclude Include="shape.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Documentation\TO DO.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

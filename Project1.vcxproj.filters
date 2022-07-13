@@ -22,6 +22,9 @@
     <Filter Include="Header Files\freeglut">
       <UniqueIdentifier>{5afdf662-15e9-47fc-8df0-b31a1fece4d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation Files">
+      <UniqueIdentifier>{18608d79-249d-4bc9-a8e0-f0e2cd27fecd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -95,5 +98,10 @@
     <ClInclude Include="GL\glut.h">
       <Filter>Header Files\freeglut</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Documentation\TO DO.txt">
+      <Filter>Documentation Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
