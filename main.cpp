@@ -16,6 +16,7 @@
 // Utils
 #include <list>
 #include <iostream>
+#include <string>
 #include <memory>
 #include <line.h>
 
@@ -31,32 +32,150 @@ static bool show_config_window = true; //Set true when Press "0"
 static bool show_another_window = true;
 static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
 
+static int DrawingMode = 0;
+static int FigureClicked = 0;
 void my_display_code()
 {
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 	if (show_config_window)
 		ImGui::ShowDemoWindow(&show_config_window);
 
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+	// 2. Show ToolBAR. We use a Begin/End pair to created a named window.
 	{
-		static float f = 0.0f;
-		static int counter = 0;
+		//static float f = 0.0f;
+		//static int counter = 0;
 
 		ImGui::Begin("ToolBar!");                          // Create a window called "Hello, world!" and append into it.
 
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+		ImGui::Text("This is the useful toolbar!.");               // Display some text (you can use a format strings too)
 		ImGui::Checkbox("Config Window", &show_config_window);      // Edit bools storing our window open/close state
 		//ImGui::Checkbox("Another Window", &show_another_window);
 
 		//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 		ImGui::ColorEdit3("clear (background) color", (float*)&clear_color); // Edit 3 floats representing a color
 
+		/*
 		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
 			counter++;
+		
 		ImGui::SameLine();
 		ImGui::Text("counter = %d", counter);
-
+		*/
 		//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		
+		ImGui::Separator();
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Mode Selector:");
+		ImGui::SameLine();
+		ImGui::RadioButton("Hardware", &DrawingMode, 0); ImGui::SameLine();
+		ImGui::RadioButton("Software", &DrawingMode, 1);
+		//cout << "Modo: " << FigureClicked << endl;
+
+		ImGui::Separator();
+
+		const char* figures[] = { "None", "Line", "Circle", "Elipse", "Rectangle", "Triangle", "Bezier", "DELETE", "EXTRA", NULL };
+		ImGui::Text("Figure Selector: %s", figures[FigureClicked]);
+		
+		const char* figure;
+		// Color buttons, demonstrate using PushID() to add unique identifier in the ID stack, and changing style.
+		for (int i = 0; i < 8; i++)
+		{
+			figure = *figures + i;
+			if (i > 0)
+				ImGui::SameLine();
+			ImGui::PushID(i);
+			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(i / 7.0f, 0.6f, 0.6f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(i / 7.0f, 0.7f, 0.7f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(i / 7.0f, 0.8f, 0.8f));
+			if (ImGui::Button(figures[i])) {
+				FigureClicked = i;
+			}
+			ImGui::PopStyleColor(3);
+			ImGui::PopID();
+		}
+		//cout << "FigureClicked: " << FigureClicked << endl;
+		// Check if we need to draw a figure
+		if (FigureClicked != 0) {
+			// Select which figure to draw
+		}
+		else {
+			// handle Deselect
+		}
+
+		static bool border = true;
+		static bool fill = true;
+		ImGui::Checkbox("Border", &border);
+		ImGui::SameLine();
+		ImGui::Checkbox("Fill", &fill);
+		
+
+		ImGui::Separator();
+
+		static int position = 0; // TO DO: Sustitute this fetching the current figureposition...
+
+		ImGui::Text("Selected Figure:  %d", position); // TO DO: Add Selected Figure Type
+		float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+		// See 'Demo->Layout->Text Baseline Alignment' for details.
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Figure Position: %d", position);
+		ImGui::SameLine();
+
+		// Arrow buttons with Repeater
+		if (ImGui::Button("To Back"))
+		{
+			position = 0;
+		}
+		ImGui::SameLine(0.0f, spacing);
+		ImGui::PushButtonRepeat(true);
+		if (ImGui::ArrowButton("##back", ImGuiDir_Left)) { position--; } // TO DO: update with update figure position
+		ImGui::SameLine(0.0f, spacing);
+		if (ImGui::ArrowButton("##front", ImGuiDir_Right)) { position++; } // TO DO: update with update figure position
+		ImGui::PopButtonRepeat();
+		ImGui::SameLine(0.0f, spacing);
+		if (ImGui::Button("To Front"))
+		{
+			position = shapes.size();
+		}
+		
+		// TO DO: Change to Modify Selected Figure colors
+		static ImVec4 border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
+		static ImVec4 fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
+
+		ImGui::ColorEdit4("Border color", (float*)&border_color);
+		ImGui::ColorEdit4("Fill color", (float*)&fill_color);
+
+		// Trying to give it color
+		ImGui::PushID(11);
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
+		ImGui::PopStyleColor(3);
+
+		if (ImGui::Button("Delete"))
+		{
+			//Handle Delete
+		}
+		ImGui::PopID();
+
+		ImGui::Separator();
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Extras:");
+		ImGui::SameLine();
+
+		// Trying to give it color
+		ImGui::PushID(12);
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
+		ImGui::PopStyleColor(3);
+
+		if (ImGui::Button("Clear All"))
+		{
+			//Handle Clear All
+		}
+		ImGui::PopID();
 		ImGui::End();
 	}
 
@@ -253,7 +372,6 @@ int main(int argc, char** argv)
 	shapes.push_back(l1);
 	shapes.push_back(l2);
 
-
 	// register callbacks
 	glutDisplayFunc(renderScene);
 
@@ -301,8 +419,6 @@ int main(int argc, char** argv)
 	*/
 	glutMotionFunc(onMotion);
 	glutPassiveMotionFunc(onPassiveMotion); //IDK which event correspond
-	 
-
 
 	/*
 		glutKeyboardFunc sets the keyboard callback for the current window. When a user types into the window,
