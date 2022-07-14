@@ -38,7 +38,7 @@ void my_display_code()
 		ImGui::ShowDemoWindow(&show_config_window);
 
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-	 {
+	{
 		static float f = 0.0f;
 		static int counter = 0;
 
@@ -59,13 +59,13 @@ void my_display_code()
 		//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}
-	
+
 	//if (show_another_window) {
 		//ShowExampleAppMainMenuBar();
 	//}
 }
 
-void renderScene(void) 
+void renderScene(void)
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL2_NewFrame();
@@ -74,7 +74,7 @@ void renderScene(void)
 	my_display_code();
 
 	/*
-	ImGui::Begin("DIOS AYUDA"); 
+	ImGui::Begin("DIOS AYUDA");
 	ImGui::Text("This is some useful text.");
 	ImGui::End();
 	*/
@@ -91,15 +91,15 @@ void renderScene(void)
 	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT); // For some unknown reason this clears all
 	glColor3f(1.0f, 0.5f, 0.25f);
-	
+
 	// Aplication Code
 	int i = 0;
 	for (auto const& x : shapes) {
 		x->render();
-		cout << "render shape " << i << endl;
+		//cout << "render shape " << i << endl;
 		i++;
 	}
-	
+
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
@@ -107,8 +107,103 @@ void renderScene(void)
 	glutPostRedisplay();
 }
 
-void changeSize(int w, int h) 
+void onClickCanvas(int button, int state, int x, int y) {
+	//Do Somenting
+}
+
+void onClick(int button, int state, int x, int y)
 {
+	//Button: 0 left, 1 middle, 2 right
+	//State: 0 press down, 1 up
+	ImGuiIO& io = ImGui::GetIO();
+
+	printf("click button: %d, state: %d, x: %d, y: %d\n", button, state, x, y);
+
+	if (io.WantCaptureMouse) {
+		ImGui_ImplGLUT_MouseFunc(button, state, x, y);
+	}
+	else {
+		onClickCanvas(button, state, x, y);
+	}
+}
+
+void onMotionCanvas(int x, int y) {
+	//Do Somenting
+	printf("Motion x: %d, y: %d\n", x, y);
+}
+
+void onMotion(int x, int y)
+{
+
+	ImGuiIO& io = ImGui::GetIO();
+	const int maxRadius = 1; // in pixels
+
+	//printf("Motion x: %d, y: %d\n", x, y);
+
+	if (io.WantCaptureMouse)
+	{
+		ImGui_ImplGLUT_MotionFunc( x, y);
+	}
+
+	else {
+		onMotionCanvas(x, y);
+	}
+
+}
+
+void onPassiveMotionCanvas(int x, int y) {
+	//Do Somenting
+}
+
+void onPassiveMotion(int x, int y)
+{
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddMousePosEvent((float)x, (float)y);
+	const int maxRadius = 1; // in pixels
+
+	//printf("Passive Motion x: %d, y: %d\n", x, y);
+
+	if (io.WantCaptureMouse) //IDK which event correspond
+	{
+		//printf("Passive Motion x: %d, y: %d\n", x, y);
+		ImGui_ImplGLUT_MotionFunc(x, y);
+	}
+
+	else {
+		onPassiveMotionCanvas(x, y);
+	}
+
+}
+
+void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
+	//Do Somenting
+}
+
+void onKeyboardEntry(unsigned char key, int x, int y)
+{
+
+	ImGuiIO& io = ImGui::GetIO();
+	const int maxRadius = 1; // in pixels
+
+	printf("char_down_func %d '%c'\n", key, key);
+
+	if (io.WantCaptureKeyboard)
+	{
+		ImGui_ImplGLUT_KeyboardFunc(key, x, y);
+	}
+
+	else {
+		onKeyboardEntryCanvas(key, x, y);
+	}
+
+}
+
+void changeSize(int w, int h)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	io.DisplaySize = ImVec2((float)w, (float)h);
+
 	if (h == 0)
 		return;
 
@@ -142,7 +237,7 @@ int main(int argc, char** argv)
 	cout << "Hi Hi :,D" << endl;
 
 	/*
-	glViewport(0, 0, width, height);	
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, 0, height, -1, 1);
@@ -151,7 +246,7 @@ int main(int argc, char** argv)
 	// Aplication Code
 	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
 	shared_ptr<CLine> l2 = make_shared <CLine>(1, 0, 0);
-	
+
 	l1->set(0, 0, 100, 100);
 	l2->set(100, 100, 200, 100);
 
@@ -161,7 +256,7 @@ int main(int argc, char** argv)
 
 	// register callbacks
 	glutDisplayFunc(renderScene);
-	
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -197,7 +292,30 @@ int main(int argc, char** argv)
 	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	// Here is our new entry in the main function
-	//glutReshapeFunc(changeSize);
+	glutMouseFunc(onClick);
+	/*
+		glutMotionFunc and glutPassiveMotionFunc set the motion and passive motion callback respectively 
+		for the current window. The motion callback for a window is called when the mouse moves within the 
+		window while one or more mouse buttons are pressed. The passive motion callback for a window is called
+		when the mouse moves within the window while no mouse buttons are pressed.
+	*/
+	glutMotionFunc(onMotion);
+	glutPassiveMotionFunc(onPassiveMotion); //IDK which event correspond
+	 
+
+
+	/*
+		glutKeyboardFunc sets the keyboard callback for the current window. When a user types into the window,
+		each key press generating an ASCII character will generate a keyboard callback. The key callback 
+		parameter is the generated ASCII character. The state of modifier keys such as Shift cannot be 
+		determined directly; their only effect will be on the returned ASCII data. The x and y callback 
+		parameters indicate the mouse location in window relative coordinates when the key was pressed. 
+		When a new window is created, no keyboard callback is initially registered, and ASCII key strokes 
+		in the window are ignored. Passing NULL to glutKeyboardFunc disables the generation of keyboard callbacks. 
+	*/
+	glutKeyboardFunc(onKeyboardEntry);
+	glutReshapeFunc(changeSize);
+
 	glutMainLoop();
 
 	// Cleanup
