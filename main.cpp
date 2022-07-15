@@ -22,7 +22,7 @@
 
 using namespace std;
 
-int width = 1080, height = 720;
+int width = 1280, height = 720;
 
 list <shared_ptr<CShape>> shapes;
 shared_ptr<CShape> current_shape;
@@ -236,7 +236,7 @@ void onClick(int button, int state, int x, int y)
 	//State: 0 press down, 1 up
 	ImGuiIO& io = ImGui::GetIO();
 
-	printf("click button: %d, state: %d, x: %d, y: %d\n", button, state, x, y);
+	//printf("click button: %d, state: %d, x: %d, y: %d\n", button, state, x, y);
 
 	if (io.WantCaptureMouse) {
 		ImGui_ImplGLUT_MouseFunc(button, state, x, y);
@@ -248,7 +248,7 @@ void onClick(int button, int state, int x, int y)
 
 void onMotionCanvas(int x, int y) {
 	//Do Somenting
-	printf("Motion x: %d, y: %d\n", x, y);
+	//printf("Motion x: %d, y: %d\n", x, y);
 }
 
 void onMotion(int x, int y)
@@ -305,7 +305,7 @@ void onKeyboardEntry(unsigned char key, int x, int y)
 	ImGuiIO& io = ImGui::GetIO();
 	const int maxRadius = 1; // in pixels
 
-	printf("char_down_func %d '%c'\n", key, key);
+	//printf("char_down_func %d '%c'\n", key, key);
 
 	if (io.WantCaptureKeyboard)
 	{
