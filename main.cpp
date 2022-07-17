@@ -250,9 +250,9 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, int 
 		switch (figure)
 		{
 		case 1: // Line
-			new_line = make_shared <CLine>(new_border_color);
-			shapes.push_back(new_line);
-			current_shape = new_line;
+			// new_line = make_shared <CLine>(new_border_color);
+			// shapes.push_back(new_line);
+			// current_shape = new_line;
 			break;
 
 		case 2: // Circle
@@ -279,6 +279,7 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, int 
 // [SECTION] Input Event Handlers
 void onClickCanvas(int button, int state, int x, int y) {
 	//Do Somenting
+	/*
 	if (isDrawingFigure) {
 		if (button == 0) { // Started drawing
 			//isDrawingFigure = true;
@@ -293,6 +294,7 @@ void onClickCanvas(int button, int state, int x, int y) {
 				isLastVertex = true;
 			}
 			*/
+	/*
 		}	
 	}
 	else
@@ -300,6 +302,7 @@ void onClickCanvas(int button, int state, int x, int y) {
 		DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, x, y);
 		isDrawingFigure = true;
 	}
+	*/
 
 }
 
@@ -322,9 +325,11 @@ void onClick(int button, int state, int x, int y)
 void onMotionCanvas(int x, int y) {
 	//Do Somenting
 	//printf("Motion x: %d, y: %d\n", x, y);
+	/*
 	if (isDrawingFigure) {
 		lastClickedVertex = make_shared <Vertex2D>(x, y);
 	}
+	*/
 }
 
 void onMotion(int x, int y)
@@ -348,9 +353,11 @@ void onMotion(int x, int y)
 
 void onPassiveMotionCanvas(int x, int y) {
 	//Do Somenting
+	/*
 	if (isDrawingFigure) {
 		lastClickedVertex = make_shared <Vertex2D>(x, y);
 	}
+	*/
 }
 
 void onPassiveMotion(int x, int y)
