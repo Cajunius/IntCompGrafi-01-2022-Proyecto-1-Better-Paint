@@ -14,26 +14,32 @@
 #include "./imgui/backends/imgui_impl_glut.h"
 #include "./imgui/backends/imgui_impl_opengl2.h"
 // Utils
+#include "status.h"
 #include <list>
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vertex2d.h>
 #include <line.h>
+
+
 
 using namespace std;
 
-int width = 1280, height = 720;
+// int width = 1280, height = 720;
 
-list <shared_ptr<CShape>> shapes;
-shared_ptr<CShape> current_shape;
+// list <shared_ptr<CShape>> shapes;
+// shared_ptr<CShape> current_shape;
 
 // Our state
-static bool show_config_window = true; //Set true when Press "0"
-static bool show_another_window = true;
-static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
+// static bool show_config_window = true; //Set true when Press "0"
+// static bool show_another_window = true;
+// static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
 
-static int DrawingMode = 0;
-static int FigureClicked = 0;
+// static int DrawingMode = 0;
+// static int FigureClicked = 0;
+
+// [SECTION] Display
 void my_display_code()
 {
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
@@ -103,11 +109,21 @@ void my_display_code()
 			// handle Deselect
 		}
 
-		static bool border = true;
-		static bool fill = true;
-		ImGui::Checkbox("Border", &border);
+		// static bool border = true;
+		// static bool fill = true;
+		// TO DO: Change to Modify Selected Figure colors
+		// static ImVec4 new_border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
+		// static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
+
+		ImGui::Checkbox("Border", &isborder);
 		ImGui::SameLine();
-		ImGui::Checkbox("Fill", &fill);
+		ImGui::ColorEdit4("border color", (float*)&new_border_color);
+		
+
+		ImGui::Checkbox("Fill", &isfill);
+		ImGui::SameLine();
+		ImGui::ColorEdit4("fill color", (float*)&new_fill_color);
+
 		
 
 		ImGui::Separator();
@@ -214,7 +230,7 @@ void renderScene(void)
 	// Aplication Code
 	int i = 0;
 	for (auto const& x : shapes) {
-		x->render();
+		x->render(DrawingMode);
 		//cout << "render shape " << i << endl;
 		i++;
 	}
@@ -226,8 +242,65 @@ void renderScene(void)
 	glutPostRedisplay();
 }
 
+// [SECTION] Selectors Handlers
+void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, int vertexX, int vertexY){
+
+	if (!isDrawingFigure) {
+		isDrawingFigure = true;
+		switch (figure)
+		{
+		case 1: // Line
+			new_line = make_shared <CLine>(new_border_color);
+			shapes.push_back(new_line);
+			current_shape = new_line;
+			break;
+
+		case 2: // Circle
+			break;
+
+		case 3: // Elipse
+			break;
+
+		case 4: // Rectangle
+			break;
+
+		case 5: // Triangle
+			break;
+
+		case 6: // Bezier
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+// [SECTION] Input Event Handlers
 void onClickCanvas(int button, int state, int x, int y) {
 	//Do Somenting
+	if (isDrawingFigure) {
+		if (button == 0) { // Started drawing
+			//isDrawingFigure = true;
+			if (isLastVertex) {
+				isDrawingFigure = false;
+			}
+			isLastVertex = current_shape->addVertex(lastClickedVertex, isLastVertex);
+			/*
+			current_shape->VERTEXS.push_back(lastClickedVertex);
+			current_shape->vertex = +1;
+			if (current_shape->vertex == current_shape->MAX_VERTEXS -1) {
+				isLastVertex = true;
+			}
+			*/
+		}	
+	}
+	else
+	{
+		DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, x, y);
+		isDrawingFigure = true;
+	}
+
 }
 
 void onClick(int button, int state, int x, int y)
@@ -249,6 +322,9 @@ void onClick(int button, int state, int x, int y)
 void onMotionCanvas(int x, int y) {
 	//Do Somenting
 	//printf("Motion x: %d, y: %d\n", x, y);
+	if (isDrawingFigure) {
+		lastClickedVertex = make_shared <Vertex2D>(x, y);
+	}
 }
 
 void onMotion(int x, int y)
@@ -272,6 +348,9 @@ void onMotion(int x, int y)
 
 void onPassiveMotionCanvas(int x, int y) {
 	//Do Somenting
+	if (isDrawingFigure) {
+		lastClickedVertex = make_shared <Vertex2D>(x, y);
+	}
 }
 
 void onPassiveMotion(int x, int y)
@@ -341,6 +420,12 @@ void changeSize(int w, int h)
 	height = h;
 }
 
+void idle() {
+	// force a redraw
+	// so we get through as many frames as possible (needed for things like blinking of Move tool)
+	glutPostRedisplay();
+}
+
 int main(int argc, char** argv)
 {
 	// init GLUT and create Window
@@ -349,6 +434,7 @@ int main(int argc, char** argv)
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 #endif
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
+
 	//glutInitWindowPosition(100, 100);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Better Paint - Proyecto 1 - Leonardo Mendoza");
@@ -431,6 +517,13 @@ int main(int argc, char** argv)
 	*/
 	glutKeyboardFunc(onKeyboardEntry);
 	glutReshapeFunc(changeSize);
+
+	// define idle and init
+	glutIdleFunc(idle);
+
+	// Enable transparency (e.g. black semi-transparent cover over screen appears with dialogues)
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glutMainLoop();
 

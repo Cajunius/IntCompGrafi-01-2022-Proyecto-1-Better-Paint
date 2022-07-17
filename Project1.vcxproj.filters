@@ -51,6 +51,12 @@
     <ClCompile Include="imgui\backends\imgui_impl_opengl2.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="shape..cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shape.h">
@@ -97,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="GL\glut.h">
       <Filter>Header Files\freeglut</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="status.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
