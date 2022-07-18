@@ -24,12 +24,28 @@ public:
 		cout << "Se destruyo un Vertex2D" << endl;
 	}
 
+	// Get X
 	int X() {
 		return x;
 	}
+	// Get Y
 	int Y() {
 		return y;
 	}
+	// Set X
+	void Xs(int _x) {
+		x = _x;
+	}
+	//Set Y
+	void Ys(int _y) {
+		y = _y;
+	}
+	// Set X and Y
+	void XY(int _x, int _y) {
+		x = _x;
+		y = _y;
+	}
+
 
 	void putPixel(int x, int y)
 	{

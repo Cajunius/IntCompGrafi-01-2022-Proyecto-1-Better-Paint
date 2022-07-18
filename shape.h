@@ -16,6 +16,7 @@ protected:
 public:
 	list <shared_ptr<Vertex2D>> VERTEXS;
 	int vertex;
+	int selected_vertex;
 	int MAX_VERTEXS;
 
 	CShape(float r, float g, float b)
