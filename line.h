@@ -12,6 +12,8 @@ private:
 	shared_ptr<Vertex2D> v1;
 
 public:
+
+
 	CLine(float r, float g, float b) : CShape(r, g, b)
 	{
 		vertex = 0;
@@ -82,6 +84,11 @@ public:
 		return isLastVertex;
 	}
 	void modifyVertex(int vid, shared_ptr <Vertex2D> _v) {
+		if (vid < 0 or vid > MAX_VERTEXS) {
+			//ERROR
+			return;
+		}
+
 		if (vid == 0)
 			v0 = _v;
 		if (vid == 1)
@@ -89,49 +96,58 @@ public:
 		selected_vertex = vid;
 	}
 
+	void drawborder(bool drawingMode) {
+		if (drawingMode == 0) // Hardware Mode
+		{
+
+			// despliegas la línea con el algoritmo de bresenham
+			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+
+			// user putpixel de aquí en adelante... con Bresenham
+			glBegin(GL_LINES);
+
+			//glVertex2i(x0, y0);
+			//glVertex2i(x1, y1);
+
+			/*
+			// Iterate trough vertexs
+			int i = 0;
+			for (auto const& v : VERTEXS) {
+				if (i == MAX_VERTEXS) {
+					break;
+				}
+				glVertex2i(v->X(), v->Y());
+				i++;
+			}
+			*/
+			glVertex2i(v0->X(), v0->Y());
+			glVertex2i(v1->X(), v1->Y());
+			glEnd();
+		}
+
+		else { // Software Mode
+
+			// despliegas la línea con el algoritmo de bresenham
+			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+
+			// user putpixel de aquí en adelante... con Bresenham
+			glBegin(GL_LINES);
+
+			glEnd();
+		}
+	}
+
 	void render(bool drawingMode)
 	{
 		//cout << "vertex: " << vertex << ", MAX_VERTEXS: " << MAX_VERTEXS << endl;
 		if (vertex == MAX_VERTEXS) { //Es dibujable
 			// cout << DrawingMode << endl;
-			if (drawingMode == 0) // Hardware Mode
-			{
 
-				// despliegas la línea con el algoritmo de bresenham
-				setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
-
-				// user putpixel de aquí en adelante... con Bresenham
-				glBegin(GL_LINES);
-
-				//glVertex2i(x0, y0);
-				//glVertex2i(x1, y1);
-
-				/*
-				// Iterate trough vertexs
-				int i = 0;
-				for (auto const& v : VERTEXS) {
-					if (i == MAX_VERTEXS) {
-						break;
-					}
-					glVertex2i(v->X(), v->Y());
-					i++;
-				}
-				*/
-				glVertex2i(v0->X(), v0->Y());
-				glVertex2i(v1->X(), v1->Y());
-				glEnd();
+			if (drawBorder) {
+				drawborder(drawingMode);
 			}
 
-			else { // Software Mode
-
-				// despliegas la línea con el algoritmo de bresenham
-				setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
-
-				// user putpixel de aquí en adelante... con Bresenham
-				glBegin(GL_LINES);
-
-				glEnd();
-			}
+			
 		}
 	}
 

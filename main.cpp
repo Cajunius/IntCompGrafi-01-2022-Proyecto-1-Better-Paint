@@ -21,6 +21,7 @@
 #include <memory>
 #include <vertex2d.h>
 #include <line.h>
+#include <triangle.h>
 
 
 
@@ -235,6 +236,17 @@ void renderScene(void)
 		i++;
 	}
 
+	// [SECTION] TEST:
+	// draws the *classic red / green / blue triangle
+	glBegin(GL_TRIANGLES);
+	glColor3f(1, 0, 0); // red
+	glVertex2i(0, 0);
+	glColor3f(0, 1, 0); // green
+	glVertex2i(100, 100);
+	glColor3f(0, 0, 1); // blue
+	glVertex2i(0, 100);
+	glEnd();
+
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
@@ -433,6 +445,31 @@ void idle() {
 	glutPostRedisplay();
 }
 
+void TEST() {
+	// Aplication Code
+	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
+	shared_ptr<CLine> l2 = make_shared <CLine>(1, 0, 0);
+
+	l1->set(0, 0, 100, 100);
+	l2->set(100, 100, 200, 100);
+
+	shapes.push_back(l1);
+	shapes.push_back(l2);
+
+	//shared_ptr<CTriangle> t1 = make_shared <CTriangle>(1, 0, 1);
+	shared_ptr<CTriangle> t1 = make_shared <CTriangle>(new_border_color, new_fill_color);
+	t1->set(100, 100, 200, 200, 100, 200);
+	shapes.push_back(t1);
+
+	shared_ptr<CTriangle> t2 = make_shared <CTriangle>(0, 1, 1);
+	t2->set(200, 200, 300, 200, 200, 300);
+	shapes.push_back(t2);
+
+	shared_ptr<CTriangle> t3 = make_shared <CTriangle>(new_border_color);
+	t3->set(300, 100, 300, 200, 100, 200);
+	shapes.push_back(t3);
+}
+
 int main(int argc, char** argv)
 {
 	// init GLUT and create Window
@@ -455,15 +492,8 @@ int main(int argc, char** argv)
 	glOrtho(0, width, 0, height, -1, 1);
 	*/
 
-	// Aplication Code
-	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
-	shared_ptr<CLine> l2 = make_shared <CLine>(1, 0, 0);
-
-	l1->set(0, 0, 100, 100);
-	l2->set(100, 100, 200, 100);
-
-	shapes.push_back(l1);
-	shapes.push_back(l2);
+	// TEST FUNCTION
+	TEST();
 
 	// register callbacks
 	glutDisplayFunc(renderScene);

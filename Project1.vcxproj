@@ -164,6 +164,7 @@
     <ClInclude Include="GL\freeglut_ucall.h" />
     <ClInclude Include="GL\glut.h" />
     <ClInclude Include="status.h" />
+    <ClInclude Include="triangle.h" />
     <ClInclude Include="vertex2d.h" />
     <ClInclude Include="imgui\backends\imgui_impl_glut.h" />
     <ClInclude Include="imgui\backends\imgui_impl_opengl2.h" />

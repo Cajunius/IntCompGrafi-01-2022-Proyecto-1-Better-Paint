@@ -18,6 +18,10 @@ public:
 	int vertex;
 	int selected_vertex;
 	int MAX_VERTEXS;
+	bool drawFill = true;
+	bool drawBorder = true;
+	bool drawVertex = true;
+	bool isSelected = false;
 
 	CShape(float r, float g, float b)
 	{

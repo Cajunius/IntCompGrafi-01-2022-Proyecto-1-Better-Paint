@@ -22,6 +22,7 @@ int width = 1280, height = 720;
 static bool show_config_window = true; //Set true when Press "0"
 static bool show_another_window = true;
 static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
+static ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 
 // Shapes
 list <shared_ptr<CShape>> shapes;
@@ -38,12 +39,11 @@ static shared_ptr <Vertex2D> lastClickedVertex;
 static bool isborder = true;
 static bool isfill = true;
 // TO DO: Change to Modify Selected Figure colors
-static ImVec4 new_border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
-static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
+static ImVec4 new_border_color = ImVec4(1.f, 1.f, 1.f, 1.00f);
+static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 0.50f);
 
 // Figures
 shared_ptr<CLine> new_line;
-
 
 int drawingMode() {
 	return DrawingMode;

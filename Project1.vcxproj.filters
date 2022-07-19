@@ -110,6 +110,9 @@
     <ClInclude Include="status.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documentation\TO DO.txt">
