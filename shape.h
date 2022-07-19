@@ -23,6 +23,7 @@ public:
 	bool drawVertex = true;
 	bool isSelected = false;
 	float borderWidth = 2;
+	float borderWidthS = 3;
 	float vertexSize = 4;
 
 	CShape(float r, float g, float b)
@@ -71,20 +72,31 @@ public:
 	}
 
 
+
+
 	void putPixel(int x, int y)
 	{
 		glBegin(GL_POINTS);
 		glVertex2i(x, y);
 		glEnd();
 	}
-
+	void putPixel(int x, int y, float width)
+	{
+		glLineWidth(width);
+		putPixel(x, y);
+	}
 	void putPixel(shared_ptr<Vertex2D> v)
 	{
-		glBegin(GL_POINTS);
 		int x = v->X();
 		int y = v->Y();
-		glVertex2i(x, y);
-		glEnd();
+		putPixel(x, y);
+	}
+	void putPixel(shared_ptr<Vertex2D> v, float width)
+	{
+		glLineWidth(width);
+		int x = v->X();
+		int y = v->Y();
+		putPixel(x, y);
 	}
 
 	void setColor(float r, float g, float b)

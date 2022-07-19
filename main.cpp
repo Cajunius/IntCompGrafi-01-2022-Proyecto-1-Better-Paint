@@ -237,6 +237,7 @@ void renderScene(void)
 		i++;
 	}
 
+	/*
 	// [SECTION] TEST:
 	// draws the *classic red / green / blue triangle
 	glBegin(GL_TRIANGLES);
@@ -247,6 +248,7 @@ void renderScene(void)
 	glColor3f(0, 0, 1); // blue
 	glVertex2i(0, 100);
 	glEnd();
+	*/
 
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -451,12 +453,22 @@ void TEST() {
 	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
 	shared_ptr<CLine> l2 = make_shared <CLine>(1, 0, 0);
 
-	l1->set(0, 0, 100, 100);
-	l2->set(100, 100, 200, 100);
+	l1->set(100, 100, 200, 200);
+	l2->set(200, 200, 299, 149);
 
 	shapes.push_back(l1);
 	shapes.push_back(l2);
 
+	shared_ptr<CLine> l3 = make_shared <CLine>(0, 0, 1);
+	shared_ptr<CLine> l4 = make_shared <CLine>(0, 0, 0);
+
+	l3->set(299, 149, 120, 54);
+	l4->set(120, 54, 100, 100);
+
+	shapes.push_back(l3);
+	shapes.push_back(l4);
+
+	
 	//shared_ptr<CTriangle> t1 = make_shared <CTriangle>(1, 0, 1);
 	shared_ptr<CTriangle> t1 = make_shared <CTriangle>(new_border_color, new_fill_color);
 	t1->set(100, 100, 200, 200, 100, 200);
@@ -481,6 +493,7 @@ void TEST() {
 	shared_ptr<CRectangle> r3 = make_shared <CRectangle>(new_border_color, new_fill_color);
 	r3->set(400, 400, 400, 500, 500, 500, 500, 400);
 	shapes.push_back(r3);
+	
 }
 
 int main(int argc, char** argv)
