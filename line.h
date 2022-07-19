@@ -123,6 +123,7 @@ public:
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
 			glEnd();
+			glFlush();
 		}
 
 		else { // Software Mode
@@ -134,6 +135,7 @@ public:
 			glBegin(GL_LINES);
 
 			glEnd();
+			glFlush();
 		}
 	}
 

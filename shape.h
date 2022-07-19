@@ -22,6 +22,8 @@ public:
 	bool drawBorder = true;
 	bool drawVertex = true;
 	bool isSelected = false;
+	float borderWidth = 2;
+	float vertexSize = 4;
 
 	CShape(float r, float g, float b)
 	{

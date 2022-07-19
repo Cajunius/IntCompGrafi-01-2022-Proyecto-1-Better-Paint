@@ -22,6 +22,7 @@
 #include <vertex2d.h>
 #include <line.h>
 #include <triangle.h>
+#include <rectangle.h>
 
 
 
@@ -468,6 +469,18 @@ void TEST() {
 	shared_ptr<CTriangle> t3 = make_shared <CTriangle>(new_border_color);
 	t3->set(300, 100, 300, 200, 100, 200);
 	shapes.push_back(t3);
+
+	shared_ptr<CRectangle> r1 = make_shared <CRectangle>(new_border_color);
+	r1->set(500, 100, 100, 500, 100, 100, 500, 500);
+	shapes.push_back(r1);
+
+	//shared_ptr<CRectangle> r2 = make_shared <CRectangle>(new_border_color, new_fill_color);
+	//r2->set(700, 500, 500, 700, 300, 700, 700, 300);
+	//shapes.push_back(r2);
+
+	shared_ptr<CRectangle> r3 = make_shared <CRectangle>(new_border_color, new_fill_color);
+	r3->set(400, 400, 400, 500, 500, 500, 500, 400);
+	shapes.push_back(r3);
 }
 
 int main(int argc, char** argv)

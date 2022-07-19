@@ -3,59 +3,64 @@
 #include "shape.h"
 #include "vertex2d.h"
 
-class CTriangle : public CShape
+class CRectangle : public CShape
 {
 private:
 	int ID = 1;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 	shared_ptr<Vertex2D> v2;
+	shared_ptr<Vertex2D> v3;
 
 public:
 
 
-	CTriangle(float r, float g, float b) : CShape(r, g, b)
+	CRectangle(float r, float g, float b) : CShape(r, g, b)
 	{
 		vertex = 0;
 		selected_vertex = vertex;
-		MAX_VERTEXS = 3;
+		MAX_VERTEXS = 4;
 		v0 = make_shared <Vertex2D>(0, 0);
 		v1 = make_shared <Vertex2D>(0, 0);
 		v2 = make_shared <Vertex2D>(0, 0);
+		v3 = make_shared <Vertex2D>(0, 0);
 		toogleDrawing();
 	}
-	CTriangle(ImVec4 border) : CShape(border)
+	CRectangle(ImVec4 border) : CShape(border)
 	{
 		vertex = 0;
 		selected_vertex = vertex;
-		MAX_VERTEXS = 3;
+		MAX_VERTEXS = 4;
 		v0 = make_shared <Vertex2D>(0, 0);
 		v1 = make_shared <Vertex2D>(0, 0);
 		v2 = make_shared <Vertex2D>(0, 0);
-		toogleDrawing();
-	}
-
-	CTriangle(ImVec4 border, ImVec4 fill) : CShape(border, fill)
-	{
-		vertex = 0;
-		selected_vertex = vertex;
-		MAX_VERTEXS = 3;
-		v0 = make_shared <Vertex2D>(0, 0);
-		v1 = make_shared <Vertex2D>(0, 0);
-		v2 = make_shared <Vertex2D>(0, 0);
+		v3 = make_shared <Vertex2D>(0, 0);
 		toogleDrawing();
 	}
 
-	~CTriangle()
+	CRectangle(ImVec4 border, ImVec4 fill) : CShape(border, fill)
+	{
+		vertex = 0;
+		selected_vertex = vertex;
+		MAX_VERTEXS = 4;
+		v0 = make_shared <Vertex2D>(0, 0);
+		v1 = make_shared <Vertex2D>(0, 0);
+		v2 = make_shared <Vertex2D>(0, 0);
+		v3 = make_shared <Vertex2D>(0, 0);
+		toogleDrawing();
+	}
+
+	~CRectangle()
 	{
 		cout << "Se destruyo un triangulo" << endl;
 	}
 
-	void set(int x0, int y0, int x1, int y1, int x2, int y2)
+	void set(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3)
 	{
 		v0->XY(x0, y0);
 		v1->XY(x1, y1);
 		v2->XY(x2, y2);
+		v3->XY(x3, y3);
 
 		vertex = MAX_VERTEXS;
 		selected_vertex = vertex - 1;
@@ -84,11 +89,13 @@ public:
 			v1 = _v;
 		if (vid == 2)
 			v2 = _v;
+		if (vid == 3)
+			v3 = _v;
 		selected_vertex = vid;
 	}
 
 	void drawborder(bool drawingMode) {
-		
+
 
 		if (drawingMode == 0) // Hardware Mode
 		{
@@ -96,13 +103,13 @@ public:
 			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
-			// user putpixel de aquí en adelante... con 
+			// user putpixel de aquí en adelante... con Bresenham
 			glLineWidth(borderWidth);
-
 			glBegin(GL_LINE_LOOP);
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
 			glVertex2i(v2->X(), v2->Y());
+			glVertex2i(v3->X(), v3->Y());
 			glEnd();
 			glFlush();
 		}
@@ -130,10 +137,13 @@ public:
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_TRIANGLES);
+			//glBegin(GL_QUADS);
+			glBegin(GL_QUADS);
+			// glBegin(GL_POLYGON);
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
 			glVertex2i(v2->X(), v2->Y());
+			glVertex2i(v3->X(), v3->Y());
 			glEnd();
 			glFlush();
 		}
@@ -162,11 +172,11 @@ public:
 
 			// user putpixel de aquí en adelante... con Bresenham
 			glPointSize(vertexSize);
-
-			glBegin(GL_POINTS);		
+			glBegin(GL_POINTS);
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
 			glVertex2i(v2->X(), v2->Y());
+			glVertex2i(v3->X(), v3->Y());
 			glEnd();
 			glFlush();
 		}
@@ -201,7 +211,7 @@ public:
 			if (drawVertex) {
 				drawvertex(drawingMode);
 			}
-			
+
 		}
 	}
 
