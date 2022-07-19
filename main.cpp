@@ -14,11 +14,11 @@
 #include "./imgui/backends/imgui_impl_glut.h"
 #include "./imgui/backends/imgui_impl_opengl2.h"
 // Utils
-#include "status.h"
 #include <list>
 #include <iostream>
 #include <string>
 #include <memory>
+#include <status.h>
 #include <vertex2d.h>
 #include <line.h>
 #include <triangle.h>
@@ -471,28 +471,42 @@ void TEST() {
 	
 	//shared_ptr<CTriangle> t1 = make_shared <CTriangle>(1, 0, 1);
 	shared_ptr<CTriangle> t1 = make_shared <CTriangle>(new_border_color, new_fill_color);
-	t1->set(100, 100, 200, 200, 100, 200);
+	t1->set(200, 200, 300, 300, 200, 300);
 	shapes.push_back(t1);
+	/*
+	shared_ptr<CTriangle> t1b = make_shared <CTriangle>(new_border_color);
+	t1b->set(200, 200, 300, 300, 200, 300);
+	shapes.push_back(t1b);
+	*/
 
 	shared_ptr<CTriangle> t2 = make_shared <CTriangle>(0, 1, 1);
-	t2->set(200, 200, 300, 200, 200, 300);
+	t2->set(300, 300, 300, 400, 400, 300);
 	shapes.push_back(t2);
 
 	shared_ptr<CTriangle> t3 = make_shared <CTriangle>(new_border_color);
-	t3->set(300, 100, 300, 200, 100, 200);
+	t3->set(300, 300, 300, 400, 400, 400);
 	shapes.push_back(t3);
 
 	shared_ptr<CRectangle> r1 = make_shared <CRectangle>(new_border_color);
-	r1->set(500, 100, 100, 500, 100, 100, 500, 500);
+	//r1->set(500, 100, 100, 500, 100, 100, 500, 500);
+	r1->set(100, 100, 500, 500);
 	shapes.push_back(r1);
-
+	
 	//shared_ptr<CRectangle> r2 = make_shared <CRectangle>(new_border_color, new_fill_color);
 	//r2->set(700, 500, 500, 700, 300, 700, 700, 300);
 	//shapes.push_back(r2);
 
 	shared_ptr<CRectangle> r3 = make_shared <CRectangle>(new_border_color, new_fill_color);
-	r3->set(400, 400, 400, 500, 500, 500, 500, 400);
+	//r3->set(400, 400, 400, 500, 500, 500, 500, 400);
+	r3->set(300, 300, 350, 450);
 	shapes.push_back(r3);
+
+	/*
+	shared_ptr<CRectangle> r3b = make_shared <CRectangle>(new_border_color);
+	//r3->set(400, 400, 400, 500, 500, 500, 500, 400);
+	r3b->set(300, 300, 350, 450);
+	shapes.push_back(r3b);
+	*/
 	
 }
 

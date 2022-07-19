@@ -66,6 +66,11 @@ public:
 		selected_vertex = vertex - 1;
 	}
 
+	void set(int x0, int y0, int x1, int y1)
+	{
+		set(x0, y0, x0, y1, x1, y1, x1, y0);
+	}
+
 
 	bool addVertex(shared_ptr <Vertex2D> v, bool isLastVertex) {
 		VERTEXS.push_back(v);
@@ -99,31 +104,33 @@ public:
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
-			// user putpixel de aquí en adelante... con Bresenham
 			glLineWidth(borderWidth);
 			glBegin(GL_LINE_LOOP);
+
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
+
+			glVertex2i(v1->X(), v1->Y());
+			glVertex2i(v2->X(), v2->Y());
+
 			glVertex2i(v2->X(), v2->Y());
 			glVertex2i(v3->X(), v3->Y());
+
+			glVertex2i(v3->X(), v3->Y());
+			glVertex2i(v0->X(), v0->Y());
+
 			glEnd();
 			glFlush();
 		}
 
 		else { // Software Mode
 
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_LINES);
 
-			glEnd();
-			glFlush();
 		}
 	}
 
@@ -132,11 +139,8 @@ public:
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
-			// user putpixel de aquí en adelante... con Bresenham
 			//glBegin(GL_QUADS);
 			glBegin(GL_QUADS);
 			// glBegin(GL_POLYGON);
@@ -150,14 +154,10 @@ public:
 
 		else { // Software Mode
 
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_TRIANGLES);
 
-			glEnd();
-			glFlush();
 		}
 	}
 
@@ -166,11 +166,8 @@ public:
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
 
-			// user putpixel de aquí en adelante... con Bresenham
 			glPointSize(vertexSize);
 			glBegin(GL_POINTS);
 			glVertex2i(v0->X(), v0->Y());
@@ -182,15 +179,10 @@ public:
 		}
 
 		else { // Software Mode
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_LINES);
 
-			glEnd();
-			glFlush();
 		}
 	}
 

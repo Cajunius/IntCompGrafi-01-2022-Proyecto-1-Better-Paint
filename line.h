@@ -10,6 +10,7 @@ private:
 	int ID = 1;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
+	ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 
 public:
 
@@ -231,6 +232,29 @@ public:
 		}
 	}
 
+	void drawvertex(bool drawingMode) {
+
+
+		if (drawingMode == 0) // Hardware Mode
+		{
+
+			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
+
+			glPointSize(vertexSize);
+			glBegin(GL_POINTS);
+			glVertex2i(v0->X(), v0->Y());
+			glVertex2i(v1->X(), v1->Y());
+			glEnd();
+			glFlush();
+		}
+
+		else { // Software Mode
+			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+
+			// user putpixel de aquí en adelante... con Bresenham
+
+		}
+	}
 	
 
 	void render(bool drawingMode)
@@ -242,7 +266,9 @@ public:
 			if (drawBorder) {
 				drawborder(drawingMode);
 			}
-
+			if (drawVertex) {
+				drawvertex(drawingMode);
+			}
 			
 		}
 	}

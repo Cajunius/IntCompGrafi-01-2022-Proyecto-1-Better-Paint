@@ -10,6 +10,7 @@ private:
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 	shared_ptr<Vertex2D> v2;
+	shared_ptr<CTriangle> tb = NULL; //BORDER for hardware
 
 public:
 
@@ -24,6 +25,18 @@ public:
 		v2 = make_shared <Vertex2D>(0, 0);
 		toogleDrawing();
 	}
+
+	CTriangle(float r, float g, float b, float a) : CShape(r, g, b, a)
+	{
+		vertex = 0;
+		selected_vertex = vertex;
+		MAX_VERTEXS = 3;
+		v0 = make_shared <Vertex2D>(0, 0);
+		v1 = make_shared <Vertex2D>(0, 0);
+		v2 = make_shared <Vertex2D>(0, 0);
+		toogleDrawing();
+	}
+
 	CTriangle(ImVec4 border) : CShape(border)
 	{
 		vertex = 0;
@@ -87,36 +100,63 @@ public:
 		selected_vertex = vid;
 	}
 
+	void drawborderH(bool drawingMode) {
+		if (drawingMode == 0) {
+			tb->set(v0->X(), v0->Y(), v1->X(), v1->Y(), v2->X(), v2->Y());
+			tb->drawFill = false;
+			tb->render(drawingMode);
+		}
+	}
+
 	void drawborder(bool drawingMode) {
 		
 
 		if (drawingMode == 0) // Hardware Mode
 		{
+			//if (drawFill) {
+				//drawborderH(drawingMode);
+			//}
+			//else {
+				setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
-			// despliegas la línea con el algoritmo de bresenham
-			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+				glLineWidth(borderWidth);
 
-			// user putpixel de aquí en adelante... con 
-			glLineWidth(borderWidth);
+				//glBegin(GL_LINE_LOOP);
+				glBegin(GL_LINE_STRIP);
 
-			glBegin(GL_LINE_LOOP);
-			glVertex2i(v0->X(), v0->Y());
-			glVertex2i(v1->X(), v1->Y());
-			glVertex2i(v2->X(), v2->Y());
-			glEnd();
-			glFlush();
+				//glBegin(GL_LINE);
+
+				glVertex2i(v0->X(), v0->Y());
+				glVertex2i(v1->X(), v1->Y());
+
+				glVertex2i(v1->X(), v1->Y());
+				glVertex2i(v2->X(), v2->Y());
+
+				glVertex2i(v2->X(), v2->Y());
+				glVertex2i(v0->X(), v0->Y());
+
+
+				glVertex2i(v1->X(), v1->Y());
+				glVertex2i(v0->X(), v0->Y());
+				
+				glVertex2i(v2->X(), v2->Y());
+				glVertex2i(v1->X(), v1->Y());
+
+				glVertex2i(v0->X(), v0->Y());
+				glVertex2i(v2->X(), v2->Y());
+				
+				glEnd();
+				glFlush();
+			//}
+			
 		}
 
 		else { // Software Mode
 
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_LINES);
 
-			glEnd();
-			glFlush();
 		}
 	}
 
@@ -125,11 +165,8 @@ public:
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
-			// user putpixel de aquí en adelante... con Bresenham
 			glBegin(GL_TRIANGLES);
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
@@ -140,14 +177,10 @@ public:
 
 		else { // Software Mode
 
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_TRIANGLES);
 
-			glEnd();
-			glFlush();
 		}
 	}
 
@@ -156,11 +189,8 @@ public:
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
 
-			// user putpixel de aquí en adelante... con Bresenham
 			glPointSize(vertexSize);
 
 			glBegin(GL_POINTS);		
@@ -173,14 +203,10 @@ public:
 
 		else { // Software Mode
 
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
-			glBegin(GL_LINES);
 
-			glEnd();
-			glFlush();
 		}
 	}
 
@@ -195,6 +221,7 @@ public:
 			}
 
 			if (drawBorder) {
+				//cout << "drawBorder" << endl;
 				drawborder(drawingMode);
 			}
 

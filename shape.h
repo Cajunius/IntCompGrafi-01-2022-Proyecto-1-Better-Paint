@@ -39,6 +39,19 @@ public:
 		fill_color[3] = 0.0;
 	}
 
+	CShape(float r, float g, float b, float a)
+	{
+		border_color[0] = r;
+		border_color[1] = g;
+		border_color[2] = b;
+		border_color[3] = a; //alpha
+
+		fill_color[0] = r;
+		fill_color[1] = g;
+		fill_color[2] = b;
+		fill_color[3] = 0.0;
+	}
+
 	CShape(ImVec4 border)
 	{
 		border_color[0] = border.x;
