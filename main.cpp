@@ -23,6 +23,7 @@
 #include <line.h>
 #include <triangle.h>
 #include <rectangle.h>
+#include <circle.h>
 
 
 
@@ -507,6 +508,10 @@ void TEST() {
 	r3b->set(300, 300, 350, 450);
 	shapes.push_back(r3b);
 	*/
+
+	shared_ptr<CCircle> c1 = make_shared <CCircle>(new_border_color);
+	c1->set(500, 500, 600, 600);
+	shapes.push_back(c1); 
 	
 }
 

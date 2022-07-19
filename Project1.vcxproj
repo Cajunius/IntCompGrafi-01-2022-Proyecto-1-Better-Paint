@@ -158,6 +158,7 @@
     <ClCompile Include="line.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="circle.h" />
     <ClInclude Include="GL\freeglut.h" />
     <ClInclude Include="GL\freeglut_ext.h" />
     <ClInclude Include="GL\freeglut_std.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="status.h" />
     <ClInclude Include="triangle.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="vertex2d.h" />
     <ClInclude Include="imgui\backends\imgui_impl_glut.h" />
     <ClInclude Include="imgui\backends\imgui_impl_opengl2.h" />

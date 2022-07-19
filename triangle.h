@@ -6,11 +6,10 @@
 class CTriangle : public CShape
 {
 private:
-	int ID = 1;
+	int ID = 5;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 	shared_ptr<Vertex2D> v2;
-	shared_ptr<CTriangle> tb = NULL; //BORDER for hardware
 
 public:
 
@@ -100,29 +99,18 @@ public:
 		selected_vertex = vid;
 	}
 
-	void drawborderH(bool drawingMode) {
-		if (drawingMode == 0) {
-			tb->set(v0->X(), v0->Y(), v1->X(), v1->Y(), v2->X(), v2->Y());
-			tb->drawFill = false;
-			tb->render(drawingMode);
-		}
-	}
-
 	void drawborder(bool drawingMode) {
 		
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-			//if (drawFill) {
-				//drawborderH(drawingMode);
-			//}
-			//else {
-				setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+			
+			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
 				glLineWidth(borderWidth);
 
-				//glBegin(GL_LINE_LOOP);
-				glBegin(GL_LINE_STRIP);
+				glBegin(GL_LINE_LOOP);
+				//glBegin(GL_LINE_STRIP);
 
 				//glBegin(GL_LINE);
 
@@ -135,7 +123,7 @@ public:
 				glVertex2i(v2->X(), v2->Y());
 				glVertex2i(v0->X(), v0->Y());
 
-
+				/*
 				glVertex2i(v1->X(), v1->Y());
 				glVertex2i(v0->X(), v0->Y());
 				
@@ -144,7 +132,8 @@ public:
 
 				glVertex2i(v0->X(), v0->Y());
 				glVertex2i(v2->X(), v2->Y());
-				
+				*/
+
 				glEnd();
 				glFlush();
 			//}
@@ -203,10 +192,12 @@ public:
 
 		else { // Software Mode
 
-			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
 
 			// user putpixel de aquí en adelante... con Bresenham
-
+			putPixel(v0->X(), v0->Y(), vertexSize);
+			putPixel(v1->X(), v1->Y(), vertexSize);
+			putPixel(v2->X(), v2->Y(), vertexSize);
 		}
 	}
 

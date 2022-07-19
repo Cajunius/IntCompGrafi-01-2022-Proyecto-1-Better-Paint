@@ -9,11 +9,12 @@ using namespace std;
 class CShape
 {
 protected:
+	
+	
+public:
 	float border_color[4];
 	float fill_color[4];
 	bool drawing = false;
-	
-public:
 	list <shared_ptr<Vertex2D>> VERTEXS;
 	int vertex;
 	int selected_vertex;
@@ -67,10 +68,10 @@ public:
 
 	CShape(ImVec4 border, ImVec4 fill)
 	{
-		fill_color[0] = border.x;
-		fill_color[1] = border.y;
-		fill_color[2] = border.z;
-		fill_color[3] = border.w;
+		border_color[0] = border.x;
+		border_color[1] = border.y;
+		border_color[2] = border.z;
+		border_color[3] = border.w;
 
 		fill_color[0] = fill.x;
 		fill_color[1] = fill.y;
@@ -96,6 +97,7 @@ public:
 	void putPixel(int x, int y, float width)
 	{
 		glLineWidth(width);
+		glPointSize(width);
 		putPixel(x, y);
 	}
 	void putPixel(shared_ptr<Vertex2D> v)

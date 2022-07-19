@@ -6,7 +6,7 @@
 class CRectangle : public CShape
 {
 private:
-	int ID = 1;
+	int ID = 4;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 	shared_ptr<Vertex2D> v2;
@@ -52,7 +52,7 @@ public:
 
 	~CRectangle()
 	{
-		cout << "Se destruyo un triangulo" << endl;
+		cout << "Se destruyo un rectangulo" << endl;
 	}
 
 	void set(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3)
@@ -118,8 +118,8 @@ public:
 			glVertex2i(v2->X(), v2->Y());
 			glVertex2i(v3->X(), v3->Y());
 
-			glVertex2i(v3->X(), v3->Y());
-			glVertex2i(v0->X(), v0->Y());
+			//glVertex2i(v3->X(), v3->Y());
+			//glVertex2i(v0->X(), v0->Y());
 
 			glEnd();
 			glFlush();
@@ -179,10 +179,13 @@ public:
 		}
 
 		else { // Software Mode
-			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
 
 			// user putpixel de aquí en adelante... con Bresenham
-
+			putPixel(v0->X(), v0->Y(), vertexSize);
+			putPixel(v1->X(), v1->Y(), vertexSize);
+			putPixel(v2->X(), v2->Y(), vertexSize);
+			putPixel(v3->X(), v3->Y(), vertexSize);
 		}
 	}
 

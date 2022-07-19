@@ -39,8 +39,8 @@ static shared_ptr <Vertex2D> lastClickedVertex;
 static bool isborder = true;
 static bool isfill = true;
 // TO DO: Change to Modify Selected Figure colors
-static ImVec4 new_border_color = ImVec4(1.f, 1.f, 1.f, 1.00f);
-static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 0.50f);
+static ImVec4 new_border_color = ImVec4(1.f, 1.f, 1.f, 1.f);
+static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 0.5f);
 
 // Figures
 shared_ptr<CLine> new_line;
