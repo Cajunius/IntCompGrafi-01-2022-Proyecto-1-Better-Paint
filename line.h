@@ -132,7 +132,7 @@ public:
 		{
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
-			glBegin(GL_LINE);
+			glBegin(GL_LINES);
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
 			glEnd();
@@ -166,10 +166,11 @@ public:
 		}
 
 		else { // Software Mode
-			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
 
 			// user putpixel de aquí en adelante... con Bresenham
-
+			putPixel(v0->X(), v0->Y(), vertexSize);
+			putPixel(v1->X(), v1->Y(), vertexSize);
 		}
 	}
 	
