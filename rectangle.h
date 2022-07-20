@@ -57,10 +57,41 @@ public:
 
 	void set(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3)
 	{
+
+		// Ordering Vertex taking into account the figure:
+		/*
+			v1 -> v2
+			|	  |
+			v0 <- v3
+		*/
+
+		int minX = min(x0, x1);
+			minX = min(minX, x2);
+			minX = min(minX, x3);
+
+		int maxX = max(x0, x1);
+			maxX = max(maxX, x2);
+			maxX = max(maxX, x3);
+
+		int minY = min(y0, y1);
+			minY = min(minY, y2);
+			minY = min(minY, y3);
+
+		int maxY = max(y0, y1);
+			maxY = max(maxY, y2);
+			maxY = max(maxY, y3);
+
+		/*
 		v0->XY(x0, y0);
 		v1->XY(x1, y1);
 		v2->XY(x2, y2);
 		v3->XY(x3, y3);
+		*/
+
+		v0->XY(minX, minY);
+		v1->XY(minX, maxY);
+		v2->XY(maxX, maxY);
+		v3->XY(maxX, minY);
 
 		vertex = MAX_VERTEXS;
 		selected_vertex = vertex - 1;
@@ -159,6 +190,8 @@ public:
 		else { // Software Mode
 
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
+
+			//while(v0->Y() < v3->Y())
 
 			// user putpixel de aquí en adelante... con Bresenham
 

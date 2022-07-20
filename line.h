@@ -42,6 +42,21 @@ public:
 
 	void set(int x0, int y0, int x1, int y1)
 	{
+
+		//Order respect to origin distance
+		int d0 = distancei(0, 0, x0, y0);
+		int d1 = distancei(0, 0, x1, y1);
+
+		if (d0 <= d1) {
+			v0->XY(x0, y0);
+			v1->XY(x1, y1);
+		}
+		else
+		{
+			v0->XY(x1, y1);
+			v1->XY(x0, y0);
+		}
+
 		/*
 		this->x0 = x0;
 		this->y0 = y0;
@@ -51,9 +66,10 @@ public:
 
 		//shared_ptr<Vertex2D> v0 = make_shared <Vertex2D>(x0, y0);
 		//shared_ptr<Vertex2D> v1 = make_shared <Vertex2D>(x1, y1);
+		/*
 		v0->XY(x0, y0);
 		v1->XY(x1, y1);
-
+		*/
 		/*
 		// Iterate trough vertexs
 		int i = 0;

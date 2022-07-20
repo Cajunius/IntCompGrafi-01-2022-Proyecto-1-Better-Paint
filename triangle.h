@@ -65,9 +65,55 @@ public:
 
 	void set(int x0, int y0, int x1, int y1, int x2, int y2)
 	{
+
+		//Order respect to origin distance
+		int d0 = distancei(0, 0, x0, y0);
+		int d1 = distancei(0, 0, x1, y1);
+		int d2 = distancei(0, 0, x2, y2);
+
+		if (d0 <= d1 and d0 <= d2) {
+			v0->XY(x0, y0);
+			if (d1 <= d2) {
+				v1->XY(x1, y1);
+				v2->XY(x2, y2);
+			}
+			else {
+				v2->XY(x1, y1);
+				v1->XY(x2, y2);
+			}
+		}
+		else
+		{
+			if (d1 <= d0 and d1 <= d2) {
+				v0->XY(x1, y1);
+				if (d0 <= d2) {
+					v1->XY(x0, y0);
+					v2->XY(x2, y2);
+				}
+				else {
+					v2->XY(x0, y0);
+					v1->XY(x2, y2);
+				}
+			}
+			else {
+				v0->XY(x2, y2);
+				if (d0 <= d1) {
+					v1->XY(x0, y0);
+					v2->XY(x1, y1);
+				}
+				else {
+					v2->XY(x0, y0);
+					v1->XY(x1, y1);
+				}
+			}
+			
+		}
+
+		/*
 		v0->XY(x0, y0);
 		v1->XY(x1, y1);
 		v2->XY(x2, y2);
+		*/
 
 		vertex = MAX_VERTEXS;
 		selected_vertex = vertex - 1;
