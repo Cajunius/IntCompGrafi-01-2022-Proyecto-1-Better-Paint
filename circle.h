@@ -150,9 +150,70 @@ public:
 		//}
 
 		//else { // Software Mode
-		setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+		setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
-		// user putPixel de aquí en adelante... con Bresenham
+		// user putPixel de aquí en adelante...
+		int x = 0;
+		int y = r;
+		int m = 5 - 4 * r;
+
+		//cout << "circle.drawfill" << endl;
+
+		while (x <= y)
+		{
+
+			/* Unoptimized: Double Draws Lines
+			drawline(center->X() - x, center->Y() - y, center->X() + x, center->Y() - y);
+			drawline(center->X() - y, center->Y() - x, center->X() + y, center->Y() - x);
+			drawline(center->X() - y, center->Y() + x, center->X() + y, center->Y() + x);
+			drawline(center->X() - x, center->Y() + y, center->X() + x, center->Y() + y);
+
+			if (m > 0)
+			{
+				y--;
+				m -= 8 * y;
+			}
+
+			x++;
+			m += 8 * x + 4;
+			*/
+
+			//**/* Breseham isnt the best for horizontal or vertical lines
+			drawline(center->X() - y, center->Y() - x, center->X() + y, center->Y() - x);
+			drawline(center->X() - y, center->Y() + x, center->X() + y, center->Y() + x);
+
+			if (m > 0)
+			{
+				drawline(center->X() - x, center->Y() - y, center->X() + x, center->Y() - y);
+				drawline(center->X() - x, center->Y() + y, center->X() + x, center->Y() + y);
+				y--;
+				m -= 8 * y;
+			}
+
+			x++;
+			m += 8 * x + 4;
+			//**/*/
+			
+			/* Bugged
+			for (int xx = center->X() - y; xx <= center->X() + y; xx++)
+			{
+				putPixel(xx, center->Y() - x);
+				putPixel(xx, center->Y() + x);
+			}
+
+			if (m > 0)
+			{
+				for (int xx = center->X() - x; xx <= center->X() + x; xx++)
+				{
+					putPixel(xx, center->Y() - y);
+					putPixel(xx, center->Y() + y);
+				}
+
+				y--;
+				m -= 8 * y;
+			}
+			*/
+		}
 
 	//}
 	}
