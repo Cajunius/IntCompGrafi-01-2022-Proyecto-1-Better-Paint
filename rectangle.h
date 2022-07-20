@@ -130,6 +130,10 @@ public:
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
 			// user putpixel de aquí en adelante... con Bresenham
+			drawline(v0->X(), v0->Y(), v1->X(), v1->Y());
+			drawline(v1->X(), v1->Y(), v2->X(), v2->Y());
+			drawline(v2->X(), v2->Y(), v3->X(), v3->Y());
+			drawline(v3->X(), v3->Y(), v0->X(), v0->Y());
 
 		}
 	}

@@ -19,6 +19,7 @@
 #include <string>
 #include <memory>
 #include <status.h>
+#include <utils.h>
 #include <vertex2d.h>
 #include <line.h>
 #include <triangle.h>
@@ -512,6 +513,10 @@ void TEST() {
 	shared_ptr<CCircle> c1 = make_shared <CCircle>(new_border_color);
 	c1->set(500, 500, 600, 600);
 	shapes.push_back(c1); 
+
+	shared_ptr<CCircle> c2 = make_shared <CCircle>(new_border_color, new_fill_color);
+	c2->set(500, 500, 550, 500);
+	shapes.push_back(c2);
 	
 }
 

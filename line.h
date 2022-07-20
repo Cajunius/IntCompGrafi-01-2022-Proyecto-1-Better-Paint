@@ -2,6 +2,7 @@
 
 #include "shape.h"
 #include "vertex2d.h"
+#include "utils.h"
 
 class CLine : public CShape
 {
@@ -126,96 +127,12 @@ public:
 		}
 	}
 
-	void plotPixel(int x1, int y1, int x2, int y2, int dx, int dy, int decide)
-	{
-		//pk is initial decision making parameter
-		//Note:x1&y1,x2&y2, dx&dy values are interchanged
-		//and passed in plotPixel function so
-		//it can handle both cases when m>1 & m<1
-		int pk = 2 * dy - dx;
-		for (int i = 0; i <= dx; i++)
-		{
-			//cout << x1 << "," << y1 << endl;
-			//checking either to decrement or increment the value
-			//if we have to plot from (0,100) to (100,0)
-			x1 < x2 ? x1++ : x1--;
-			if (pk < 0)
-			{
-				//decision value will decide to plot
-				//either  x1 or y1 in x's position
-				if (decide == 0)
-				{
-					// putPixel(x1, y1, RED);
-					pk = pk + 2 * dy;
-				}
-				else
-				{
-					//(y1,x1) is passed in xt
-				    putPixel(y1, x1, borderWidthS);
-					pk = pk + 2 * dy;
-				}
-			}
-			else
-			{
-				y1 < y2 ? y1++ : y1--;
-				if (decide == 0)
-				{
-
-					putPixel(x1, y1, borderWidthS);
-				}
-				else
-				{
-					putPixel(y1, x1, borderWidthS);
-				}
-				pk = pk + 2 * dy - 2 * dx;
-			}
-		}
-	}
-
-	void drawline(int x0, int y0, int x1, int y1)
-	{
-		int dx, dy, pk;
-		//cin cout
-		dx = abs(x1 - x0);
-		dy = abs(y1 - y0);
-		//If slope is less than one
-		if (dx > dy)
-		{
-			//passing argument as 0 to plot(x,y)
-			plotPixel(x0, y0, x1, y1, dx, dy, 0);
-		}
-		//if slope is greater than or equal to 1
-		else
-		{
-			//passing argument as 1 to plot (y,x)
-			plotPixel(y0, x0, y1, x1, dy, dx, 1);
-		}
-		// getch();
-	}
 	void drawborder(bool drawingMode) {
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			// despliegas la línea con el algoritmo de bresenham
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
 
-			// user putPixel de aquí en adelante... con Bresenham
-			glBegin(GL_LINES);
-
-			//glVertex2i(x0, y0);
-			//glVertex2i(x1, y1);
-
-			/*
-			// Iterate trough vertexs
-			int i = 0;
-			for (auto const& v : VERTEXS) {
-				if (i == MAX_VERTEXS) {
-					break;
-				}
-				glVertex2i(v->X(), v->Y());
-				i++;
-			}
-			*/
+			glBegin(GL_LINE);
 			glVertex2i(v0->X(), v0->Y());
 			glVertex2i(v1->X(), v1->Y());
 			glEnd();

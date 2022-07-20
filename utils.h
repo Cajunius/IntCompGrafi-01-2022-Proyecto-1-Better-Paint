@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 #include <stdio.h>
+//#include <shape.h> // For putPixel
 // Function to calculate distance
 float distancef(int x1, int y1, int x2, int y2)
 {
