@@ -191,10 +191,22 @@ public:
 
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
-			//while(v0->Y() < v3->Y())
+			// user putpixel de aquí en adelante... 
+			int x0 = v0->X(); // Bottom Left Corner
+			int y0 = v0->Y();
 
-			// user putpixel de aquí en adelante... con Bresenham
+			int x3 = v3->X(); // Upper Right Corner
+			int y2 = v2->Y();
 
+			while (y0 <= y2) {
+				int xx = x0;
+				while (xx <= x3){
+					putPixel(xx, y0, 1);
+					xx++;
+				}
+				//drawline(x0, y0, x3, y0); //...con Bresenham
+				y0++;
+			}
 		}
 	}
 
