@@ -147,7 +147,7 @@ public:
 
 
 	// using putPixel
-	void plotPixel(int x1, int y1, int x2, int y2, int dx, int dy, int decide)
+	void plotPixel(int x1, int y1, int x2, int y2, int dx, int dy, int decide, int Width)
 	{
 		//pk is initial decision making parameter
 		//Note:x1&y1,x2&y2, dx&dy values are interchanged
@@ -166,13 +166,13 @@ public:
 				//either  x1 or y1 in x's position
 				if (decide == 0)
 				{
-					putPixel(x1, y1, borderWidthS);
+					putPixel(x1, y1, Width);
 					pk = pk + 2 * dy;
 				}
 				else
 				{
 					//(y1,x1) is passed in xt
-					putPixel(y1, x1, borderWidthS);
+					putPixel(y1, x1, Width);
 					pk = pk + 2 * dy;
 				}
 			}
@@ -182,19 +182,23 @@ public:
 				if (decide == 0)
 				{
 
-					putPixel(x1, y1, borderWidthS);
+					putPixel(x1, y1, Width);
 				}
 				else
 				{
-					putPixel(y1, x1, borderWidthS);
+					putPixel(y1, x1, Width);
 				}
 				pk = pk + 2 * dy - 2 * dx;
 			}
 		}
 	}
 
+	void plotPixel(int x1, int y1, int x2, int y2, int dx, int dy, int decide) {
+		plotPixel(x1, y1, x2, y2, dx, dy, decide, borderWidthS);
+	}
+
 	// Draws Line with bresenham algorithm
-	void drawline(int x0, int y0, int x1, int y1)
+	void drawline(int x0, int y0, int x1, int y1, int Width)
 	{
 		int dx, dy, pk;
 		//cin cout
@@ -204,14 +208,17 @@ public:
 		if (dx > dy)
 		{
 			//passing argument as 0 to plot(x,y)
-			plotPixel(x0, y0, x1, y1, dx, dy, 0);
+			plotPixel(x0, y0, x1, y1, dx, dy, 0, Width);
 		}
 		//if slope is greater than or equal to 1
 		else
 		{
 			//passing argument as 1 to plot (y,x)
-			plotPixel(y0, x0, y1, x1, dy, dx, 1);
+			plotPixel(y0, x0, y1, x1, dy, dx, 1, Width);
 		}
 		// getch();
+	}
+	void drawline(int x0, int y0, int x1, int y1) {
+		drawline(x0, y0, x1, y1, borderWidthS);
 	}
 };

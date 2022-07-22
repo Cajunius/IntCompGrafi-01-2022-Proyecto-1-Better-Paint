@@ -216,8 +216,55 @@ public:
 
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
-			// user putpixel de aquí en adelante... con Bresenham
 
+			// user putpixel de aquí en adelante... con Bresenham
+			int d1 = distancei(v0->X(), v0->Y(), v1->X(), v1->Y());
+			int d2 = distancei(v1->X(), v1->Y(), v2->X(), v2->Y());
+			int d3 = distancei( v2->X(), v2->Y(), v0->X(), v0->Y());
+
+			int tx, ty, vx, vy;
+			if (((d1 < d2) or (d1 == d2)) and ((d1 < d2) or (d1 == d2))) {
+				tx = v0->X();
+				ty = v0->Y();
+				vx = (v1->X() - v0->X()) / d1;
+				vy = (v1->Y() - v0->Y()) / d1;
+				int counter = 0;
+				while (counter < d1) {
+					drawline(v2->X(), v2->Y(), tx, ty, 1);
+					//drawing a line from point(v2->X(),v2->Y()) to point(tx,ty).
+					tx = tx + vx;
+					ty = ty + vy;
+					counter = counter + 1;
+				}
+			}
+			else {
+				if ((d2 < d3) or (d2 == d3)) {
+					tx = v1->X();
+					ty = v1->Y();
+					vx = (v2->X() - v1->X()) / d2;
+					vy = (v2->Y() - v1->Y()) / d2;
+					int counter = 0;
+					while (counter < d2) {
+						drawline(v0->X(), v0->Y(), tx, ty, 1);
+						tx = tx + vx;
+						ty = ty + vy;
+						counter = counter + 1;
+					}
+				}
+				else {
+					tx = v2->X();
+					ty = v2->Y();
+					vx = (v0->X() - v2->X()) / d3;
+					vy = (v0->Y() - v2->Y()) / d3;
+					int counter = 0;
+					while (counter < d3) {
+						drawline(v1->X(), v1->Y(), tx, ty, 1);
+						tx = tx + vx;
+						ty = ty + vy;
+						counter = counter + 1;
+					}
+				}
+			}
 		}
 	}
 
