@@ -25,6 +25,7 @@
 #include <triangle.h>
 #include <rectangle.h>
 #include <circle.h>
+#include <elipse.h>
 
 
 
@@ -517,6 +518,14 @@ void TEST() {
 	shared_ptr<CCircle> c2 = make_shared <CCircle>(new_border_color, new_fill_color);
 	c2->set(500, 500, 550, 500);
 	shapes.push_back(c2);
+
+	shared_ptr<CElipse> e1 = make_shared <CElipse>(new_border_color);
+	e1->set(600, 600, 100, 50);
+	shapes.push_back(e1);
+
+	shared_ptr<CElipse> e2 = make_shared <CElipse>(new_border_color, new_fill_color);
+	e2->set(550, 550, 25, 50);
+	shapes.push_back(e2);
 	
 }
 

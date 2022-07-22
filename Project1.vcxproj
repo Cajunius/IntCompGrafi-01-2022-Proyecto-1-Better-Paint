@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="circle.h" />
+    <ClInclude Include="elipse.h" />
     <ClInclude Include="GL\freeglut.h" />
     <ClInclude Include="GL\freeglut_ext.h" />
     <ClInclude Include="GL\freeglut_std.h" />
