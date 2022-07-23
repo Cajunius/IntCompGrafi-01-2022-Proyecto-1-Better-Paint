@@ -5,6 +5,10 @@
 #include "vertex2d.h"
 #include "utils.h"
 
+#include <iostream> // for std::out
+#include <vector> // for the points vector
+#include <valarray> // for Point2d
+
 class CBezier : public CShape
 {
 private:
@@ -12,10 +16,12 @@ private:
 	int ID = 6;
 	int grade = -1;
 	shared_ptr<Vertex2D> v[20];
+	list<shared_ptr<Vertex2D>> vL;
 	ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 
 public:
 
+	double PRECISION = 0.05;
 
 	CBezier(float r, float g, float b) : CShape(r, g, b)
 	{
@@ -70,6 +76,7 @@ public:
 		selected_vertex = vertex - 1;
 		setgrade(vertex - 1);
 		v[vertex] = _v;
+		vL.push_back(_v);
 		if (vertex == MAX_VERTEXS - 1) {
 			isLastVertex = true;
 		}
@@ -81,6 +88,7 @@ public:
 		selected_vertex = vertex - 1;
 		setgrade(vertex - 1);
 		v[grade]->XY(_x, _y);
+		vL.push_back(v[grade]);
 		VERTEXS.push_back(v[grade]);
 		
 	}
@@ -101,7 +109,7 @@ public:
 
 		//cout << "n :" << n << "\n";
 
-		for (double t = 0.0; t <= 1.0; t += 0.02)
+		for (double t = 0.0; t <= 1.0; t += PRECISION)
 		{
 
 			double bCurveXt{ 0 };
@@ -122,6 +130,110 @@ public:
 
 		return bCurve;
 	}
+
+	double calcPRECISION(int _grade, list<shared_ptr<Vertex2D>> _vL) {
+		
+		int i = 0;
+		list <shared_ptr<Vertex2D>>::iterator it;
+		it = _vL.begin();
+		double polygonlong = 0;
+		while (i + 1 <= _vL.size() - 1) {
+			list <shared_ptr<Vertex2D>>::iterator itprev = it;
+			//if (i + 1 <= bCurve.size() - 1) {
+			it++;
+			polygonlong += distancef((*itprev)->X(), (*itprev)->Y(), (*it)->X(), (*it)->Y());
+			//}
+			i++;
+		}
+		// Last
+		//it = bCurve.end();
+		//distancef((*it)->X(), (*it)->Y(), v[grade]->X(), v[grade]->Y(), borderWidthS);
+		if (polygonlong <=0)
+			polygonlong = 100;
+		cout << "[" << _grade << "] polygonlong: " << polygonlong << endl;
+		//double _PRECISION = (((1 / polygonlong) * (1 / _grade)));
+		double _PRECISION = ((1.0 / polygonlong));
+		int _2grade = 2 * _grade;
+		if (_grade <= 0)
+			_grade = 1;
+		cout << "[" << _grade << "] 1_PRECISION: " << _PRECISION << endl;
+		double modifier = (1.0 / _2grade);
+		cout << "[" << _grade << "] modifier: " << modifier << endl;
+
+		_PRECISION = ((1.0 / (polygonlong*modifier)));
+		cout << "[" << _grade << "] 2_PRECISION: " << _PRECISION << endl;
+		if (_PRECISION == 0 or _PRECISION >= 1)
+			_PRECISION = 0.05;
+		cout << "[" << _grade << "] 3_PRECISION: " << _PRECISION << endl;
+		return _PRECISION;
+	}
+
+	using Real = double; // better define Real and not just use double
+
+	// A way to have Point2d from an existing std include
+	// good for job interviews or samples like this one that are shared
+	using Point2d = std::valarray<Real>;
+
+	// a vector of points
+	using Point2dVec = std::vector<Point2d>;
+
+	const shared_ptr<Vertex2D> Approximate(const Real t, const Real oneMinusT, const shared_ptr<Vertex2D>& pt1, const shared_ptr<Vertex2D>& pt2)
+	{
+		shared_ptr<Vertex2D> _v = make_shared <Vertex2D>(0, 0);
+		_v->XY(pt1->X() * oneMinusT + pt2->X() * t, pt1->Y() * oneMinusT + pt2->Y() * t);
+		return _v;
+	}
+
+	void GetBezierPoints(list<shared_ptr<Vertex2D>> inputPoints, const Real precision, list<shared_ptr<Vertex2D>>& resultBezierPoints)
+	{
+		// result
+		//resultBezierPoints.reserve(static_cast<size_t>(1 / precision + 1));
+		//resultBezierPoints.clear();
+
+		// temp vector, declare and reserve it here (and not inside the loop) to save allocations
+		list<shared_ptr<Vertex2D>>  approximatedPoints;
+		//approximatedPoints.reserve(inputPoints.size());
+
+		// loop t by precision
+		for (Real t = 0; t < 1; t += precision)
+		{
+			// save (1 - t) now as it is used inside Approximate
+			Real oneMinusT = (1 - t);
+
+			approximatedPoints = inputPoints;
+
+			while (approximatedPoints.size() > 1)
+			{
+				auto pointsIter = approximatedPoints.begin();
+
+				// as we advance the iter inside the loop and use the next value
+				// we loop until the prev to the last item on the list
+				auto pointsIterEnd = std::prev(approximatedPoints.end());
+
+				// loop using an iterator
+				while (pointsIter != pointsIterEnd)
+				{
+					// save the current iter - Approximate result will be stored here
+					// this way we can use a single buffer
+					auto updateThisIter = pointsIter;
+
+					// Approximate the current and next points
+					const auto& pt1 = *(pointsIter++);
+					const auto& pt2 = *(pointsIter);
+					const auto approximatedPoint = Approximate(t, oneMinusT, pt1, pt2);
+
+					// store Approximate result in the same buffer
+					*updateThisIter = approximatedPoint;
+				}
+
+				approximatedPoints.pop_back();
+			}
+
+			//finally only one point will be left
+			resultBezierPoints.push_back((*approximatedPoints.begin()));
+		}
+	}
+
 
 	//Draws line between control points
 	void drawfill(bool drawingMode) {
@@ -156,8 +268,15 @@ public:
 
 	void drawborder(bool drawingMode) {
 
-		list <shared_ptr<Vertex2D>> bCurve = computeNVertexBasierCurve2D(v, grade);
-		
+		//list <shared_ptr<Vertex2D>> bCurve = computeNVertexBasierCurve2D(v, grade);
+		//De Castejau
+		//list <shared_ptr<Vertex2D>> bCurve = GetBezierPoints(v, grade);
+
+		list<shared_ptr<Vertex2D>> bCurve;
+		//PRECISION = calcPRECISION(grade, vL);
+
+		GetBezierPoints(vL, PRECISION, bCurve);
+
 		if (drawingMode == 0) // Hardware Mode
 		{
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);

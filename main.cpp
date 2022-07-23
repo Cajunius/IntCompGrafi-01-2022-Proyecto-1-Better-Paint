@@ -207,6 +207,7 @@ void my_display_code()
 	//}
 }
 
+
 void renderScene(void)
 {
 	// Start the Dear ImGui frame
@@ -242,6 +243,19 @@ void renderScene(void)
 		i++;
 	}
 
+	// Draw clicked vertexs
+	for(int i = 0; i < clicks_on_buffer; i++){
+		//if (DrawingMode == 0) {
+		//glColor4f(vertex_color[0], vertex_color[1], vertex_color[2], vertex_color[3]);
+		aux->setColor4(vertex_color_unseted.x, vertex_color_unseted.y, vertex_color_unseted.z, vertex_color_unseted.w);
+		aux->putPixel(buffer[i], aux->vertexSize);
+		//}
+	}
+
+	if (vertex_per_figure[FigureClicked] <= clicks_on_buffer) {
+		clicks_on_buffer = 0;
+	}
+
 	/*
 	// [SECTION] TEST:
 	// draws the *classic red / green / blue triangle
@@ -262,38 +276,70 @@ void renderScene(void)
 	glutPostRedisplay();
 }
 
-// [SECTION] Selectors Handlers
-void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, int vertexX, int vertexY){
+// Figures
+shared_ptr<CLine> new_line;
+shared_ptr<CCircle> new_c;
+shared_ptr<CElipse> new_e;
+shared_ptr<CRectangle> new_r;
+shared_ptr<CTriangle> new_t;
+shared_ptr<CBezier> new_b;
 
-	if (!isDrawingFigure) {
-		isDrawingFigure = true;
+// [SECTION] Selectors Handlers
+void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shared_ptr<Vertex2D>* _v){
+
+	//if (!isDrawingFigure) {
+		//isDrawingFigure = true;
 		switch (figure)
 		{
 		case 1: // Line
-			// new_line = make_shared <CLine>(new_border_color);
-			// shapes.push_back(new_line);
-			// current_shape = new_line;
+			new_line = make_shared <CLine>(new_border_color);
+			new_line->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
+			shapes.push_back(new_line);
+			current_shape = new_line;
 			break;
 
 		case 2: // Circle
+			new_c = make_shared <CCircle>(new_border_color, new_fill_color);
+			new_c->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
+			shapes.push_back(new_c);
+			current_shape = new_c;
 			break;
 
 		case 3: // Elipse
+			new_e = make_shared <CElipse>(new_border_color, new_fill_color);
+			new_e->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
+			shapes.push_back(new_e);
+			current_shape = new_e;
 			break;
 
 		case 4: // Rectangle
+			new_r = make_shared <CRectangle>(new_border_color, new_fill_color);
+			//r1->set(500, 100, 100, 500, 100, 100, 500, 500);
+			new_r->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
+			shapes.push_back(new_r);
+			current_shape = new_r;
 			break;
 
 		case 5: // Triangle
+			new_t = make_shared <CTriangle>(new_border_color, new_fill_color);
+			new_t->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
+			shapes.push_back(new_t);
+			current_shape = new_t;
 			break;
 
 		case 6: // Bezier
+			new_b = make_shared <CBezier>(new_border_color, new_fill_color);
+			for(int i = 0; i < clicks_on_buffer; i++)
+				new_b->addVertex(_v[i]->X(), _v[i]->Y());
+
+			shapes.push_back(new_b);
+			current_shape = new_b;
 			break;
 
 		default:
 			break;
 		}
-	}
+	//}
 }
 
 // [SECTION] Input Event Handlers
@@ -325,12 +371,42 @@ void onClickCanvas(int button, int state, int x, int y) {
 	*/
 
 	/*
+	
 	// If left button was clicked
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		// Store where the user clicked, note Y is backwards.
 		abc[NUMPOINTS].setxy((float)x, (float)(SCREEN_HEIGHT - y));
 		NUMPOINTS++;
+	}
 	*/
+	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+		if (FigureClicked == 6) {
+			// Bezier
+			buffer[clicks_on_buffer]->XY(x, (height - y));
+			clicks_on_buffer++;
+			DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+			clicks_on_buffer = 0;
+		}
+
+	}
+
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		// Store where the user clicked, note Y is backwards.
+		if (clicks_on_buffer > 19) {
+			//Excede el maximo de puntos permitidos por figura
+			DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+			clicks_on_buffer = 0;
+		}
+		else {
+			buffer[clicks_on_buffer]->XY(x, (height - y)); 
+			clicks_on_buffer++;
+			if (vertex_per_figure[FigureClicked] == clicks_on_buffer) {
+				DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+				clicks_on_buffer = 0;
+			}
+		}
+	}
+	
 
 }
 
@@ -550,6 +626,14 @@ void TESTBEZIERS() {
 	b1->addVertex(300, 200);
 	shapes.push_back(b1);
 
+	shared_ptr<CBezier> b4b = make_shared <CBezier>(new_border_color, new_fill_color);
+	b4b->addVertex(300, 400);
+	b4b->addVertex(350, 555);
+	b4b->addVertex(555, 500);
+	b4b->addVertex(575, 415);
+	b4b->addVertex(550, 395);
+	shapes.push_back(b4b);
+
 	shared_ptr<CBezier> b2 = make_shared <CBezier>(new_border_color, new_fill_color);
 	b2->addVertex(400, 100);
 	b2->addVertex(400, 200);
@@ -581,17 +665,17 @@ void TESTBEZIERS() {
 	shapes.push_back(b5);
 
 	shared_ptr<CBezier> b10 = make_shared <CBezier>(new_border_color, new_fill_color);
-	b10->addVertex(815, 115);
-	b10->addVertex(820, 225);
-	b10->addVertex(825, 230);
-	b10->addVertex(820, 305);
-	b10->addVertex(715, 111);
-	b10->addVertex(728, 210);
-	b10->addVertex(760, 215);
-	b10->addVertex(802, 415);
-	b10->addVertex(830, 215);
-	b10->addVertex(835, 415);
-	//shapes.push_back(b10);
+	b10->addVertex(1015, 115);
+	b10->addVertex(1020, 225);
+	b10->addVertex(1025, 230);
+	b10->addVertex(1020, 305);
+	b10->addVertex(915, 111);
+	b10->addVertex(928, 210);
+	b10->addVertex(960, 215);
+	b10->addVertex(1002, 415);
+	b10->addVertex(1030, 215);
+	b10->addVertex(1035, 415);
+	shapes.push_back(b10);
 }
 
 void TEST() {
@@ -601,11 +685,14 @@ void TEST() {
 	//TESTRECTANGLES();
 	//TESTCIRCLES();
 	//TESTELIPSES();
-	TESTBEZIERS();
+	//TESTBEZIERS();
 }
 
 int main(int argc, char** argv)
 {
+	// INIT STATUS
+	INIT_STATUS();
+
 	// init GLUT and create Window
 	glutInit(&argc, argv);
 #ifdef __FREEGLUT_EXT_H__

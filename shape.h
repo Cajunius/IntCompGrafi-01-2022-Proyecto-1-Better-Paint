@@ -105,10 +105,11 @@ public:
 	}
 	void putPixel(shared_ptr<Vertex2D> v, float width)
 	{
-		glLineWidth(width);
+		//glLineWidth(width);
+		//glPointSize(width);
 		int x = v->X();
 		int y = v->Y();
-		putPixel(x, y);
+		putPixel(x, y, width);
 	}
 
 	void setColor(float r, float g, float b)
