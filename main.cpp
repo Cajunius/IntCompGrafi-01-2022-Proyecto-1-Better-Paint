@@ -50,7 +50,8 @@ void my_display_code()
 {
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 	if (show_config_window)
-		ImGui::ShowDemoWindow(&show_config_window);
+		ImGui::ShowDemoWindow(&show_config_window, width, height);
+		//ImGui::ShowDemoWindow(&show_config_window);
 
 	// 2. Show ToolBAR. We use a Begin/End pair to created a named window.
 	{

@@ -90,6 +90,8 @@ Index of this file:
 #include <stdint.h>         // intptr_t
 #endif
 
+//#include "../status.h"
+
 // Visual Studio warnings
 #ifdef _MSC_VER
 #pragma warning (disable: 4127)     // condition expression is constant
@@ -180,7 +182,7 @@ static void ShowExampleAppPropertyEditor(bool* p_open);
 static void ShowExampleAppLongText(bool* p_open);
 static void ShowExampleAppAutoResize(bool* p_open);
 static void ShowExampleAppConstrainedResize(bool* p_open);
-static void ShowExampleAppSimpleOverlay(bool* p_open);
+static void ShowExampleAppSimpleOverlay(bool* p_open, int height);
 static void ShowExampleAppFullscreen(bool* p_open);
 static void ShowExampleAppWindowTitles(bool* p_open);
 static void ShowExampleAppCustomRendering(bool* p_open);
@@ -263,7 +265,7 @@ static void ShowDemoWindowMisc();
 // Demonstrate most Dear ImGui features (this is big function!)
 // You may execute this function to experiment with the UI and understand what it does.
 // You may then search for keywords in the code when you are interested by a specific feature.
-void ImGui::ShowDemoWindow(bool* p_open)
+void ImGui::ShowDemoWindow(bool* p_open, int width, int height)
 {
     // Exceptionally add an extra assert here for people confused about initial Dear ImGui setup
     // Most ImGui functions would normally just crash if the context is missing.
@@ -295,7 +297,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     //if (show_app_long_text)           ShowExampleAppLongText(&show_app_long_text);
     //if (show_app_auto_resize)         ShowExampleAppAutoResize(&show_app_auto_resize);
     //if (show_app_constrained_resize)  ShowExampleAppConstrainedResize(&show_app_constrained_resize);
-    if (show_app_simple_overlay)      ShowExampleAppSimpleOverlay(&show_app_simple_overlay);
+    if (show_app_simple_overlay)      ShowExampleAppSimpleOverlay(&show_app_simple_overlay, height);
     //if (show_app_fullscreen)          ShowExampleAppFullscreen(&show_app_fullscreen);
     //if (show_app_window_titles)       ShowExampleAppWindowTitles(&show_app_window_titles);
     //if (show_app_custom_rendering)    ShowExampleAppCustomRendering(&show_app_custom_rendering);
@@ -7317,7 +7319,7 @@ static void ShowExampleAppConstrainedResize(bool* p_open)
 
 // Demonstrate creating a simple static window with no decoration
 // + a context-menu to choose which corner of the screen to use.
-static void ShowExampleAppSimpleOverlay(bool* p_open)
+static void ShowExampleAppSimpleOverlay(bool* p_open, int height)
 {
     static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
@@ -7344,7 +7346,7 @@ static void ShowExampleAppSimpleOverlay(bool* p_open)
         //ImGui::Text("Simple overlay\n" "in the corner of the screen.\n" "(right-click to change position)");
         //ImGui::Separator();
         if (ImGui::IsMousePosValid())
-            ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
+            ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, height - io.MousePos.y);
         else
             ImGui::Text("Mouse Position: <invalid>");
         if (ImGui::BeginPopupContextWindow())
