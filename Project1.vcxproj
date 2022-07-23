@@ -158,6 +158,7 @@
     <ClCompile Include="line.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bezier.h" />
     <ClInclude Include="circle.h" />
     <ClInclude Include="elipse.h" />
     <ClInclude Include="GL\freeglut.h" />

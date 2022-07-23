@@ -26,6 +26,7 @@
 #include <rectangle.h>
 #include <circle.h>
 #include <elipse.h>
+#include <bezier.h>
 
 
 
@@ -322,6 +323,14 @@ void onClickCanvas(int button, int state, int x, int y) {
 	}
 	*/
 
+	/*
+	// If left button was clicked
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		// Store where the user clicked, note Y is backwards.
+		abc[NUMPOINTS].setxy((float)x, (float)(SCREEN_HEIGHT - y));
+		NUMPOINTS++;
+	*/
+
 }
 
 void onClick(int button, int state, int x, int y)
@@ -451,8 +460,7 @@ void idle() {
 	glutPostRedisplay();
 }
 
-void TEST() {
-	// Aplication Code
+void TESTLINES() {
 	shared_ptr<CLine> l1 = make_shared <CLine>(1, 1, 1);
 	shared_ptr<CLine> l2 = make_shared <CLine>(1, 0, 0);
 
@@ -470,8 +478,9 @@ void TEST() {
 
 	shapes.push_back(l3);
 	shapes.push_back(l4);
+}
 
-	
+void TESTTRIANGLES() {
 	//shared_ptr<CTriangle> t1 = make_shared <CTriangle>(1, 0, 1);
 	shared_ptr<CTriangle> t1 = make_shared <CTriangle>(new_border_color, new_fill_color);
 	t1->set(200, 200, 300, 300, 200, 300);
@@ -489,12 +498,14 @@ void TEST() {
 	shared_ptr<CTriangle> t3 = make_shared <CTriangle>(new_border_color);
 	t3->set(300, 300, 300, 400, 400, 400);
 	shapes.push_back(t3);
+}
 
+void TESTRECTANGLES() {
 	shared_ptr<CRectangle> r1 = make_shared <CRectangle>(new_border_color);
 	//r1->set(500, 100, 100, 500, 100, 100, 500, 500);
 	r1->set(100, 100, 500, 500);
 	shapes.push_back(r1);
-	
+
 	//shared_ptr<CRectangle> r2 = make_shared <CRectangle>(new_border_color, new_fill_color);
 	//r2->set(700, 500, 500, 700, 300, 700, 700, 300);
 	//shapes.push_back(r2);
@@ -510,15 +521,19 @@ void TEST() {
 	r3b->set(300, 300, 350, 450);
 	shapes.push_back(r3b);
 	*/
+}
 
+void TESTCIRCLES() {
 	shared_ptr<CCircle> c1 = make_shared <CCircle>(new_border_color);
 	c1->set(500, 500, 600, 600);
-	shapes.push_back(c1); 
+	shapes.push_back(c1);
 
 	shared_ptr<CCircle> c2 = make_shared <CCircle>(new_border_color, new_fill_color);
 	c2->set(500, 500, 550, 500);
 	shapes.push_back(c2);
+}
 
+void TESTELIPSES() {
 	shared_ptr<CElipse> e1 = make_shared <CElipse>(new_border_color);
 	e1->set(600, 600, 100, 50);
 	shapes.push_back(e1);
@@ -526,7 +541,66 @@ void TEST() {
 	shared_ptr<CElipse> e2 = make_shared <CElipse>(new_border_color, new_fill_color);
 	e2->set(550, 550, 25, 50);
 	shapes.push_back(e2);
-	
+}
+
+void TESTBEZIERS() {
+	shared_ptr<CBezier> b1 = make_shared <CBezier>(new_border_color, new_fill_color);
+	b1->addVertex(300, 100);
+	b1->addVertex(300, 200);
+	shapes.push_back(b1);
+
+	shared_ptr<CBezier> b2 = make_shared <CBezier>(new_border_color, new_fill_color);
+	b2->addVertex(400, 100);
+	b2->addVertex(400, 200);
+	b2->addVertex(425, 215);
+	shapes.push_back(b2);
+
+	shared_ptr<CBezier> b3 = make_shared <CBezier>(new_border_color, new_fill_color);
+	b3->addVertex(515, 100);
+	b3->addVertex(520, 200);
+	b3->addVertex(525, 215);
+	b3->addVertex(620, 415);
+	shapes.push_back(b3);
+
+	shared_ptr<CBezier> b4 = make_shared <CBezier>(new_border_color, new_fill_color);
+	b4->addVertex(615, 100);
+	b4->addVertex(620, 200);
+	b4->addVertex(625, 215);
+	b4->addVertex(720, 415);
+	b4->addVertex(780, 515);
+	shapes.push_back(b4);
+
+	shared_ptr<CBezier> b5 = make_shared <CBezier>(new_border_color, new_fill_color);
+	b5->addVertex(715, 100);
+	b5->addVertex(720, 200);
+	b5->addVertex(725, 215);
+	b5->addVertex(820, 415);
+	b5->addVertex(880, 515);
+	b5->addVertex(900, 550);
+	shapes.push_back(b5);
+
+	shared_ptr<CBezier> b10 = make_shared <CBezier>(new_border_color, new_fill_color);
+	b10->addVertex(815, 115);
+	b10->addVertex(820, 225);
+	b10->addVertex(825, 230);
+	b10->addVertex(820, 305);
+	b10->addVertex(715, 111);
+	b10->addVertex(728, 210);
+	b10->addVertex(760, 215);
+	b10->addVertex(802, 415);
+	b10->addVertex(830, 215);
+	b10->addVertex(835, 415);
+	//shapes.push_back(b10);
+}
+
+void TEST() {
+	// Aplication Code
+	//TESTLINES();
+	//TESTTRIANGLES();
+	//TESTRECTANGLES();
+	//TESTCIRCLES();
+	//TESTELIPSES();
+	TESTBEZIERS();
 }
 
 int main(int argc, char** argv)

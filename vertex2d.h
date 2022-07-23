@@ -21,7 +21,7 @@ public:
 
 	~Vertex2D()
 	{
-		cout << "Se destruyo un Vertex2D" << endl;
+		//cout << "Se destruyo un Vertex2D" << endl;
 	}
 
 	// Get X
