@@ -154,12 +154,11 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="shape..cpp" />
-    <ClCompile Include="line.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bezier.h" />
     <ClInclude Include="circle.h" />
+    <ClInclude Include="colors.h" />
     <ClInclude Include="elipse.h" />
     <ClInclude Include="GL\freeglut.h" />
     <ClInclude Include="GL\freeglut_ext.h" />

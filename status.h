@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 
+#include <colors.h>
 #include <shape.h>
 #include <line.h>
 //#include <triangle.h>
@@ -22,10 +23,6 @@ int width = 1280, height = 720;
 // Our state
 static bool show_config_window = true; //Set true when Press "0"
 static bool show_another_window = true;
-static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
-static ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
-static ImVec4 vertex_color_unseted = ImVec4(0.01f, 0.1f, 1.0f, 1.00f);
-static ImVec4 vertex_color_selected = ImVec4(0.5f, 1.0f, 1.0f, 1.00f);
 
 // Auxiliar objects
 shared_ptr<CLine> aux;
@@ -51,8 +48,7 @@ static shared_ptr <Vertex2D> lastClickedVertex;
 static bool isborder = true;
 static bool isfill = true;
 // TO DO: Change to Modify Selected Figure colors
-static ImVec4 new_border_color = ImVec4(1.f, 1.f, 1.f, 1.f);
-static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 0.5f);
+
 
 
 

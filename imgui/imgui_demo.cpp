@@ -90,6 +90,7 @@ Index of this file:
 #include <stdint.h>         // intptr_t
 #endif
 
+#include <colors.h>
 //#include "../status.h"
 
 // Visual Studio warnings

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <colors.h>
 #include "shape.h"
 #include "vertex2d.h"
 #include "utils.h"
@@ -11,7 +12,6 @@ private:
 	int ID = 1;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
-	ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 
 public:
 

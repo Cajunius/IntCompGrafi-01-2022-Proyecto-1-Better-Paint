@@ -18,6 +18,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <colors.h>
 #include <status.h>
 #include <utils.h>
 #include <vertex2d.h>
