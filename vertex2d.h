@@ -46,6 +46,41 @@ public:
 		y = _y;
 	}
 
+	shared_ptr<Vertex2D> suma(shared_ptr<Vertex2D> obj) {
+		shared_ptr<Vertex2D> res = make_shared<Vertex2D>(0, 0);
+		res->x = x + obj->X();
+		res->y = y + obj->Y();
+		return res;
+	}
+
+	shared_ptr<Vertex2D> resta (shared_ptr<Vertex2D> obj) {
+		shared_ptr<Vertex2D> res = make_shared<Vertex2D>(0, 0);
+		res->x = x - obj->X();
+		res->y = y - obj->Y();
+		return res;
+	}
+
+	shared_ptr<Vertex2D> multiplicar(float a) {
+		shared_ptr<Vertex2D> res = make_shared<Vertex2D>(0, 0);
+		res->x = x * a;
+		res->y = y *a;
+		return res;
+	}
+
+
+	Vertex2D operator - (Vertex2D const& obj) {
+		Vertex2D res(0,0);
+		res.x = x - obj.x;
+		res.y = y - obj.y;
+		return res;
+	}
+
+	Vertex2D operator + (Vertex2D const& obj) {
+		Vertex2D res(0, 0);
+		res.x = x + obj.x;
+		res.y = y + obj.y;
+		return res;
+	}
 
 	void putPixel(int x, int y)
 	{

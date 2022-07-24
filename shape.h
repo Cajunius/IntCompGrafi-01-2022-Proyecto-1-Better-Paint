@@ -26,6 +26,7 @@ public:
 	float borderWidth = 2;
 	float borderWidthS = 1;
 	float vertexSize = 4;
+	int click_dist_tolerance = 10; //px
 
 	CShape(float r, float g, float b)
 	{

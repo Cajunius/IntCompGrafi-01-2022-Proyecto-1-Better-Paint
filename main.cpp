@@ -289,8 +289,16 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 
 	//if (!isDrawingFigure) {
 		//isDrawingFigure = true;
+		int i;
 		switch (figure)
 		{
+		case 0: // Determine if a shape were clicked
+			i = 0;
+			for (auto const& x : shapes) {
+				x->onClick(_v[0]->X(), _v[0]->Y());
+				i++;
+			}
+			break;
 		case 1: // Line
 			new_line = make_shared <CLine>(new_border_color);
 			new_line->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());

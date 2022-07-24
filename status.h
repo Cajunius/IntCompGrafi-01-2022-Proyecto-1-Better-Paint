@@ -25,7 +25,7 @@ static bool show_another_window = true;
 static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
 static ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 static ImVec4 vertex_color_unseted = ImVec4(0.01f, 0.1f, 1.0f, 1.00f);
-static ImVec4 vertex_color_selected= ImVec4(0.5f, 1.0f, 1.0f, 1.00f);
+static ImVec4 vertex_color_selected = ImVec4(0.5f, 1.0f, 1.0f, 1.00f);
 
 // Auxiliar objects
 shared_ptr<CLine> aux;
@@ -40,7 +40,7 @@ static int FigureClicked = 0;
 static bool isDrawingFigure = false;
 static bool isLastVertex = false;
 
-const int vertex_per_figure[] = { 0, 2, 2, 3, 2, 3, 20, 1, 0, NULL };
+const int vertex_per_figure[] = { 1, 2, 2, 3, 2, 3, 20, 1, 0, NULL };
 
 // Events
 int clicks_on_buffer;

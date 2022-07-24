@@ -164,15 +164,18 @@ public:
 			drawline(v0->X(), v0->Y(), v1->X(), v1->Y());
 		}
 	}
-
+	ImVec4 vertex_color_selected = ImVec4(0.5f, 1.0f, 1.0f, 1.00f);
 	void drawvertex(bool drawingMode) {
 
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
+			if(!isSelected){
+				setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
+			}
+			else {
+				setColor4(vertex_color_selected.x, vertex_color_selected.y, vertex_color_selected.z, vertex_color_selected.w);
+			}
 			glPointSize(vertexSize);
 			glBegin(GL_POINTS);
 			glVertex2i(v0->X(), v0->Y());
@@ -182,7 +185,12 @@ public:
 		}
 
 		else { // Software Mode
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
+			if (!isSelected) {
+				setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
+			}
+			else {
+				setColor4(vertex_color_selected.x, vertex_color_selected.y, vertex_color_selected.z, vertex_color_selected.w);
+			}
 
 			// user putpixel de aquí en adelante... con Bresenham
 			putPixel(v0->X(), v0->Y(), vertexSize);
@@ -212,7 +220,19 @@ public:
 		// determinar la distancia del click a la línea
 		// si es mejor a un umbral (e.g. 3 píxeles) entonces
 		// retornas true
-		return false;
+		bool isClicked = false;
+		if(!isSelected){
+			shared_ptr<Vertex2D> p = make_shared<Vertex2D>(x, y);
+			float d = minimum_distance(v0, v1, p);
+			cout << "distance: " << d << endl;
+			if (d <= click_dist_tolerance)
+			{
+				cout << "LINE SELECTED"<< endl;
+				isClicked = true;
+			}
+			}
+		isSelected = isClicked;
+		return isClicked;
 	}
 
 	void onMove(int x, int y)
