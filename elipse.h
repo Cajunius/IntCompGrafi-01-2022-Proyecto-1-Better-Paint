@@ -19,6 +19,7 @@ public:
 
 	CElipse(float r, float g, float b) : CShape(r, g, b)
 	{
+		click_dist_tolerance = 0; //px
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;
@@ -30,6 +31,7 @@ public:
 	}
 	CElipse(ImVec4 border) : CShape(border)
 	{
+		click_dist_tolerance = 0; //px
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;
@@ -42,6 +44,7 @@ public:
 
 	CElipse(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
+		click_dist_tolerance = 0; //px
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;
@@ -254,11 +257,23 @@ public:
 
 	void drawvertex(bool drawingMode) {
 
+		if (!isSelected) {
+			vertex_color[0] = vertex_color_original[0];
+			vertex_color[1] = vertex_color_original[1];
+			vertex_color[2] = vertex_color_original[2];
+			vertex_color[3] = vertex_color_original[3];
+		}
+		else {
+			vertex_color[0] = vertex_color_selected.x;
+			vertex_color[1] = vertex_color_selected.y;
+			vertex_color[2] = vertex_color_selected.z;
+			vertex_color[3] = vertex_color_selected.w;
+		}
+
+		setColor4(vertex_color[0], vertex_color[1], vertex_color[2], vertex_color[3]);
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
 			glPointSize(vertexSize);
 			glBegin(GL_POINTS);
 			glVertex2i(center->X(), center->Y());
@@ -269,8 +284,6 @@ public:
 		}
 
 		else { // Software Mode
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
 			// user putPixel de aquí en adelante... con Bresenham
 			putPixel(center->X(), center->Y(), vertexSize);
 			putPixel(radiusX->X(), center->Y(), vertexSize);
@@ -302,10 +315,29 @@ public:
 
 	bool onClick(int x, int y)
 	{
-		// determinar la distancia del click a la línea
+		// determinar la distancia del click a la elipse
 		// si es mejor a un umbral (e.g. 3 píxeles) entonces
 		// retornas true
-		return false;
+
+		bool isClicked = false;
+		if (!isSelected) {
+			int d;
+			d = (pow((x - center->X()), 2) / pow(rx, 2)) + (pow((y - center->Y()), 2) / pow(ry, 2));
+			//(rx > ry){}
+			//else{}
+			//int a = max(rx, ry), b = min(rx, ry);
+			// checking the equation of
+			// ellipse with the given point
+			//int d = (pow((x - center->X()), 2) / pow(a, 2)) + (pow((y - center->Y()), 2) / pow(b, 2));
+			//cout << "elipse distance: " << d << endl;
+			if (d <= 0 + click_dist_tolerance)
+			{
+				cout << "ELIPSE SELECTED" << endl;
+				isClicked = true;
+			}
+		}
+		isSelected = isClicked;
+		return isClicked;
 	}
 
 	void onMove(int x, int y)

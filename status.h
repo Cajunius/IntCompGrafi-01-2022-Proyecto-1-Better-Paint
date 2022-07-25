@@ -45,8 +45,12 @@ shared_ptr<Vertex2D> buffer[20];
 
 static shared_ptr <Vertex2D> lastClickedVertex;
 
+// List helpers
+static int position = 1; // TO DO: Sustitute this fetching the current figureposition...
+
 static bool isborder = true;
 static bool isfill = true;
+static bool isvertex = true;
 // TO DO: Change to Modify Selected Figure colors
 
 

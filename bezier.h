@@ -18,7 +18,7 @@ private:
 	int grade = -1;
 	shared_ptr<Vertex2D> v[20];
 	list<shared_ptr<Vertex2D>> vL;
-	ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
+	//ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 
 public:
 
@@ -326,12 +326,23 @@ public:
 
 	void drawvertex(bool drawingMode) {
 
+		if (!isSelected) {
+			vertex_color[0] = vertex_color_original[0];
+			vertex_color[1] = vertex_color_original[1];
+			vertex_color[2] = vertex_color_original[2];
+			vertex_color[3] = vertex_color_original[3];
+		}
+		else {
+			vertex_color[0] = vertex_color_selected.x;
+			vertex_color[1] = vertex_color_selected.y;
+			vertex_color[2] = vertex_color_selected.z;
+			vertex_color[3] = vertex_color_selected.w;
+		}
+
+		setColor4(vertex_color[0], vertex_color[1], vertex_color[2], vertex_color[3]);
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
 			glPointSize(vertexSize);
 			glBegin(GL_POINTS);
 			for (int i = 0; i <= grade; i++) {
@@ -342,8 +353,6 @@ public:
 		}
 
 		else { // Software Mode
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
 			// user putpixel de aquí en adelante... con Bresenham
 			for (int i = 0; i <= grade; i++) {
 				putPixel(v[i]->X(), v[i]->Y(), vertexSize);
@@ -376,10 +385,20 @@ public:
 
 	bool onClick(int x, int y)
 	{
-		// determinar la distancia del click a la línea
+		// determinar la distancia del click aL POLIGONO DE CONTROL
 		// si es mejor a un umbral (e.g. 3 píxeles) entonces
 		// retornas true
-		return false;
+		bool isClicked = false;
+		if (!isSelected) {
+			//shared_ptr<Vertex2D> polygon[] = v;
+			if (isInside(v, vertex, x, y))
+			{
+				cout << "BEZIER CURVE SELECTED" << endl;
+				isClicked = true;
+			}
+		}
+		isSelected = isClicked;
+		return isClicked;
 	}
 
 	void onMove(int x, int y)

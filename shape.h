@@ -15,6 +15,8 @@ protected:
 public:
 	float border_color[4];
 	float fill_color[4];
+	float vertex_color[4];
+	float vertex_color_original[4];
 	bool drawing = false;
 	list <shared_ptr<Vertex2D>> VERTEXS;
 	int vertex;
@@ -40,6 +42,16 @@ public:
 		fill_color[1] = g;
 		fill_color[2] = b;
 		fill_color[3] = 0.0;
+
+		vertex_color_original[0] = vertex_color_unselected.x;
+		vertex_color_original[1] = vertex_color_unselected.y;
+		vertex_color_original[2] = vertex_color_unselected.z;
+		vertex_color_original[3] = vertex_color_unselected.w;
+
+		vertex_color[0] = vertex_color_original[0];
+		vertex_color[1] = vertex_color_original[1];
+		vertex_color[2] = vertex_color_original[2];
+		vertex_color[3] = vertex_color_original[3];
 	}
 
 	CShape(float r, float g, float b, float a)
@@ -53,6 +65,16 @@ public:
 		fill_color[1] = g;
 		fill_color[2] = b;
 		fill_color[3] = 0.0;
+
+		vertex_color_original[0] = vertex_color_unselected.x;
+		vertex_color_original[1] = vertex_color_unselected.y;
+		vertex_color_original[2] = vertex_color_unselected.z;
+		vertex_color_original[3] = vertex_color_unselected.w;
+
+		vertex_color[0] = vertex_color_original[0];
+		vertex_color[1] = vertex_color_original[1];
+		vertex_color[2] = vertex_color_original[2];
+		vertex_color[3] = vertex_color_original[3];
 	}
 
 	CShape(ImVec4 border)
@@ -66,6 +88,16 @@ public:
 		fill_color[1] = border.y;
 		fill_color[2] = border.z;
 		fill_color[3] = 0.0;
+
+		vertex_color_original[0] = vertex_color_unselected.x;
+		vertex_color_original[1] = vertex_color_unselected.y;
+		vertex_color_original[2] = vertex_color_unselected.z;
+		vertex_color_original[3] = vertex_color_unselected.w;
+
+		vertex_color[0] = vertex_color_original[0];
+		vertex_color[1] = vertex_color_original[1];
+		vertex_color[2] = vertex_color_original[2];
+		vertex_color[3] = vertex_color_original[3];
 	}
 
 	CShape(ImVec4 border, ImVec4 fill)
@@ -79,6 +111,16 @@ public:
 		fill_color[1] = fill.y;
 		fill_color[2] = fill.z;
 		fill_color[3] = fill.w;
+
+		vertex_color_original[0] = vertex_color_unselected.x;
+		vertex_color_original[1] = vertex_color_unselected.y;
+		vertex_color_original[2] = vertex_color_unselected.z;
+		vertex_color_original[3] = vertex_color_unselected.w;
+
+		vertex_color[0] = vertex_color_original[0];
+		vertex_color[1] = vertex_color_original[1];
+		vertex_color[2] = vertex_color_original[2];
+		vertex_color[3] = vertex_color_original[3];
 	}
 	
 

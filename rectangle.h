@@ -213,11 +213,23 @@ public:
 
 	void drawvertex(bool drawingMode) {
 
+		if (!isSelected) {
+			vertex_color[0] = vertex_color_original[0];
+			vertex_color[1] = vertex_color_original[1];
+			vertex_color[2] = vertex_color_original[2];
+			vertex_color[3] = vertex_color_original[3];
+		}
+		else {
+			vertex_color[0] = vertex_color_selected.x;
+			vertex_color[1] = vertex_color_selected.y;
+			vertex_color[2] = vertex_color_selected.z;
+			vertex_color[3] = vertex_color_selected.w;
+		}
+
+		setColor4(vertex_color[0], vertex_color[1], vertex_color[2], vertex_color[3]);
 
 		if (drawingMode == 0) // Hardware Mode
 		{
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
 			glPointSize(vertexSize);
 			glBegin(GL_POINTS);
 			glVertex2i(v0->X(), v0->Y());
@@ -229,8 +241,6 @@ public:
 		}
 
 		else { // Software Mode
-			setColor4(vertex_color.x, vertex_color.y, vertex_color.z, vertex_color.w);
-
 			// user putpixel de aquí en adelante... con Bresenham
 			putPixel(v0->X(), v0->Y(), vertexSize);
 			putPixel(v1->X(), v1->Y(), vertexSize);
@@ -262,10 +272,20 @@ public:
 
 	bool onClick(int x, int y)
 	{
-		// determinar la distancia del click a la línea
+		// determinar la distancia del click al rectangulo
 		// si es mejor a un umbral (e.g. 3 píxeles) entonces
 		// retornas true
-		return false;
+		bool isClicked = false;
+		if (!isSelected) {
+			shared_ptr<Vertex2D> polygon[] = { v0, v1, v2, v3};
+			if (isInside(polygon, 4, x, y))
+			{
+				cout << "RECTANGLE SELECTED" << endl;
+				isClicked = true;
+			}
+		}
+		isSelected = isClicked;
+		return isClicked;
 	}
 
 	void onMove(int x, int y)

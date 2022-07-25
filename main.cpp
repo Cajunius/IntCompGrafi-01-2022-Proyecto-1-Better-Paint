@@ -15,6 +15,7 @@
 #include "./imgui/backends/imgui_impl_opengl2.h"
 // Utils
 #include <list>
+#include <list_handler.h>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -125,64 +126,92 @@ void my_display_code()
 
 		ImGui::Checkbox("Border", &isborder);
 		ImGui::SameLine();
-		ImGui::ColorEdit4("border color", (float*)&new_border_color);
+		ImGui::ColorEdit4("Border color", (float*)&new_border_color);
 		
 
 		ImGui::Checkbox("Fill", &isfill);
 		ImGui::SameLine();
-		ImGui::ColorEdit4("fill color", (float*)&new_fill_color);
+		ImGui::ColorEdit4("Fill color", (float*)&new_fill_color);
 
-		
-
-		ImGui::Separator();
-
-		static int position = 0; // TO DO: Sustitute this fetching the current figureposition...
-
-		ImGui::Text("Selected Figure:  %d", position); // TO DO: Add Selected Figure Type
-		float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
-		// See 'Demo->Layout->Text Baseline Alignment' for details.
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("Figure Position: %d", position);
+		ImGui::Checkbox("Vertex", &isvertex);
 		ImGui::SameLine();
+		ImGui::ColorEdit4("Vertex color", (float*)&vertex_color_unselected);
 
-		// Arrow buttons with Repeater
-		if (ImGui::Button("To Back"))
-		{
-			position = 0;
-		}
-		ImGui::SameLine(0.0f, spacing);
-		ImGui::PushButtonRepeat(true);
-		if (ImGui::ArrowButton("##back", ImGuiDir_Left)) { position--; } // TO DO: update with update figure position
-		ImGui::SameLine(0.0f, spacing);
-		if (ImGui::ArrowButton("##front", ImGuiDir_Right)) { position++; } // TO DO: update with update figure position
-		ImGui::PopButtonRepeat();
-		ImGui::SameLine(0.0f, spacing);
-		if (ImGui::Button("To Front"))
-		{
-			position = shapes.size();
-		}
-		
-		// TO DO: Change to Modify Selected Figure colors
-		static ImVec4 border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
-		static ImVec4 fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
-
-		ImGui::ColorEdit4("Border color", (float*)&border_color);
-		ImGui::ColorEdit4("Fill color", (float*)&fill_color);
-
-		// Trying to give it color
-		ImGui::PushID(11);
-		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
-		ImGui::PopStyleColor(3);
-
-		if (ImGui::Button("Delete"))
-		{
-			//Handle Delete
-		}
-		ImGui::PopID();
 
 		ImGui::Separator();
+
+		//cout << "current_shape: " << current_shape << endl;
+
+		if (current_shape != NULL) {
+			
+			ImGui::Text("Selected Figure:  %d", position); // TO DO: Add Selected Figure Type
+
+			ImGui::Text("current_shape:  %d", current_shape);
+
+			float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+			// See 'Demo->Layout->Text Baseline Alignment' for details.
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Figure Position: %d", position);
+			ImGui::SameLine();
+
+			// Arrow buttons with Repeater
+			if (ImGui::Button("To Back"))
+			{
+				toBack(position, shapes);
+				//position = 1;
+			}
+			ImGui::SameLine(0.0f, spacing);
+			ImGui::PushButtonRepeat(true);
+			if (ImGui::ArrowButton("##back", ImGuiDir_Left)) { decposition(position, shapes); }
+				//if(position > 0) position--; } // TO DO: update with update figure position
+			ImGui::SameLine(0.0f, spacing);
+			if (ImGui::ArrowButton("##front", ImGuiDir_Right)) { incposition(position, shapes);  }
+				//if (position < shapes.size()) position++; } // TO DO: update with update figure position
+			ImGui::PopButtonRepeat();
+			ImGui::SameLine(0.0f, spacing);
+			if (ImGui::Button("To Front"))
+			{
+				toFront(position, shapes);
+				//position = shapes.size();
+			}
+
+			// TO DO: Change to Modify Selected Figure colors
+			// static ImVec4 border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
+			// static ImVec4 fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
+
+			//ImGui::ColorEdit4("Border color", (float*)&border_color);
+			//ImGui::ColorEdit4("Fill color", (float*)&fill_color);
+
+
+			ImGui::Checkbox("Border ", &current_shape->drawBorder);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("Border color ", (float*)&current_shape->border_color);
+
+
+			ImGui::Checkbox("Fill ", &current_shape->drawFill);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("Fill color ", (float*)&current_shape->fill_color);
+
+			ImGui::Checkbox("Vertex ", &current_shape->drawVertex);
+			ImGui::SameLine();
+			ImGui::ColorEdit4("Vertex color ", (float*)&current_shape->vertex_color_original);
+
+
+			// Trying to give it color
+			ImGui::PushID(11);
+			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
+			ImGui::PopStyleColor(3);
+
+			if (ImGui::Button("Delete"))
+			{
+				//Handle Delete
+			}
+			ImGui::PopID();
+
+			ImGui::Separator();
+		}
 
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Extras:");
@@ -291,20 +320,48 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 	//if (!isDrawingFigure) {
 		//isDrawingFigure = true;
 		int i;
+		bool wasClicked = false;
+		list <shared_ptr<CShape>>::iterator x = shapes.end();
 		switch (figure)
 		{
 		case 0: // Determine if a shape were clicked
-			i = 0;
-			for (auto const& x : shapes) {
-				x->onClick(_v[0]->X(), _v[0]->Y());
-				i++;
+			i = shapes.size();
+			x--;
+			for (; i > 0; i--) {
+				if (!wasClicked) {
+					//try
+					//{
+						if ((*x)->onClick(_v[0]->X(), _v[0]->Y())) 
+						{
+							current_shape = (*x);
+							position = i;
+							wasClicked = true;
+							//break;
+						}	
+					}
+				else {
+					(*x)->isSelected = false;
+				}
+					//catch (const std::exception&){}
+				if (i > 1) x--;
+			}
+			if (!wasClicked) {
+				// If it cames here, then none figure where selected
+				current_shape = NULL;
+				position = -1;
 			}
 			break;
 		case 1: // Line
 			new_line = make_shared <CLine>(new_border_color);
 			new_line->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
+
+			new_line->drawBorder = isborder;
+			new_line->drawFill = isfill;
+
 			shapes.push_back(new_line);
 			current_shape = new_line;
+			position = shapes.size();
+
 			break;
 
 		case 2: // Circle
@@ -312,6 +369,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			new_c->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
 			shapes.push_back(new_c);
 			current_shape = new_c;
+			position = shapes.size();
+
 			break;
 
 		case 3: // Elipse
@@ -319,6 +378,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			new_e->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
 			shapes.push_back(new_e);
 			current_shape = new_e;
+			position = shapes.size();
+
 			break;
 
 		case 4: // Rectangle
@@ -327,6 +388,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			new_r->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
 			shapes.push_back(new_r);
 			current_shape = new_r;
+			position = shapes.size();
+
 			break;
 
 		case 5: // Triangle
@@ -334,6 +397,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			new_t->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
 			shapes.push_back(new_t);
 			current_shape = new_t;
+			position = shapes.size();
+
 			break;
 
 		case 6: // Bezier
@@ -343,6 +408,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 
 			shapes.push_back(new_b);
 			current_shape = new_b;
+			position = shapes.size();
+
 			break;
 
 		default:
