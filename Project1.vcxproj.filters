@@ -25,6 +25,12 @@
     <Filter Include="Documentation Files">
       <UniqueIdentifier>{18608d79-249d-4bc9-a8e0-f0e2cd27fecd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TinyFileDiaolog">
+      <UniqueIdentifier>{250fb7e1-7de4-434f-9d7f-a737c4ab8140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TinyFileDialog">
+      <UniqueIdentifier>{b28d99a7-5f0c-4e35-9c39-67df26893934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="imgui\backends\imgui_impl_opengl2.cpp">
       <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyfiledialogs\tinyfiledialogs.c">
+      <Filter>Source Files\TinyFileDiaolog</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.h">
+      <Filter>Header Files\TinyFileDialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="list_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyfiledialogs\tinyfiledialogs.h">
+      <Filter>Header Files\TinyFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="filename.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

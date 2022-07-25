@@ -90,8 +90,9 @@ Index of this file:
 #include <stdint.h>         // intptr_t
 #endif
 
-#include <colors.h>
+//#include <../colors.h>
 //#include "../status.h"
+#include <FileManager.h>
 
 // Visual Studio warnings
 #ifdef _MSC_VER
@@ -6427,29 +6428,35 @@ static void ShowExampleAppMainMenuBar()
 static void ShowExampleMenuFile()
 {
     IMGUI_DEMO_MARKER("Examples/Menu");
-    ImGui::MenuItem("(demo menu)", NULL, false, false);
+    ImGui::MenuItem("(pro menu)", NULL, false, false);
     if (ImGui::MenuItem("New")) {}
-    if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+    if (ImGui::MenuItem("Open", "Ctrl+O")) {
+        FileManager *fm = new FileManager();
+        fm->open();
+    }
     if (ImGui::BeginMenu("Open Recent"))
     {
-        ImGui::MenuItem("fish_hat.c");
-        ImGui::MenuItem("fish_hat.inl");
-        ImGui::MenuItem("fish_hat.h");
+
         if (ImGui::BeginMenu("More.."))
         {
-            ImGui::MenuItem("Hello");
-            ImGui::MenuItem("Sailor");
-            if (ImGui::BeginMenu("Recurse.."))
-            {
-                ShowExampleMenuFile();
-                ImGui::EndMenu();
-            }
+            /*
+            FileManager* fm = new FileManager();
+            fm->open();
+            */
             ImGui::EndMenu();
+            
         }
         ImGui::EndMenu();
     }
-    if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-    if (ImGui::MenuItem("Save As..")) {}
+    if (ImGui::MenuItem("Save", "Ctrl+S")) {
+        FileManager* fm = new FileManager();
+        //fm->save(true);
+        fm->save(false);
+    }
+    if (ImGui::MenuItem("Save As..")) {
+        FileManager* fm = new FileManager();
+        fm->save(false);
+    }
 
     ImGui::Separator();
     IMGUI_DEMO_MARKER("Examples/Menu/Options");

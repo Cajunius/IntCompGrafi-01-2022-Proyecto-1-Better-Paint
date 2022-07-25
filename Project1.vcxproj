@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileManager.h" />
     <ClCompile Include="imgui\backends\imgui_impl_glut.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.</AdditionalIncludeDirectories>
     </ClCompile>
@@ -154,12 +155,14 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tinyfiledialogs\tinyfiledialogs.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bezier.h" />
     <ClInclude Include="circle.h" />
     <ClInclude Include="colors.h" />
     <ClInclude Include="elipse.h" />
+    <ClInclude Include="filename.h" />
     <ClInclude Include="GL\freeglut.h" />
     <ClInclude Include="GL\freeglut_ext.h" />
     <ClInclude Include="GL\freeglut_std.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="list_handler.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="status.h" />
+    <ClInclude Include="tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="triangle.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vertex2d.h" />

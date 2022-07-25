@@ -30,10 +30,13 @@
 #include <elipse.h>
 #include <bezier.h>
 
+#include <FileManager.h>
+//#include <filename.h>
 
 
 using namespace std;
 
+//string current_file_name = "ShapesFile.txt";
 // int width = 1280, height = 720;
 
 // list <shared_ptr<CShape>> shapes;
