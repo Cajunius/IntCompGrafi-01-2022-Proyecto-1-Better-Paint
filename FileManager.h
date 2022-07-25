@@ -2,20 +2,23 @@
 #include <stdio.h>
 #include <string.h>
 #include "./tinyfiledialogs/tinyfiledialogs.h"
+//#include <shapes_loader_saver.h>
+#include <imgui/imgui.h>
 
-//#include <list>
-//#include <memory>
-//#include <shape.h>
+#include <list>
+#include <memory>
+//#include "shape.h"
 
 
-//#include <filename.h>
 
+#include <filename.h>
+//#include <status.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996) /* silences warning about wcscpy*/
 #endif
 
-using namespace std;
+//using namespace std;
 
 class FileManager
 {
@@ -108,7 +111,9 @@ public:
 		fclose(lIn);
 
 		printf("The select Shapes File to load is: %s\n", tinyfd_utf8toMbcs(lTheOpenFileName));
-		//current_file_name = tinyfd_utf8toMbcs(lTheOpenFileName);
+		current_file_name = tinyfd_utf8toMbcs(lTheOpenFileName);
+		current_file_mode = 1;
+		printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
 		//tinyfd_beep();
 
 		return 0;
@@ -125,7 +130,7 @@ public:
 				NULL);
 		}
 		else {
-			//lTheSaveFileName = current_file_name.c_str();
+			lTheSaveFileName = current_file_name.c_str();
 		}
 		if (!lTheSaveFileName)
 		{
@@ -159,7 +164,9 @@ public:
 		fclose(lIn);
 
 		printf("The selected Shapes File to save is: %s\n", tinyfd_utf8toMbcs(lTheSaveFileName));
-		//current_file_name = tinyfd_utf8toMbcs(lTheSaveFileName);
+		current_file_name = tinyfd_utf8toMbcs(lTheSaveFileName);
+		current_file_mode = 2;
+		printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
 	}
 
 };

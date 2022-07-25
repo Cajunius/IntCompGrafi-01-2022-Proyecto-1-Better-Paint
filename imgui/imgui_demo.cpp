@@ -6433,6 +6433,7 @@ static void ShowExampleMenuFile()
     if (ImGui::MenuItem("Open", "Ctrl+O")) {
         FileManager *fm = new FileManager();
         fm->open();
+        fm->~FileManager();
     }
     if (ImGui::BeginMenu("Open Recent"))
     {
@@ -6452,10 +6453,12 @@ static void ShowExampleMenuFile()
         FileManager* fm = new FileManager();
         //fm->save(true);
         fm->save(false);
+        fm->~FileManager();
     }
     if (ImGui::MenuItem("Save As..")) {
         FileManager* fm = new FileManager();
         fm->save(false);
+        fm->~FileManager();
     }
 
     ImGui::Separator();

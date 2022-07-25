@@ -1,8 +1,17 @@
-12/07/2022 - 9:40 PM
-	Terminar Interfaz - En un principio, la ventana Toolbar.
-		Aniadir botones para cada primitiva; con colores, mover adelante y atras, al frente y al final
-		Colocar creo que ComboBox para seleccionar cual modo usar: Hardware o Software
-		Revisar que mas botones o elementos interactivos necesito
-	Detectar y manejar eventos del mouse y del teclado para 
-		activar las herramientas, 
-		seleccionar, mover y modificar las formas
+25/07/2022 - 2:18 AM
+	
+	Implementar Borrar Figuras
+	Implementar Borrar Todas
+
+	Detectar y manejar eventos del mouse y del teclado para:
+		mover figuras 
+		seleccionar y modificar vertices
+
+	Implementar carga y guarda de archivo
+
+	Debugear relleno de triangulos por software
+
+	Encontrar un delta_t optimo para la curva de Bezier
+
+	Improve Commentaries and Clean Code.
+

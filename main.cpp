@@ -30,12 +30,14 @@
 #include <elipse.h>
 #include <bezier.h>
 
+#include <filename.h>
 #include <FileManager.h>
-//#include <filename.h>
 
+string current_file_name = "ShapesFile.txt";
+int current_file_mode = 0;
 
 using namespace std;
-
+void MouseStyle(bool state);
 //string current_file_name = "ShapesFile.txt";
 // int width = 1280, height = 720;
 
@@ -257,6 +259,7 @@ void my_display_code()
 		if (ImGui::Button("Clear All"))
 		{
 			//Handle Clear All
+			printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
 		}
 		//ImGui::PopID();
 
@@ -303,7 +306,7 @@ void renderScene(void)
 	ImGui_ImplGLUT_NewFrame();
 
 	my_display_code();
-
+	
 	/*
 	ImGui::Begin("DIOS AYUDA");
 	ImGui::Text("This is some useful text.");
@@ -343,6 +346,20 @@ void renderScene(void)
 	if (vertex_per_figure[FigureClicked] <= clicks_on_buffer) {
 		clicks_on_buffer = 0;
 	}
+
+	if (current_file_mode != 0) {
+		if (current_file_mode == 1) {
+			// LOAD FILE
+			current_file_mode = 0; // Reset File Mode
+		}
+		else {
+			if (current_file_mode == 2) {
+				// SAVE FILE
+				current_file_mode = 0; // Reset File Mode
+			}
+		}
+	}
+	//MouseStyle(true);
 
 	/*
 	// [SECTION] TEST:
@@ -384,7 +401,7 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 		{
 		case 0: // Determine if a shape were clicked
 			i = shapes.size();
-			x--;
+			if (i > 0) x--;
 			for (; i > 0; i--) {
 				if (!wasClicked) {
 					//try
@@ -621,6 +638,182 @@ void onPassiveMotion(int x, int y)
 
 void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 	//Do Somenting
+	if(key == (unsigned char)'0'){
+		cout << "Change to Select Figure Tool" << endl;
+		FigureClicked = 0;
+	}
+	else{
+		if (key == (unsigned char)'1') {
+			cout << "Change to Draw Line Tool" << endl;
+			FigureClicked = 1;
+		}
+		else {
+			if (key == (unsigned char)'2') {
+				cout << "Change to Draw Circle Tool" << endl;
+				FigureClicked = 2;
+			}
+			else {
+				if (key == (unsigned char)'3') {
+					cout << "Change to Draw Elipse Tool" << endl;
+					FigureClicked = 3;
+				}
+				else {
+					if (key == (unsigned char)'4') {
+						cout << "Change to Draw Rectangle Tool" << endl;
+						FigureClicked = 4;
+					}
+					else {
+						if (key == (unsigned char)'5') {
+							cout << "Change to Draw Triangle Tool" << endl;
+							FigureClicked = 5;
+						}
+						else {
+							if (key == (unsigned char)'6') {
+								cout << "Change to Draw Bezier Tool" << endl;
+								FigureClicked = 6;
+							}
+							else {
+								if (key == (unsigned char)'7') {
+									cout << "Change to Erase Figure Tool" << endl;
+									FigureClicked = 7;
+								}
+								else {
+									if (key == (unsigned char)'8') {
+										if (current_shape != NULL) {
+											cout << "Change to Move Figure Tool" << endl;
+											FigureClicked = 8;
+										}
+									}
+									else {
+										if (key == (unsigned char)'9') {
+											if (current_shape != NULL) {
+												FigureClicked = 9;
+												cout << "Change to Select Vertex Tool" << endl;
+											}
+										}
+										else {
+											if (key == (unsigned char)'c') {
+												cout << "Change border color" << endl;
+												/*if (current_shape != NULL) { //BUGGED
+																										ImGui::Begin("Change border color!");
+													ImGui::Checkbox("Border:  ", &current_shape->drawBorder);
+													ImGui::SameLine();
+													ImGui::ColorEdit4("Border color:  ", (float*)&current_shape->border_color);
+													ImGui::End();
+												}*/
+											}
+											else {
+												if (key == (unsigned char)'f') { 
+													cout << "Change fill color" << endl;
+													/*if (current_shape != NULL) {  //BUGGED
+														ImGui::Begin("Change fill color!");
+														ImGui::Checkbox("Fill:  ", &current_shape->drawFill);
+														ImGui::SameLine();
+														ImGui::ColorEdit4("Fill color:  ", (float*)&current_shape->fill_color);
+														ImGui::End();
+													}*/
+												}
+												else {
+													if (key == (unsigned char)'h') {
+														cout << "Change display mode" << endl;
+														if (DrawingMode == 0)
+															DrawingMode = 1;
+														else
+															DrawingMode = 0;
+														//DrawingMode = ~DrawingMode;
+													}
+													else {
+														if (key == (unsigned char)'F') {
+															cout << "Figure to Front" << endl;
+															if (current_shape != NULL) {
+																toFront(position, shapes);
+															}
+														}
+														else {
+															if (key == (unsigned char)'B') {
+																cout << "Figure to Back" << endl;
+																if (current_shape != NULL) {
+																	toBack(position, shapes);
+																}
+															}
+															else {
+																if (key == (unsigned char)'+') {
+																	cout << "Figure Front + 1" << endl;
+																	if (current_shape != NULL) {
+																		incposition(position, shapes);
+																	}
+																}
+																else {
+																	if (key == (unsigned char)'-') {
+																		cout << "Figure Back - 1" << endl;
+																		if (current_shape != NULL) {
+																			decposition(position, shapes);
+																		}
+																	}
+																	else {
+																		if (key == (unsigned char)'u') {
+																			cout << "Unselect Figure" << endl;
+																			if (current_shape != NULL) {
+																				current_shape->isSelected = false;
+																			}
+																			current_shape = NULL;
+																			position = -1;
+																		}
+																		else {
+																			if (key == (unsigned char)'d') {
+																				cout << "Delete Figure" << endl;
+																				if (current_shape != NULL) {
+																					current_shape->isSelected = false;
+																					// Handle delete
+																				}
+																				current_shape = NULL;
+																				position = -1;
+																			}
+																			else {
+																				if (key == (unsigned char)'S') {
+																					cout << "Save CANVAS" << endl;
+																					// Handle Save
+																				}
+																				else {
+																					if (key == (unsigned char)'L') {
+																						cout << "Load CANVAS" << endl;
+																						// Handle Load
+																					}
+																					else {
+																						if (key == (unsigned char)'x') {
+																							cout << "Clear ALL" << endl;
+																							// Handle Clear ALL
+																						}
+																						else {
+																							if (key == (unsigned char)'T') {
+																								//TEST
+																								printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
+																							}
+																							else {
+																								cout << "\"" << key << "\" is not a valid shortcut" << endl;
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void onKeyboardEntry(unsigned char key, int x, int y)
@@ -634,6 +827,7 @@ void onKeyboardEntry(unsigned char key, int x, int y)
 	if (io.WantCaptureKeyboard)
 	{
 		ImGui_ImplGLUT_KeyboardFunc(key, x, y);
+		onKeyboardEntryCanvas(key, x, y);
 	}
 
 	else {

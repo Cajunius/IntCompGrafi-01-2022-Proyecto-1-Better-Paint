@@ -146,6 +146,9 @@
     <ClInclude Include="filename.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="shapes_loader_saver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Documentation\TO DO.txt">
