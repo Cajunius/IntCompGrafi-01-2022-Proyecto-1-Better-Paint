@@ -89,7 +89,7 @@ void my_display_code()
 
 		ImGui::Separator();
 
-		const char* figures[] = { "None", "Line", "Circle", "Elipse", "Rectangle", "Triangle", "Bezier", "DELETE", "EXTRA", NULL };
+		const char* figures[] = { "Select", "Line", "Circle", "Elipse", "Rectangle", "Triangle", "Bezier", "DELETE", "MOVE", "SELECT VERTEX", "MOVE VERTEX", NULL};
 		ImGui::Text("Figure Selector: %s", figures[FigureClicked]);
 		
 		const char* figure;
@@ -109,14 +109,7 @@ void my_display_code()
 			ImGui::PopStyleColor(3);
 			ImGui::PopID();
 		}
-		//cout << "FigureClicked: " << FigureClicked << endl;
-		// Check if we need to draw a figure
-		if (FigureClicked != 0) {
-			// Select which figure to draw
-		}
-		else {
-			// handle Deselect
-		}
+		
 
 		// static bool border = true;
 		// static bool fill = true;
@@ -142,16 +135,19 @@ void my_display_code()
 
 		//cout << "current_shape: " << current_shape << endl;
 
+		float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+
 		if (current_shape != NULL) {
 			
-			ImGui::Text("Selected Figure:  %d", position); // TO DO: Add Selected Figure Type
-
-			ImGui::Text("current_shape:  %d", current_shape);
-
-			float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+			ImGui::Text("Selected Figure:  %d", current_shape);
+			//ImGui::SameLine(0.0f, spacing);
+			//ImGui::Text(" | Position:  %d", position); // TO DO: Add Selected Figure Type
+			
+			//float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
 			// See 'Demo->Layout->Text Baseline Alignment' for details.
 			ImGui::AlignTextToFramePadding();
-			ImGui::Text("Figure Position: %d", position);
+			//ImGui::Text("Figure Position: %d", position);
+			ImGui::Text("Figure Position:");
 			ImGui::SameLine();
 
 			// Arrow buttons with Repeater
@@ -164,6 +160,8 @@ void my_display_code()
 			ImGui::PushButtonRepeat(true);
 			if (ImGui::ArrowButton("##back", ImGuiDir_Left)) { decposition(position, shapes); }
 				//if(position > 0) position--; } // TO DO: update with update figure position
+			ImGui::SameLine(0.0f, spacing);
+			ImGui::Text("%d", position);
 			ImGui::SameLine(0.0f, spacing);
 			if (ImGui::ArrowButton("##front", ImGuiDir_Right)) { incposition(position, shapes);  }
 				//if (position < shapes.size()) position++; } // TO DO: update with update figure position
@@ -218,17 +216,74 @@ void my_display_code()
 		ImGui::SameLine();
 
 		// Trying to give it color
+		/*
 		ImGui::PushID(12);
 		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
 		ImGui::PopStyleColor(3);
-
+		*/
+		if (ImGui::Button("Select Figure"))
+		{
+			//Handle Select Figure
+			FigureClicked = 0;
+		}
+		if (current_shape != NULL) {
+			ImGui::SameLine(0.0f, spacing);
+			if (ImGui::Button("Move Selected Figure"))
+			{
+				//Handle Move Selected 
+				FigureClicked = 8;
+			}
+			ImGui::SameLine(0.0f, spacing);
+			if (ImGui::Button("Select Vertex"))
+			{
+				//Handle Select Vertex
+				FigureClicked = 9;
+			}
+			if (lastClickedVertex != NULL) {
+				ImGui::SameLine(0.0f, spacing);
+				if (ImGui::Button("Move Selected Vertex"))
+				{
+					//Handle Move Selected Vertex
+					FigureClicked = 10;
+				}
+			}
+		}
+		ImGui::SameLine(0.0f, spacing);
 		if (ImGui::Button("Clear All"))
 		{
 			//Handle Clear All
 		}
-		ImGui::PopID();
+		//ImGui::PopID();
+
+		//cout << "FigureClicked: " << FigureClicked << endl;
+		// Check if we need to draw a figure
+		if (FigureClicked == 0 or FigureClicked == 9) {
+			// Select which figure to draw
+			ImGui::SetMouseCursor(7); // HAND
+		}
+		else {
+			if (FigureClicked == 7) {
+				ImGui::SetMouseCursor(8); // DIAGONAL CROSS
+			}
+			else
+			{
+				if (FigureClicked == 8 or FigureClicked == 10) {
+					ImGui::SetMouseCursor(2); // RESIZE ALL
+				}
+				else {
+					if (FigureClicked > 0) {
+						// Select which figure to draw
+						ImGui::SetMouseCursor(0); // Arrow
+					}
+					else {
+						// handle Deselect
+						ImGui::SetMouseCursor(0); // Arrow
+					}
+				}
+			}
+		}
 		ImGui::End();
 	}
 
@@ -764,6 +819,18 @@ void TEST() {
 	//TESTBEZIERS();
 }
 
+// Defines Mouse Style
+void MouseStyle(bool state) {
+	ImGuiIO& io = ImGui::GetIO();
+	io.MouseDrawCursor = state;
+
+	const char* mouse_cursors_names[] = { "Arrow", "TextInput", "ResizeAll", "ResizeNS", "ResizeEW", "ResizeNESW", "ResizeNWSE", "Hand", "NotAllowed" };
+	IM_ASSERT(IM_ARRAYSIZE(mouse_cursors_names) == ImGuiMouseCursor_COUNT);
+
+	ImGuiMouseCursor current = ImGui::GetMouseCursor();
+	ImGui::SetMouseCursor(0); //Arrow
+}
+
 int main(int argc, char** argv)
 {
 	// INIT STATUS
@@ -858,6 +925,8 @@ int main(int argc, char** argv)
 	// Enable transparency (e.g. black semi-transparent cover over screen appears with dialogues)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	MouseStyle(true);
 
 	glutMainLoop();
 

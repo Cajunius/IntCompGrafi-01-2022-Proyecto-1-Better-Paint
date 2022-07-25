@@ -31,6 +31,8 @@ shared_ptr<CLine> aux;
 list <shared_ptr<CShape>> shapes;
 shared_ptr<CShape> current_shape;
 
+shared_ptr <Vertex2D> lastClickedVertex;
+
 // Modes
 static int DrawingMode = 0;
 static int FigureClicked = 0;
@@ -43,7 +45,6 @@ const int vertex_per_figure[] = { 1, 2, 2, 3, 2, 3, 20, 1, 0, NULL };
 int clicks_on_buffer;
 shared_ptr<Vertex2D> buffer[20];
 
-static shared_ptr <Vertex2D> lastClickedVertex;
 
 // List helpers
 static int position = 1; // TO DO: Sustitute this fetching the current figureposition...
