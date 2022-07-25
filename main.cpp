@@ -33,7 +33,7 @@
 #include <filename.h>
 #include <FileManager.h>
 
-string current_file_name = "ShapesFile.txt";
+string current_file_name = "./Saved Canvas/ShapesFile.txt";
 int current_file_mode = 0;
 
 using namespace std;
@@ -210,6 +210,9 @@ void my_display_code()
 			if (ImGui::Button("Delete"))
 			{
 				//Handle Delete
+				erasepos(position, shapes);
+				position = -1;//shapes.size();//-1;//
+				current_shape = NULL;//*(shapes.end());//NULL;//
 			}
 			ImGui::PopID();
 
@@ -259,7 +262,10 @@ void my_display_code()
 		if (ImGui::Button("Clear All"))
 		{
 			//Handle Clear All
-			printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
+			//printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
+			position = -1;//shapes.size();//-1;//
+			current_shape = NULL;//*(shapes.end());//NULL;//
+			clearALL(shapes);
 		}
 		//ImGui::PopID();
 
@@ -389,42 +395,51 @@ shared_ptr<CRectangle> new_r;
 shared_ptr<CTriangle> new_t;
 shared_ptr<CBezier> new_b;
 
+void DetermineWasClicked(shared_ptr<Vertex2D>* _v) {
+	int i;
+	bool wasClicked = false;
+	list <shared_ptr<CShape>>::iterator x = shapes.end();
+	i = shapes.size();
+	if (i > 0) x--;
+	for (; i > 0; i--) {
+		if (!wasClicked) {
+			//try
+			//{
+			if ((*x)->onClick(_v[0]->X(), _v[0]->Y()))
+			{
+				current_shape = (*x);
+				position = i;
+				wasClicked = true;
+				//break;
+			}
+		}
+		else {
+			(*x)->isSelected = false;
+		}
+		//catch (const std::exception&){}
+		if (i > 1) x--;
+	}
+	if (!wasClicked) {
+		// If it cames here, then none figure where selected
+		current_shape = NULL;
+		position = -1;
+	}
+}
+
 // [SECTION] Selectors Handlers
 void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shared_ptr<Vertex2D>* _v){
 
+	if (current_shape != NULL) {
+		current_shape->isSelected = false;
+	}
+
 	//if (!isDrawingFigure) {
 		//isDrawingFigure = true;
-		int i;
-		bool wasClicked = false;
-		list <shared_ptr<CShape>>::iterator x = shapes.end();
+		
 		switch (figure)
 		{
 		case 0: // Determine if a shape were clicked
-			i = shapes.size();
-			if (i > 0) x--;
-			for (; i > 0; i--) {
-				if (!wasClicked) {
-					//try
-					//{
-						if ((*x)->onClick(_v[0]->X(), _v[0]->Y())) 
-						{
-							current_shape = (*x);
-							position = i;
-							wasClicked = true;
-							//break;
-						}	
-					}
-				else {
-					(*x)->isSelected = false;
-				}
-					//catch (const std::exception&){}
-				if (i > 1) x--;
-			}
-			if (!wasClicked) {
-				// If it cames here, then none figure where selected
-				current_shape = NULL;
-				position = -1;
-			}
+			DetermineWasClicked(_v);
 			break;
 		case 1: // Line
 			new_line = make_shared <CLine>(new_border_color);
@@ -486,11 +501,21 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			position = shapes.size();
 
 			break;
-
+		case 7: // Delete
+			DetermineWasClicked(_v);
+			if (current_shape != NULL) {
+				erasepos(position, shapes);
+				position = -1;//shapes.size();//-1;//
+				current_shape = NULL;//*(shapes.end());//NULL;//
+			}
+			break;
 		default:
 			break;
 		}
 	//}
+		if (current_shape != NULL) {
+			current_shape->isSelected = true;
+		}
 }
 
 // [SECTION] Input Event Handlers
@@ -765,24 +790,37 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 																				if (current_shape != NULL) {
 																					current_shape->isSelected = false;
 																					// Handle delete
+																					erasepos(position, shapes);
+																					position = -1;//shapes.size();//-1;//
+																					current_shape = NULL;//*(shapes.end());//NULL;//
 																				}
-																				current_shape = NULL;
-																				position = -1;
+																				//current_shape = NULL;
+																				//position = -1;
 																			}
 																			else {
 																				if (key == (unsigned char)'S') {
 																					cout << "Save CANVAS" << endl;
 																					// Handle Save
+																					FileManager* fm = new FileManager();
+																					//fm->save(true);
+																					fm->save(false);
+																					fm->~FileManager();
 																				}
 																				else {
 																					if (key == (unsigned char)'L') {
 																						cout << "Load CANVAS" << endl;
 																						// Handle Load
+																						FileManager* fm = new FileManager();
+																						fm->open();
+																						fm->~FileManager();
 																					}
 																					else {
 																						if (key == (unsigned char)'x') {
 																							cout << "Clear ALL" << endl;
 																							// Handle Clear ALL
+																							position = -1;//shapes.size();//-1;//
+																							current_shape = NULL;//*(shapes.end());//NULL;//
+																							clearALL(shapes);
 																						}
 																						else {
 																							if (key == (unsigned char)'T') {

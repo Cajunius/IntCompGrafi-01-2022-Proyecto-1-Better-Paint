@@ -31,6 +31,9 @@
     <Filter Include="Header Files\TinyFileDialog">
       <UniqueIdentifier>{b28d99a7-5f0c-4e35-9c39-67df26893934}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Saved Canvas">
+      <UniqueIdentifier>{a4dee6e2-b601-4791-8f21-dbf3a11d94e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

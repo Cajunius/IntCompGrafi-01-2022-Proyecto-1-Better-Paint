@@ -1,7 +1,7 @@
 25/07/2022 - 2:18 AM
 	
-	Implementar Borrar Figuras
-	Implementar Borrar Todas
+	Implementar Borrar Figuras - DONE
+	Implementar Borrar Todas - DONE
 
 	Detectar y manejar eventos del mouse y del teclado para:
 		mover figuras 

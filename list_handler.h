@@ -79,3 +79,22 @@ void toBack(int& pos, list <shared_ptr<CShape>>& l) {
 		decposition(pos, l);
 	}
 }
+
+void erasepos(int& pos, list <shared_ptr<CShape>>& l) {
+	list <shared_ptr<CShape>>::iterator it1;
+	it1 = l.begin();
+	//if (pos - 1 >= 0) {
+		advance(it1, pos - 1);
+		//(*it1)->~CShape();
+		l.erase(it1);
+	//}
+}
+
+void clearALL(list <shared_ptr<CShape>>& l) {
+	/*int pos = l.size();
+	while (l.size() > 0) {
+		pos = l.size();
+		erasepos(pos, l);
+	}*/
+	l.clear();
+}
