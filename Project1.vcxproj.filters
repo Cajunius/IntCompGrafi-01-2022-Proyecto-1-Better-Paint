@@ -158,4 +158,9 @@
       <Filter>Documentation Files</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>Documentation Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
