@@ -54,6 +54,7 @@ public:
 	}
 
 	shared_ptr<Vertex2D> LastVertex() {
+		selected_vertex = 1;
 		return radius;
 	}
 
@@ -323,6 +324,7 @@ public:
 		{
 			cout << "VERTEX CENTER SELECTED" << endl;
 			aux = center;
+			selected_vertex = 0;
 		}
 		else {
 			d = distancei(radius->X(), radius->Y(), _x, _y);
@@ -330,6 +332,7 @@ public:
 			{
 				cout << "VERTEX RADIUS SELECTED" << endl;
 				aux = radius;
+				selected_vertex = 1;
 			}
 		}
 

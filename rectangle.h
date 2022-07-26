@@ -57,6 +57,7 @@ public:
 	}
 
 	shared_ptr<Vertex2D> LastVertex() {
+		selected_vertex = 3;
 		return v3;
 	}
 
@@ -335,6 +336,7 @@ public:
 		{
 			cout << "VERTEX 1 SELECTED" << endl;
 			aux = v0;
+			selected_vertex = 0;
 		}
 		else {
 			d = distancei(v1->X(), v1->Y(), _x, _y);
@@ -342,6 +344,7 @@ public:
 			{
 				cout << "VERTEX 2 SELECTED" << endl;
 				aux = v1;
+				selected_vertex = 1;
 			}
 			else {
 				d = distancei(v2->X(), v2->Y(), _x, _y);
@@ -349,6 +352,7 @@ public:
 				{
 					cout << "VERTEX 3 SELECTED" << endl;
 					aux = v2;
+					selected_vertex = 2;
 				}
 				else {
 					d = distancei(v3->X(), v3->Y(), _x, _y);
@@ -356,6 +360,7 @@ public:
 					{
 						cout << "VERTEX 4 SELECTED" << endl;
 						aux = v3;
+						selected_vertex = 3;
 					}
 				}
 			}
@@ -369,5 +374,33 @@ public:
 		cout << "RECTANGLE VERTEX MOVED" << endl;
 		aux->Xs(aux->X() + _x);
 		aux->Ys(aux->Y() + _y);
+		// Ordering Vertex taking into account the figure:
+		/*
+			v1 -> v2
+			|	  |
+			v0 <- v3
+		*/
+		if (selected_vertex == 0) {
+			v1->XY(v0->X(), v2->Y());
+			v3->XY(v2->X(), v0->Y());
+		}
+		else {
+			if (selected_vertex == 1) {
+				v0->XY(v1->X(), v3->Y());
+				v2->XY(v3->X(), v1->Y());
+			}
+			else {
+				if (selected_vertex == 2) {
+					v1->XY(v0->X(), v2->Y());
+					v3->XY(v2->X(), v0->Y());
+				}
+				else {
+					if (selected_vertex == 3) {
+						v0->XY(v1->X(), v3->Y());
+						v2->XY(v3->X(), v1->Y());
+					}
+				}
+			}
+		}
 	}
 };

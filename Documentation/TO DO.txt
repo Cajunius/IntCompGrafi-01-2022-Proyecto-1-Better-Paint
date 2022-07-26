@@ -6,7 +6,7 @@
 	Detectar y manejar eventos del mouse y del teclado para:
 		mover figuras - DONE
 		seleccionar y modificar vertices - DONE
-			Solve Bug for Reducing Rectangle Size - WIP
+			Solve Bug for Reducing Rectangle Size - FIXED
 
 	Implementar carga y guarda de archivo
 

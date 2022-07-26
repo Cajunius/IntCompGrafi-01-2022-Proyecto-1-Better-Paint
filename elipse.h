@@ -61,6 +61,7 @@ public:
 	}
 
 	shared_ptr<Vertex2D> LastVertex() {
+		selected_vertex = 2;
 		return radiusY;
 	}
 
@@ -365,6 +366,7 @@ public:
 		{
 			cout << "VERTEX CENTER SELECTED" << endl;
 			aux = center;
+			selected_vertex = 0;
 		}
 		else {
 			d = distancei(radiusX->X(), radiusX->Y(), _x, _y);
@@ -372,6 +374,7 @@ public:
 			{
 				cout << "VERTEX RADIUSX SELECTED" << endl;
 				aux = radiusX;
+				selected_vertex = 1;
 			}
 			else {
 				d = distancei(radiusY->X(), radiusY->Y(), _x, _y);
@@ -379,6 +382,7 @@ public:
 				{
 					cout << "VERTEX RADIUSY SELECTED" << endl;
 					aux = radiusY;
+					selected_vertex = 2;
 				}
 			}
 		}

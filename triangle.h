@@ -121,6 +121,7 @@ public:
 	}
 
 	shared_ptr<Vertex2D> LastVertex() {
+		selected_vertex = 2;
 		return v2;
 	}
 
@@ -369,6 +370,7 @@ public:
 		{
 			cout << "VERTEX 1 SELECTED" << endl;
 			aux = v0;
+			selected_vertex = 0;
 		}
 		else {
 			d = distancei(v1->X(), v1->Y(), _x, _y);
@@ -376,6 +378,7 @@ public:
 			{
 				cout << "VERTEX 2 SELECTED" << endl;
 				aux = v1;
+				selected_vertex = 1;
 			}
 			else {
 				d = distancei(v2->X(), v2->Y(), _x, _y);
@@ -383,6 +386,7 @@ public:
 				{
 					cout << "VERTEX 3 SELECTED" << endl;
 					aux = v2;
+					selected_vertex = 2;
 				}
 			}
 		}
