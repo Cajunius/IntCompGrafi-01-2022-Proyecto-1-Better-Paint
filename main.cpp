@@ -452,6 +452,9 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			current_shape = new_line;
 			position = shapes.size();
 
+
+			lastClickedVertex = current_shape->LastVertex();
+
 			break;
 
 		case 2: // Circle
@@ -461,6 +464,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			current_shape = new_c;
 			position = shapes.size();
 
+			lastClickedVertex = current_shape->LastVertex();
+
 			break;
 
 		case 3: // Elipse
@@ -469,6 +474,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			shapes.push_back(new_e);
 			current_shape = new_e;
 			position = shapes.size();
+
+			lastClickedVertex = current_shape->LastVertex();
 
 			break;
 
@@ -480,6 +487,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			current_shape = new_r;
 			position = shapes.size();
 
+			lastClickedVertex = current_shape->LastVertex();
+
 			break;
 
 		case 5: // Triangle
@@ -488,6 +497,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			shapes.push_back(new_t);
 			current_shape = new_t;
 			position = shapes.size();
+
+			lastClickedVertex = current_shape->LastVertex();
 
 			break;
 
@@ -500,6 +511,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			current_shape = new_b;
 			position = shapes.size();
 
+			lastClickedVertex = current_shape->LastVertex();
+
 			break;
 		case 7: // Delete
 			DetermineWasClicked(_v);
@@ -507,6 +520,41 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 				erasepos(position, shapes);
 				position = -1;//shapes.size();//-1;//
 				current_shape = NULL;//*(shapes.end());//NULL;//
+			}
+
+			lastClickedVertex = NULL;
+
+			break;
+		case 8: // Move Shape
+			//DetermineWasClicked(_v);
+			if (current_shape != NULL) {
+				current_shape->onMove(_v[1]->X() - _v[0]->X(), _v[1]->Y() - _v[0]->Y());
+				//erasepos(position, shapes);
+				//position = -1;//shapes.size();//-1;//
+				//current_shape = NULL;//*(shapes.end());//NULL;//
+				lastClickedVertex = current_shape->LastVertex();
+			}
+			break;
+		case 9: // Select Vertex
+			//DetermineWasClicked(_v);
+			if (current_shape != NULL) {
+				lastClickedVertex = current_shape->selectedVertex(_v[0]->X(), _v[0]->Y());
+				//erasepos(position, shapes);
+				//position = -1;//shapes.size();//-1;//
+				//current_shape = NULL;//*(shapes.end());//NULL;//
+			}
+			break;
+		case 10: // Move Selected Vertex
+			// DetermineWasClicked(_v);
+			if (current_shape != NULL) {
+				if (lastClickedVertex != NULL) {
+					if (lastClickedVertex != NULL) {
+						current_shape->MoveVertex(lastClickedVertex, _v[1]->X() - _v[0]->X(), _v[1]->Y() - _v[0]->Y());
+						//erasepos(position, shapes);
+						//position = -1;//shapes.size();//-1;//
+						//current_shape = NULL;//*(shapes.end());//NULL;//
+					}
+				}
 			}
 			break;
 		default:
@@ -717,118 +765,128 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 											}
 										}
 										else {
-											if (key == (unsigned char)'c') {
-												cout << "Change border color" << endl;
-												/*if (current_shape != NULL) { //BUGGED
-																										ImGui::Begin("Change border color!");
-													ImGui::Checkbox("Border:  ", &current_shape->drawBorder);
-													ImGui::SameLine();
-													ImGui::ColorEdit4("Border color:  ", (float*)&current_shape->border_color);
-													ImGui::End();
-												}*/
+											if (key == (unsigned char)'*') {
+												if (current_shape != NULL) {
+													if (lastClickedVertex != NULL) {
+														FigureClicked = 10;
+														cout << "Change to Move Selected Vertex Tool" << endl;
+													}
+												}
 											}
 											else {
-												if (key == (unsigned char)'f') { 
-													cout << "Change fill color" << endl;
-													/*if (current_shape != NULL) {  //BUGGED
-														ImGui::Begin("Change fill color!");
-														ImGui::Checkbox("Fill:  ", &current_shape->drawFill);
+												if (key == (unsigned char)'c') {
+													cout << "Change border color" << endl;
+													/*if (current_shape != NULL) { //BUGGED
+																											ImGui::Begin("Change border color!");
+														ImGui::Checkbox("Border:  ", &current_shape->drawBorder);
 														ImGui::SameLine();
-														ImGui::ColorEdit4("Fill color:  ", (float*)&current_shape->fill_color);
+														ImGui::ColorEdit4("Border color:  ", (float*)&current_shape->border_color);
 														ImGui::End();
 													}*/
 												}
 												else {
-													if (key == (unsigned char)'h') {
-														cout << "Change display mode" << endl;
-														if (DrawingMode == 0)
-															DrawingMode = 1;
-														else
-															DrawingMode = 0;
-														//DrawingMode = ~DrawingMode;
+													if (key == (unsigned char)'f') {
+														cout << "Change fill color" << endl;
+														/*if (current_shape != NULL) {  //BUGGED
+															ImGui::Begin("Change fill color!");
+															ImGui::Checkbox("Fill:  ", &current_shape->drawFill);
+															ImGui::SameLine();
+															ImGui::ColorEdit4("Fill color:  ", (float*)&current_shape->fill_color);
+															ImGui::End();
+														}*/
 													}
 													else {
-														if (key == (unsigned char)'F') {
-															cout << "Figure to Front" << endl;
-															if (current_shape != NULL) {
-																toFront(position, shapes);
-															}
+														if (key == (unsigned char)'h') {
+															cout << "Change display mode" << endl;
+															if (DrawingMode == 0)
+																DrawingMode = 1;
+															else
+																DrawingMode = 0;
+															//DrawingMode = ~DrawingMode;
 														}
 														else {
-															if (key == (unsigned char)'B') {
-																cout << "Figure to Back" << endl;
+															if (key == (unsigned char)'F') {
+																cout << "Figure to Front" << endl;
 																if (current_shape != NULL) {
-																	toBack(position, shapes);
+																	toFront(position, shapes);
 																}
 															}
 															else {
-																if (key == (unsigned char)'+') {
-																	cout << "Figure Front + 1" << endl;
+																if (key == (unsigned char)'B') {
+																	cout << "Figure to Back" << endl;
 																	if (current_shape != NULL) {
-																		incposition(position, shapes);
+																		toBack(position, shapes);
 																	}
 																}
 																else {
-																	if (key == (unsigned char)'-') {
-																		cout << "Figure Back - 1" << endl;
+																	if (key == (unsigned char)'+') {
+																		cout << "Figure Front + 1" << endl;
 																		if (current_shape != NULL) {
-																			decposition(position, shapes);
+																			incposition(position, shapes);
 																		}
 																	}
 																	else {
-																		if (key == (unsigned char)'u') {
-																			cout << "Unselect Figure" << endl;
+																		if (key == (unsigned char)'-') {
+																			cout << "Figure Back - 1" << endl;
 																			if (current_shape != NULL) {
-																				current_shape->isSelected = false;
+																				decposition(position, shapes);
 																			}
-																			current_shape = NULL;
-																			position = -1;
 																		}
 																		else {
-																			if (key == (unsigned char)'d') {
-																				cout << "Delete Figure" << endl;
+																			if (key == (unsigned char)'u') {
+																				cout << "Unselect Figure" << endl;
 																				if (current_shape != NULL) {
 																					current_shape->isSelected = false;
-																					// Handle delete
-																					erasepos(position, shapes);
-																					position = -1;//shapes.size();//-1;//
-																					current_shape = NULL;//*(shapes.end());//NULL;//
 																				}
-																				//current_shape = NULL;
-																				//position = -1;
+																				current_shape = NULL;
+																				position = -1;
 																			}
 																			else {
-																				if (key == (unsigned char)'S') {
-																					cout << "Save CANVAS" << endl;
-																					// Handle Save
-																					FileManager* fm = new FileManager();
-																					//fm->save(true);
-																					fm->save(false);
-																					fm->~FileManager();
+																				if (key == (unsigned char)'d') {
+																					cout << "Delete Figure" << endl;
+																					if (current_shape != NULL) {
+																						current_shape->isSelected = false;
+																						// Handle delete
+																						erasepos(position, shapes);
+																						position = -1;//shapes.size();//-1;//
+																						current_shape = NULL;//*(shapes.end());//NULL;//
+																					}
+																					//current_shape = NULL;
+																					//position = -1;
 																				}
 																				else {
-																					if (key == (unsigned char)'L') {
-																						cout << "Load CANVAS" << endl;
-																						// Handle Load
+																					if (key == (unsigned char)'S') {
+																						cout << "Save CANVAS" << endl;
+																						// Handle Save
 																						FileManager* fm = new FileManager();
-																						fm->open();
+																						//fm->save(true);
+																						fm->save(false);
 																						fm->~FileManager();
 																					}
 																					else {
-																						if (key == (unsigned char)'x') {
-																							cout << "Clear ALL" << endl;
-																							// Handle Clear ALL
-																							position = -1;//shapes.size();//-1;//
-																							current_shape = NULL;//*(shapes.end());//NULL;//
-																							clearALL(shapes);
+																						if (key == (unsigned char)'L') {
+																							cout << "Load CANVAS" << endl;
+																							// Handle Load
+																							FileManager* fm = new FileManager();
+																							fm->open();
+																							fm->~FileManager();
 																						}
 																						else {
-																							if (key == (unsigned char)'T') {
-																								//TEST
-																								printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
+																							if (key == (unsigned char)'x') {
+																								cout << "Clear ALL" << endl;
+																								// Handle Clear ALL
+																								position = -1;//shapes.size();//-1;//
+																								current_shape = NULL;//*(shapes.end());//NULL;//
+																								clearALL(shapes);
 																							}
 																							else {
-																								cout << "\"" << key << "\" is not a valid shortcut" << endl;
+																								if (key == (unsigned char)'T') {
+																									//TEST
+																									printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
+																								}
+																								else {
+																									cout << "\"" << key << "\" is not a valid shortcut" << endl;
+																								}
 																							}
 																						}
 																					}

@@ -40,6 +40,10 @@ public:
 		cout << "Se destruyo una linea" << endl;
 	}
 
+	shared_ptr<Vertex2D> LastVertex() {
+		return v1;
+	}
+
 	void set(int x0, int y0, int x1, int y1)
 	{
 
@@ -236,8 +240,40 @@ public:
 		return isClicked;
 	}
 
-	void onMove(int x, int y)
+	void onMove(int _x, int _y)
 	{
+		cout << "LINE MOVED" << endl;
+		v0->Xs(v0->X() + _x);
+		v0->Ys(v0->Y() + _y);
+		v1->Xs(v1->X() + _x);
+		v1->Ys(v1->Y() + _y);
 	}
 
+	shared_ptr<Vertex2D> selectedVertex(int _x, int _y) {
+		shared_ptr<Vertex2D> aux = NULL;
+		
+		int d = distancei(v0->X(), v0->Y(), _x, _y);
+		if (d <= click_dist_tolerance)
+		{
+			cout << "VERTEX 1 SELECTED" << endl;
+			aux = v0;
+		}
+		else {
+			d = distancei(v1->X(), v1->Y(), _x, _y);
+			if (d <= click_dist_tolerance)
+			{
+				cout << "VERTEX 2 SELECTED" << endl;
+				aux = v1;
+			}
+		}
+		
+		return aux;
+	}
+
+	void MoveVertex(shared_ptr<Vertex2D> aux, int _x, int _y)
+	{
+		cout << "LINE VERTEX MOVED" << endl;
+		aux->Xs(aux->X() + _x);
+		aux->Ys(aux->Y() + _y);
+	}
 };

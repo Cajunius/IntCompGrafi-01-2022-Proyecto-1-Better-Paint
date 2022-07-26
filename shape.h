@@ -189,7 +189,11 @@ public:
 	// podríamos responder a los eventos del mouse
 	// . todos responden al click, pero solo uno puede
 	// . retornar "yo fui seleccionado"
+	virtual shared_ptr<Vertex2D> selectedVertex(int _x, int _y) = 0;
 
+	virtual void MoveVertex(shared_ptr<Vertex2D> aux, int _x, int _y) = 0;
+
+	virtual shared_ptr<Vertex2D> LastVertex() = 0;
 
 	// using putPixel
 	void plotPixel(int x1, int y1, int x2, int y2, int dx, int dy, int decide, int Width)

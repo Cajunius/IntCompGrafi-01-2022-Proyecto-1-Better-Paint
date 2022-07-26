@@ -60,6 +60,10 @@ public:
 		cout << "Se destruyo una curva de bezier" << endl;
 	}
 
+	shared_ptr<Vertex2D> LastVertex() {
+		return v[grade];
+	}
+
 	void setgrade(int n) {
 		grade = n;
 	}
@@ -401,8 +405,32 @@ public:
 		return isClicked;
 	}
 
-	void onMove(int x, int y)
+	void onMove(int _x, int _y)
 	{
+		cout << "BEZIER CURVE MOVED" << endl;
+		for (int i = 0; i <= grade; i++) {
+			v[i]->Xs(v[i]->X() + _x);
+			v[i]->Ys(v[i]->Y() + _y);
+		}
 	}
 
+	shared_ptr<Vertex2D> selectedVertex(int _x, int _y){
+		shared_ptr<Vertex2D> aux = NULL;
+		for (int i = 0; i <= grade; i++) {
+			int d = distancei(v[i]->X(), v[i]->Y(), _x, _y);
+			if (d <= click_dist_tolerance)
+			{
+				cout << "VERTEX " << i+1 << " SELECTED" << endl;
+				aux = v[i];
+			}
+		}
+		return aux;
+	}
+
+	void MoveVertex(shared_ptr<Vertex2D> aux, int _x, int _y)
+	{
+		cout << "BEZIER CURVE VERTEX MOVED" << endl;
+		aux->Xs(aux->X() + _x);
+		aux->Ys(aux->Y() + _y);
+	}
 };

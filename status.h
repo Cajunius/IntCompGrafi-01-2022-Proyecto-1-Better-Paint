@@ -31,7 +31,7 @@ shared_ptr<CLine> aux;
 list <shared_ptr<CShape>> shapes;
 shared_ptr<CShape> current_shape;
 
-shared_ptr <Vertex2D> lastClickedVertex;
+shared_ptr <Vertex2D> lastClickedVertex = NULL;
 
 // Modes
 static int DrawingMode = 0;
@@ -39,7 +39,8 @@ static int FigureClicked = 0;
 static bool isDrawingFigure = false;
 static bool isLastVertex = false;
 
-const int vertex_per_figure[] = { 1, 2, 2, 3, 2, 3, 20, 1, 0, NULL };
+//const char* figures[] = { "Select", "Line", "Circle", "Elipse", "Rectangle", "Triangle", "Bezier", "DELETE", "MOVE", "SELECT VERTEX", "MOVE VERTEX", NULL};
+const int vertex_per_figure[] = { 1, 2, 2, 3, 2, 3, 20, 1, 2, 1, 2, NULL };
 
 // Events
 int clicks_on_buffer;

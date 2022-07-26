@@ -4,14 +4,15 @@
 	Implementar Borrar Todas - DONE
 
 	Detectar y manejar eventos del mouse y del teclado para:
-		mover figuras 
-		seleccionar y modificar vertices
+		mover figuras - DONE
+		seleccionar y modificar vertices - DONE
+			Solve Bug for Reducing Rectangle Size - WIP
 
 	Implementar carga y guarda de archivo
 
-	Debugear relleno de triangulos por software
+	Debugear relleno de triangulos por software  - WIP
 
-	Encontrar un delta_t optimo para la curva de Bezier
+	Encontrar un delta_t optimo para la curva de Bezier  - WIP
 
-	Improve Commentaries and Clean Code.
+	Improve Commentaries and Clean Code.  - WIP
 

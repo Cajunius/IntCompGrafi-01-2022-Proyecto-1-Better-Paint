@@ -56,6 +56,10 @@ public:
 		cout << "Se destruyo un rectangulo" << endl;
 	}
 
+	shared_ptr<Vertex2D> LastVertex() {
+		return v3;
+	}
+
 	void set(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3)
 	{
 
@@ -255,6 +259,27 @@ public:
 		if (vertex == MAX_VERTEXS) { //Es dibujable
 			// cout << DrawingMode << endl;
 
+			int minX = min(v0->X(), v1->X());
+			minX = min(minX, v2->X());
+			minX = min(minX, v3->X());
+
+			int maxX = max(v0->X(), v1->X());
+			maxX = max(maxX, v2->X());
+			maxX = max(maxX, v3->X());
+
+			int minY = min(v0->Y(), v1->Y());
+			minY = min(minY, v2->Y());
+			minY = min(minY, v3->Y());
+
+			int maxY = max(v0->Y(), v1->Y());
+			maxY = max(maxY, v2->Y());
+			maxY = max(maxY, v3->Y());
+
+			v0->XY(minX, minY);
+			v1->XY(minX, maxY);
+			v2->XY(maxX, maxY);
+			v3->XY(maxX, minY);
+
 			if (drawFill) {
 				drawfill(drawingMode);
 			}
@@ -288,8 +313,61 @@ public:
 		return isClicked;
 	}
 
-	void onMove(int x, int y)
+	void onMove(int _x, int _y)
 	{
+		cout << "RECTANGLE MOVED" << endl;
+		v0->Xs(v0->X() + _x);
+		v0->Ys(v0->Y() + _y);
+		v1->Xs(v1->X() + _x);
+		v1->Ys(v1->Y() + _y);
+		v2->Xs(v2->X() + _x);
+		v2->Ys(v2->Y() + _y);
+		v3->Xs(v3->X() + _x);
+		v3->Ys(v3->Y() + _y);
 	}
 
+
+	shared_ptr<Vertex2D> selectedVertex(int _x, int _y) {
+		shared_ptr<Vertex2D> aux = NULL;
+
+		int d = distancei(v0->X(), v0->Y(), _x, _y);
+		if (d <= click_dist_tolerance)
+		{
+			cout << "VERTEX 1 SELECTED" << endl;
+			aux = v0;
+		}
+		else {
+			d = distancei(v1->X(), v1->Y(), _x, _y);
+			if (d <= click_dist_tolerance)
+			{
+				cout << "VERTEX 2 SELECTED" << endl;
+				aux = v1;
+			}
+			else {
+				d = distancei(v2->X(), v2->Y(), _x, _y);
+				if (d <= click_dist_tolerance)
+				{
+					cout << "VERTEX 3 SELECTED" << endl;
+					aux = v2;
+				}
+				else {
+					d = distancei(v3->X(), v3->Y(), _x, _y);
+					if (d <= click_dist_tolerance)
+					{
+						cout << "VERTEX 4 SELECTED" << endl;
+						aux = v3;
+					}
+				}
+			}
+		}
+
+		return aux;
+	}
+
+	void MoveVertex(shared_ptr<Vertex2D> aux, int _x, int _y)
+	{
+		cout << "RECTANGLE VERTEX MOVED" << endl;
+		aux->Xs(aux->X() + _x);
+		aux->Ys(aux->Y() + _y);
+	}
 };

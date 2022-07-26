@@ -60,6 +60,10 @@ public:
 		cout << "Se destruyo una elipse" << endl;
 	}
 
+	shared_ptr<Vertex2D> LastVertex() {
+		return radiusY;
+	}
+
 	void set(int x0, int y0, int x1, int y1, int x2, int y2)
 	{
 		center->XY(x0, y0);
@@ -297,6 +301,8 @@ public:
 		//cout << "vertex: " << vertex << ", MAX_VERTEXS: " << MAX_VERTEXS << endl;
 		if (vertex == MAX_VERTEXS) { //Es dibujable
 			// cout << DrawingMode << endl;
+			rx = abs(center->X() - radiusX->X());
+			ry = abs(center->Y() - radiusY->Y());
 
 			if (drawFill) {
 				drawfill(drawingMode);
@@ -340,8 +346,51 @@ public:
 		return isClicked;
 	}
 
-	void onMove(int x, int y)
+	void onMove(int _x, int _y)
 	{
+		cout << "ELIPSE MOVED" << endl;
+		center->Xs(center->X() + _x);
+		center->Ys(center->Y() + _y);
+		radiusX->Xs(radiusX->X() + _x);
+		radiusX->Ys(radiusX->Y() + _y);
+		radiusY->Xs(radiusY->X() + _x);
+		radiusY->Ys(radiusY->Y() + _y);
+	}
+
+	shared_ptr<Vertex2D> selectedVertex(int _x, int _y) {
+		shared_ptr<Vertex2D> aux = NULL;
+
+		int d = distancei(center->X(), center->Y(), _x, _y);
+		if (d <= click_dist_tolerance)
+		{
+			cout << "VERTEX CENTER SELECTED" << endl;
+			aux = center;
+		}
+		else {
+			d = distancei(radiusX->X(), radiusX->Y(), _x, _y);
+			if (d <= click_dist_tolerance)
+			{
+				cout << "VERTEX RADIUSX SELECTED" << endl;
+				aux = radiusX;
+			}
+			else {
+				d = distancei(radiusY->X(), radiusY->Y(), _x, _y);
+				if (d <= click_dist_tolerance)
+				{
+					cout << "VERTEX RADIUSY SELECTED" << endl;
+					aux = radiusY;
+				}
+			}
+		}
+
+		return aux;
+	}
+
+	void MoveVertex(shared_ptr<Vertex2D> aux, int _x, int _y)
+	{
+		cout << "ELIPSE VERTEX MOVED" << endl;
+		aux->Xs(aux->X() + _x);
+		aux->Ys(aux->Y() + _y);
 	}
 
 };

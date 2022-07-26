@@ -53,6 +53,10 @@ public:
 		cout << "Se destruyo un circulo" << endl;
 	}
 
+	shared_ptr<Vertex2D> LastVertex() {
+		return radius;
+	}
+
 	void set(int x0, int y0, int x1, int y1)
 	{
 		center->XY(x0, y0);
@@ -262,6 +266,7 @@ public:
 		//cout << "vertex: " << vertex << ", MAX_VERTEXS: " << MAX_VERTEXS << endl;
 		if (vertex == MAX_VERTEXS) { //Es dibujable
 			// cout << DrawingMode << endl;
+			r = distancei(center->X(), center->Y(), radius->X(), radius->Y());
 
 			if (drawFill) {
 				drawfill(drawingMode);
@@ -301,8 +306,40 @@ public:
 		return isClicked;
 	}
 
-	void onMove(int x, int y)
+	void onMove(int _x, int _y)
 	{
+		cout << "CIRCLE MOVED" << endl;
+		center->Xs(center->X() + _x);
+		center->Ys(center->Y() + _y);
+		radius->Xs(radius->X() + _x);
+		radius->Ys(radius->Y() + _y);
 	}
 
+	shared_ptr<Vertex2D> selectedVertex(int _x, int _y) {
+		shared_ptr<Vertex2D> aux = NULL;
+
+		int d = distancei(center->X(), center->Y(), _x, _y);
+		if (d <= click_dist_tolerance)
+		{
+			cout << "VERTEX CENTER SELECTED" << endl;
+			aux = center;
+		}
+		else {
+			d = distancei(radius->X(), radius->Y(), _x, _y);
+			if (d <= click_dist_tolerance)
+			{
+				cout << "VERTEX RADIUS SELECTED" << endl;
+				aux = radius;
+			}
+		}
+
+		return aux;
+	}
+
+	void MoveVertex(shared_ptr<Vertex2D> aux, int _x, int _y)
+	{
+		cout << "CIRCLE VERTEX MOVED" << endl;
+		aux->Xs(aux->X() + _x);
+		aux->Ys(aux->Y() + _y);
+	}
 };
