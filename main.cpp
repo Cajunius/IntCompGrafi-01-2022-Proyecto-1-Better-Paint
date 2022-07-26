@@ -39,7 +39,7 @@ int current_file_mode = 0;
 
 using namespace std;
 void MouseStyle(bool state);
-void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shared_ptr<Vertex2D>* _v);
+void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, shared_ptr<Vertex2D>* _v);
 //string current_file_name = "ShapesFile.txt";
 // int width = 1280, height = 720;
 
@@ -85,6 +85,9 @@ void arrange(string str, list<string> &result)
 			w = "";
 		}
 		else {
+			if (x == '\n' or x == ' ') {
+				continue;
+			}
 			w = w + x;
 		}
 	}
@@ -109,56 +112,21 @@ void LoadFile() {
 		cout << myText << endl;
 		try
 		{
+			//ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 0.5f);
+			//ImVec4 new_border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
+			arrange(myText, command);
+			if (command.size() > 1) {
+				auto it = command.begin();
+				if (it->compare("LINE") == 0) {
 
-		
-		arrange(myText, command);
-		if (command.size() > 1) {
-			auto it = command.begin();
-			if (it->compare("LINE") == 0) {
+					if (command.size() != 8) {
+						cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 8 but " << command.size() << " were given." << endl;
+						continue;
+					}
 
-				FigureClicked = 1;
-				isborder = true;
-				isfill = true;
-				isvertex = true;
-
-				it++;
-				int temp = stoi(*it);
-				buffer[0]->Xs(temp);
-
-				it++;
-				temp = stoi(*it);
-				buffer[0]->Ys(temp);
-
-				it++;
-				temp = stoi(*it);
-				buffer[1]->Xs(temp);
-
-				it++;
-				temp = stoi(*it);
-				buffer[1]->Ys(temp);
-
-				clicks_on_buffer = 2;
-
-				it++;
-				float temp2 = stof(*it);
-				new_border_color.x = temp2;
-
-				it++;
-				temp2 = stof(*it);
-				new_border_color.y = temp2;
-
-				it++;
-				temp2 = stof(*it);
-				new_border_color.z = temp2;
-
-				DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
-				clicks_on_buffer = 0;
-			}
-			else {
-				if (it->compare("CIRCLE") == 0) {
-					FigureClicked = 2;
+					FigureClicked = 1;
 					isborder = true;
-					isfill = false;
+					isfill = true;
 					isvertex = true;
 
 					it++;
@@ -191,16 +159,21 @@ void LoadFile() {
 					temp2 = stof(*it);
 					new_border_color.z = temp2;
 
-					DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+					DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 					clicks_on_buffer = 0;
 				}
 				else {
-					if (it->compare("FILLED_CIRCLE") == 0) {
+					if (it->compare("CIRCLE") == 0) {
+
+						if (command.size() != 8) {
+							cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 8 but " << command.size() << " were given." << endl;
+							continue;
+						}
+
 						FigureClicked = 2;
 						isborder = true;
-						isfill = true;
+						isfill = false;
 						isvertex = true;
-
 
 						it++;
 						int temp = stoi(*it);
@@ -232,27 +205,22 @@ void LoadFile() {
 						temp2 = stof(*it);
 						new_border_color.z = temp2;
 
-						it++;
-						temp2 = stof(*it);
-						new_fill_color.x = temp2;
-
-						it++;
-						temp2 = stof(*it);
-						new_fill_color.y = temp2;
-
-						it++;
-						temp2 = stof(*it);
-						new_fill_color.z = temp2;
-
-						DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+						DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
 						clicks_on_buffer = 0;
 					}
 					else {
-						if (it->compare("ELLIPSE") == 0) {
-							FigureClicked = 3;
+						if (it->compare("FILLED_CIRCLE") == 0) {
+
+							if (command.size() != 11) {
+								cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 11 but " << command.size() << " were given." << endl;
+								continue;
+							}
+
+							FigureClicked = 2;
 							isborder = true;
-							isfill = false;
+							isfill = true;
 							isvertex = true;
+
 
 							it++;
 							int temp = stoi(*it);
@@ -263,14 +231,14 @@ void LoadFile() {
 							buffer[0]->Ys(temp);
 
 							it++;
-							int rx = stoi(*it);
+							temp = stoi(*it);
+							buffer[1]->Xs(temp);
+
 							it++;
-							int ry = stoi(*it);
+							temp = stoi(*it);
+							buffer[1]->Ys(temp);
 
-							buffer[1]->XY(buffer[0]->X()+rx, buffer[0]->Y());
-							buffer[2]->XY(buffer[0]->X(), buffer[0]->Y()+ry);
-
-							clicks_on_buffer = 3;
+							clicks_on_buffer = 2;
 
 							it++;
 							float temp2 = stof(*it);
@@ -284,14 +252,32 @@ void LoadFile() {
 							temp2 = stof(*it);
 							new_border_color.z = temp2;
 
-							DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+							it++;
+							temp2 = stof(*it);
+							new_fill_color.x = temp2;
+
+							it++;
+							temp2 = stof(*it);
+							new_fill_color.y = temp2;
+
+							it++;
+							temp2 = stof(*it);
+							new_fill_color.z = temp2;
+
+							DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 							clicks_on_buffer = 0;
 						}
 						else {
-							if (it->compare("FILLED_ELLIPSE") == 0) {
+							if (it->compare("ELLIPSE") == 0) {
+
+								if (command.size() != 8) {
+									cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 8 but " << command.size() << " were given." << endl;
+									continue;
+								}
+
 								FigureClicked = 3;
 								isborder = true;
-								isfill = true;
+								isfill = false;
 								isvertex = true;
 
 								it++;
@@ -307,8 +293,8 @@ void LoadFile() {
 								it++;
 								int ry = stoi(*it);
 
-								buffer[1]->XY(buffer[0]->X() + rx, buffer[0]->Y());
-								buffer[2]->XY(buffer[0]->X(), buffer[0]->Y() + ry);
+								buffer[1]->XY(buffer[0]->X()+rx, buffer[0]->Y());
+								buffer[2]->XY(buffer[0]->X(), buffer[0]->Y()+ry);
 
 								clicks_on_buffer = 3;
 
@@ -324,26 +310,20 @@ void LoadFile() {
 								temp2 = stof(*it);
 								new_border_color.z = temp2;
 
-								it++;
-								temp2 = stof(*it);
-								new_fill_color.x = temp2;
-
-								it++;
-								temp2 = stof(*it);
-								new_fill_color.y = temp2;
-
-								it++;
-								temp2 = stof(*it);
-								new_fill_color.z = temp2;
-
-								DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+								DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
 								clicks_on_buffer = 0;
 							}
 							else {
-								if (it->compare("RECTANGLE") == 0) {
-									FigureClicked = 4;
+								if (it->compare("FILLED_ELLIPSE") == 0) {
+
+									if (command.size() != 11) {
+										cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 11 but " << command.size() << " were given." << endl;
+										continue;
+									}
+
+									FigureClicked = 3;
 									isborder = true;
-									isfill = false;
+									isfill = true;
 									isvertex = true;
 
 									it++;
@@ -355,13 +335,14 @@ void LoadFile() {
 									buffer[0]->Ys(temp);
 
 									it++;
-									temp = stoi(*it);
-									buffer[1]->Xs(temp);
-
+									int rx = stoi(*it);
 									it++;
-									temp = stoi(*it);
-									buffer[1]->Ys(temp);
-									clicks_on_buffer = 2;
+									int ry = stoi(*it);
+
+									buffer[1]->XY(buffer[0]->X() + rx, buffer[0]->Y());
+									buffer[2]->XY(buffer[0]->X(), buffer[0]->Y() + ry);
+
+									clicks_on_buffer = 3;
 
 									it++;
 									float temp2 = stof(*it);
@@ -375,14 +356,32 @@ void LoadFile() {
 									temp2 = stof(*it);
 									new_border_color.z = temp2;
 
-									DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+									it++;
+									temp2 = stof(*it);
+									new_fill_color.x = temp2;
+
+									it++;
+									temp2 = stof(*it);
+									new_fill_color.y = temp2;
+
+									it++;
+									temp2 = stof(*it);
+									new_fill_color.z = temp2;
+
+									DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 									clicks_on_buffer = 0;
 								}
 								else {
-									if (it->compare("FILLED_RECTANGLE") == 0) {
+									if (it->compare("RECTANGLE") == 0) {
+
+										if (command.size() != 8) {
+											cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 8 but " << command.size() << " were given." << endl;
+											continue;
+										}
+
 										FigureClicked = 4;
 										isborder = true;
-										isfill = true;
+										isfill = false;
 										isvertex = true;
 
 										it++;
@@ -414,26 +413,20 @@ void LoadFile() {
 										temp2 = stof(*it);
 										new_border_color.z = temp2;
 
-										it++;
-										temp2 = stof(*it);
-										new_fill_color.x = temp2;
-
-										it++;
-										temp2 = stof(*it);
-										new_fill_color.y = temp2;
-
-										it++;
-										temp2 = stof(*it);
-										new_fill_color.z = temp2;
-
-										DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+										DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
 										clicks_on_buffer = 0;
 									}
 									else {
-										if (it->compare("TRIANGLE") == 0) {
-											FigureClicked = 5;
+										if (it->compare("FILLED_RECTANGLE") == 0) {
+
+											if (command.size() != 11) {
+												cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 11 but " << command.size() << " were given." << endl;
+												continue;
+											}
+
+											FigureClicked = 4;
 											isborder = true;
-											isfill = false;
+											isfill = true;
 											isvertex = true;
 
 											it++;
@@ -451,15 +444,7 @@ void LoadFile() {
 											it++;
 											temp = stoi(*it);
 											buffer[1]->Ys(temp);
-
-											it++;
-											temp = stoi(*it);
-											buffer[2]->Xs(temp);
-
-											it++;
-											temp = stoi(*it);
-											buffer[2]->Ys(temp);
-											clicks_on_buffer = 3;
+											clicks_on_buffer = 2;
 
 											it++;
 											float temp2 = stof(*it);
@@ -473,14 +458,32 @@ void LoadFile() {
 											temp2 = stof(*it);
 											new_border_color.z = temp2;
 
-											DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+											it++;
+											temp2 = stof(*it);
+											new_fill_color.x = temp2;
+
+											it++;
+											temp2 = stof(*it);
+											new_fill_color.y = temp2;
+
+											it++;
+											temp2 = stof(*it);
+											new_fill_color.z = temp2;
+
+											DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 											clicks_on_buffer = 0;
 										}
 										else {
-											if (it->compare("FILLED_TRIANGLE") == 0) {
+											if (it->compare("TRIANGLE") == 0) {
+
+												if (command.size() != 10) {
+													cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 10 but " << command.size() << " were given." << endl;
+													continue;
+												}
+
 												FigureClicked = 5;
 												isborder = true;
-												isfill = true;
+												isfill = false;
 												isvertex = true;
 
 												it++;
@@ -520,41 +523,46 @@ void LoadFile() {
 												temp2 = stof(*it);
 												new_border_color.z = temp2;
 
-												it++;
-												temp2 = stof(*it);
-												new_fill_color.x = temp2;
-
-												it++;
-												temp2 = stof(*it);
-												new_fill_color.y = temp2;
-
-												it++;
-												temp2 = stof(*it);
-												new_fill_color.z = temp2;
-
-												DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+												DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
 												clicks_on_buffer = 0;
 											}
 											else {
-												if ((it->substr(0, 6)).compare("BEZIER") == 0) {
+												if (it->compare("FILLED_TRIANGLE") == 0) {
 
-													FigureClicked = 6;
+													if (command.size() != 13) {
+														cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 13 but " << command.size() << " were given." << endl;
+														continue;
+													}
+
+													FigureClicked = 5;
 													isborder = true;
 													isfill = true;
 													isvertex = true;
 
-													string points = (it->substr(6, it->length() - 6));
-													int temp = stoi(points);
-													for (int p = 0; p < temp; p++) {
-														it++;
-														int temp2 = stoi(*it);
-														buffer[p]->Xs(temp2);
+													it++;
+													int temp = stoi(*it);
+													buffer[0]->Xs(temp);
 
-														it++;
-														temp2 = stoi(*it);
-														buffer[p]->Ys(temp2);
-													}
-													clicks_on_buffer = temp;
+													it++;
+													temp = stoi(*it);
+													buffer[0]->Ys(temp);
+
+													it++;
+													temp = stoi(*it);
+													buffer[1]->Xs(temp);
+
+													it++;
+													temp = stoi(*it);
+													buffer[1]->Ys(temp);
+
+													it++;
+													temp = stoi(*it);
+													buffer[2]->Xs(temp);
+
+													it++;
+													temp = stoi(*it);
+													buffer[2]->Ys(temp);
+													clicks_on_buffer = 3;
 
 													it++;
 													float temp2 = stof(*it);
@@ -568,36 +576,115 @@ void LoadFile() {
 													temp2 = stof(*it);
 													new_border_color.z = temp2;
 
+													it++;
+													temp2 = stof(*it);
+													new_fill_color.x = temp2;
+
+													it++;
+													temp2 = stof(*it);
+													new_fill_color.y = temp2;
+
+													it++;
+													temp2 = stof(*it);
+													new_fill_color.z = temp2;
+
 													DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 													clicks_on_buffer = 0;
 												}
 												else {
-													if (it->compare("BACKGROUND") == 0) {
-														FigureClicked = 0;
+													if ((it->substr(0, 6)).compare("BEZIER") == 0) {
+
+														FigureClicked = 6;
 														isborder = true;
 														isfill = true;
 														isvertex = true;
 
-														if (current_shape != NULL) {
-															lastClickedVertex = NULL;
-															current_shape->isSelected = false;
-															current_shape = NULL;
+														string points = (it->substr(6, it->length() - 6));
+														int temp = stoi(points);
+
+														if (temp < 2 or temp > 20) {
+															cout << "ERROR: INVALID AMOUNT OF POINTS FOR THIS COMMAND. Must be BETWEEN 2 AND 20 but " << temp << " were given." << endl;
+															continue;
 														}
+														if (command.size() != 4+(temp*2)) {
+															cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be " << 4 + (temp * 2) << " but " << command.size() << " were given." << endl;
+															continue;
+														}
+
+														for (int p = 0; p < temp; p++) {
+															it++;
+															int temp2 = stoi(*it);
+															buffer[p]->Xs(temp2);
+
+															it++;
+															temp2 = stoi(*it);
+															buffer[p]->Ys(temp2);
+														}
+														clicks_on_buffer = temp;
+
 														it++;
 														float temp2 = stof(*it);
-														clear_color.x = temp2;
+														new_border_color.x = temp2;
 
 														it++;
 														temp2 = stof(*it);
-														clear_color.y = temp2;
+														new_border_color.y = temp2;
 
 														it++;
 														temp2 = stof(*it);
-														clear_color.z = temp2;
+														new_border_color.z = temp2;
+
+														DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 														clicks_on_buffer = 0;
 													}
 													else {
-														cout << "Line \"" << myText << "\" was not recognized." << endl;
+														if (it->compare("BACKGROUND") == 0) {
+															if (command.size() != 4) {
+																cout << "ERROR: INVALID AMOUNT OF ARGUMENTS FOR THIS COMMAND. Must be 4 but " << command.size() << " were given." << endl;
+																continue;
+															}
+
+															it++;
+															float temp1, temp2, temp3;
+															temp1 = stof(*it);
+															if (temp1 < 0.0 or temp1 > 1.0) {
+																cout << "ERROR: \"" << temp1 << "\" is not a valid red BACKGROUND color component." << endl;
+															}
+															else{
+																it++;
+																temp2 = stof(*it);
+																if (temp2 < 0.0 or temp2 > 1.0) {
+																	cout << "ERROR: \"" << temp2 << "\" is not a valid blue BACKGROUND color component." << endl;
+																}
+																else {
+																	it++;
+																	temp3 = stof(*it);
+																	if (temp3 < 0.0 or temp3 > 1.0) {
+																		cout << "ERROR: \"" << temp3 << "\" is not a valid green BACKGROUND color component." << endl;
+																	}
+																	else {
+																		FigureClicked = 0;
+																		isborder = true;
+																		isfill = true;
+																		isvertex = true;
+																		if (current_shape != NULL) {
+																			lastClickedVertex = NULL;
+																			current_shape->isSelected = false;
+																			current_shape = NULL;
+																		}
+
+																		clear_color.x = temp1;
+																		clear_color.y = temp2;
+																		clear_color.z = temp3;
+
+																		clicks_on_buffer = 0;
+																	}
+																}
+															}
+														}
+														else {
+															cout << "Line \"" << myText << "\" was not recognized." << endl;
+														}
 													}
 												}
 											}
@@ -609,11 +696,14 @@ void LoadFile() {
 					}
 				}
 			}
-		}
+			else {
+			cout << "ERROR: Arguments must be greater than 1." << endl;
+			}
 		}
 		catch (const std::exception&)
 		{
-			cout << endl << "ERROR" << endl;
+			cout << endl << "UNEXPECTED ERROR" << endl;
+			continue;
 		}
 	}
 
@@ -998,16 +1088,77 @@ void DetermineWasClicked(shared_ptr<Vertex2D>* _v) {
 	}
 }
 
+bool isFigureValid(int n, shared_ptr<Vertex2D>* _v, bool isBorder, ImVec4 &border_color, bool isFill, ImVec4 &fill_color) {
+	bool isValid = true;
+
+	for (int i = 0; i < n; i++) {
+		if(_v[i]->X() < 0 or _v[i]->Y() < 0) {
+			cout << "ERROR: \"" << _v[i]->X() << ", " << _v[i]->Y() << "\" is not a valid coordinate." << endl;
+			isValid = false;
+		}
+	}
+
+	if (isBorder) {
+		if (border_color.x < 0.0 or border_color.x > 1.0) {
+			cout << "ERROR: \"" << border_color.x << "\" is not a valid red border color component." << endl;
+			border_color.x = 0.0;
+			isValid = false;
+		}
+		if (border_color.y < 0.0 or border_color.y > 1.0) {
+			cout << "ERROR: \"" << border_color.y << "\" is not a valid green border color component." << endl;
+			border_color.y = 0.0;
+			isValid = false;
+		}
+		if (border_color.z < 0.0 or border_color.z > 1.0) {
+			cout << "ERROR: \"" << border_color.z << "\" is not a valid blue border color component." << endl;
+			border_color.z = 0.0;
+			isValid = false;
+		}
+		if (border_color.w < 0.0 or border_color.w > 1.0) {
+			cout << "ERROR: \"" << border_color.w << "\" is not a valid alpha border color component." << endl;
+			border_color.w = 0.0;
+			isValid = false;
+		}
+	}
+
+	if (isFill) {
+		if (fill_color.x < 0.0 or fill_color.x > 1.0) {
+			cout << "ERROR: \"" << fill_color.x << "\" is not a valid red fill color component." << endl;
+			isValid = false;
+			fill_color.x = 0.0;
+		}
+		if (fill_color.y < 0.0 or fill_color.y > 1.0) {
+			cout << "ERROR: \"" << fill_color.y << "\" is not a valid green fill color component." << endl;
+			isValid = false;
+			fill_color.y = 0.0;
+		}
+		if (fill_color.z < 0.0 or fill_color.z > 1.0) {
+			cout << "ERROR: \"" << fill_color.z << "\" is not a valid blue fill color component." << endl;
+			isValid = false;
+			fill_color.z = 0.0;
+		}
+		if (fill_color.w < 0.0 or fill_color.w > 1.0) {
+			cout << "ERROR: \"" << fill_color.w << "\" is not a valid alpha fill color component." << endl;
+			isValid = false;
+			fill_color.w = 0.0;
+		}
+	}
+
+	return isValid;
+
+}
+
 // [SECTION] Selectors Handlers
-void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shared_ptr<Vertex2D>* _v){
+void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, shared_ptr<Vertex2D>* _v){
 
 	if (current_shape != NULL) {
 		current_shape->isSelected = false;
 	}
 
-	//if (!isDrawingFigure) {
-		//isDrawingFigure = true;
-		
+	if (isFigureValid(clicks_on_buffer, _v, isborder, border_color, isfill, fill_color)) {
+		//if (!isDrawingFigure) {
+			//isDrawingFigure = true;
+
 		switch (figure)
 		{
 		case 0: // Determine if a shape were clicked
@@ -1049,7 +1200,7 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 		case 3: // Elipse
 			new_e = make_shared <CElipse>(new_border_color, new_fill_color);
 			new_e->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
-			
+
 			new_e->drawBorder = isborder;
 			new_e->drawFill = isfill;
 			new_e->drawVertex = isvertex;
@@ -1097,7 +1248,7 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 
 		case 6: // Bezier
 			new_b = make_shared <CBezier>(new_border_color, new_fill_color);
-			for(int i = 0; i < clicks_on_buffer; i++)
+			for (int i = 0; i < clicks_on_buffer; i++)
 				new_b->addVertex(_v[i]->X(), _v[i]->Y());
 
 
@@ -1158,7 +1309,8 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 		default:
 			break;
 		}
-	//}
+		//}
+	}
 		if (current_shape != NULL) {
 			current_shape->isSelected = true;
 		}
@@ -1461,6 +1613,7 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 																						fm->save(false);
 																						fm->~FileManager();
 																						SaveFile();
+																						current_file_mode = 0;
 																					}
 																					else {
 																						if (key == (unsigned char)'L') {
@@ -1470,6 +1623,7 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 																							fm->open();
 																							fm->~FileManager();
 																							LoadFile();
+																							current_file_mode = 0;
 																						}
 																						else {
 																							if (key == (unsigned char)'x') {

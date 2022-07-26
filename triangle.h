@@ -204,6 +204,7 @@ public:
 
 	void drawfill(bool drawingMode) {
 
+		int width = 2; // px
 
 		if (drawingMode == 0) // Hardware Mode
 		{
@@ -223,19 +224,21 @@ public:
 
 
 			// user putpixel de aquí en adelante... con Bresenham
-			int d1 = distancei(v0->X(), v0->Y(), v1->X(), v1->Y());
-			int d2 = distancei(v1->X(), v1->Y(), v2->X(), v2->Y());
-			int d3 = distancei( v2->X(), v2->Y(), v0->X(), v0->Y());
+			double d1 = (double)distancef(v0->X(), v0->Y(), v1->X(), v1->Y());
+			double d2 = (double)distancef(v1->X(), v1->Y(), v2->X(), v2->Y());
+			double d3 = (double)distancef( v2->X(), v2->Y(), v0->X(), v0->Y());
 
-			int tx, ty, vx, vy;
+			double tx = 0.0, ty = 0.0, vx = 0.0, vy = 0.0;
 			if (((d1 < d2) or (d1 == d2)) and ((d1 < d2) or (d1 == d2))) {
 				tx = v0->X();
 				ty = v0->Y();
-				vx = (v1->X() - v0->X()) / d1;
-				vy = (v1->Y() - v0->Y()) / d1;
+				vx = (double)((v1->X() - v0->X()) / d1);
+				vy = (double)((v1->Y() - v0->Y()) / d1);
 				int counter = 0;
 				while (counter < d1) {
-					drawline(v2->X(), v2->Y(), tx, ty, 1);
+					//setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
+					
+					drawline(v2->X(), v2->Y(), round(tx), round(ty), width);
 					//drawing a line from point(v2->X(),v2->Y()) to point(tx,ty).
 					tx = tx + vx;
 					ty = ty + vy;
@@ -246,11 +249,13 @@ public:
 				if ((d2 < d3) or (d2 == d3)) {
 					tx = v1->X();
 					ty = v1->Y();
-					vx = (v2->X() - v1->X()) / d2;
-					vy = (v2->Y() - v1->Y()) / d2;
+					vx = (double)(v2->X() - v1->X()) / d2;
+					vy = (double)(v2->Y() - v1->Y()) / d2;
 					int counter = 0;
 					while (counter < d2) {
-						drawline(v0->X(), v0->Y(), tx, ty, 1);
+						//setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
+
+						drawline(v0->X(), v0->Y(), round(tx), round(ty), width);
 						tx = tx + vx;
 						ty = ty + vy;
 						counter = counter + 1;
@@ -259,11 +264,13 @@ public:
 				else {
 					tx = v2->X();
 					ty = v2->Y();
-					vx = (v0->X() - v2->X()) / d3;
-					vy = (v0->Y() - v2->Y()) / d3;
+					vx = (double)(v0->X() - v2->X()) / d3;
+					vy = (double)(v0->Y() - v2->Y()) / d3;
 					int counter = 0;
 					while (counter < d3) {
-						drawline(v1->X(), v1->Y(), tx, ty, 1);
+						//setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
+
+						drawline(v1->X(), v1->Y(), round(tx), round(ty), width);
 						tx = tx + vx;
 						ty = ty + vy;
 						counter = counter + 1;
