@@ -170,7 +170,6 @@
     <ClInclude Include="GL\glut.h" />
     <ClInclude Include="list_handler.h" />
     <ClInclude Include="rectangle.h" />
-    <ClInclude Include="shapes_loader_saver.h" />
     <ClInclude Include="status.h" />
     <ClInclude Include="tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="triangle.h" />
