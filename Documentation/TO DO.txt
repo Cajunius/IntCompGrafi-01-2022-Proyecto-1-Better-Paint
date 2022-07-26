@@ -1,18 +1,8 @@
-25/07/2022 - 9:56 PM
+25/07/2022 - 11:47 PM
 	
-	Implementar Borrar Figuras - DONE
-	Implementar Borrar Todas - DONE
+	MAKE README.md BEAUTIER.   - WIP (50% / 100%)
 
-	Detectar y manejar eventos del mouse y del teclado para:
-		mover figuras - DONE
-		seleccionar y modificar vertices - DONE
-			Solve Bug for Reducing Rectangle Size - FIXED
-
-	Implementar carga y guarda de archivo - DONE
-
-	Debugear relleno de triangulos por software  - WIP
-
-	Encontrar un delta_t optimo para la curva de Bezier  - WIP
-
-	Improve Commentaries and Clean Code.  - WIP
+	Debugear relleno de triangulos por software  - WIP (80% / 100%)
+	Encontrar un delta_t optimo para la curva de Bezier  - WIP (75% / 100%)
+	Improve Commentaries and Clean Code.  - WIP (95% / 100%)
 
