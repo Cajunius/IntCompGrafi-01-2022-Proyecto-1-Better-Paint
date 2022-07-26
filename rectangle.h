@@ -403,4 +403,15 @@ public:
 			}
 		}
 	}
+
+	void printShape(ofstream& MyFile) {
+		if (drawFill) {
+			MyFile << "FILLED_RECTANGLE " << v0->X() << " " << v0->Y() << " " << v3->X() << " " << v3->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+			cout << "FILLED_RECTANGLE " << v0->X() << " " << v0->Y() << " " << v3->X() << " " << v3->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+		}
+		else {
+			MyFile << "RECTANGLE " << v0->X() << " " << v0->Y() << " " << v3->X() << " " << v3->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+			cout << "RECTANGLE " << v0->X() << " " << v0->Y() << " " << v3->X() << " " << v3->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+		}
+	}
 };

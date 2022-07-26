@@ -397,4 +397,14 @@ public:
 		aux->Ys(aux->Y() + _y);
 	}
 
+	void printShape(ofstream& MyFile) {
+		if (drawFill) {
+			MyFile << "FILLED_ELLIPSE " << center->X() << " " << center->Y() << " " << rx << " " << ry << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+			cout << "FILLED_ELLIPSE " << center->X() << " " << center->Y() << " " << rx << " " << ry << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl; 
+		}
+		else {
+			MyFile << "ELLIPSE " << center->X() << " " << center->Y() << " " << rx << " " << ry << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+			cout << "ELLIPSE " << center->X() << " " << center->Y() << " " << rx << " " << ry << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+		}
+	}
 };

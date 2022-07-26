@@ -5,6 +5,8 @@
 #include "vertex2d.h"
 #include "utils.h"
 
+#include <fstream>
+
 class CLine : public CShape
 {
 private:
@@ -278,5 +280,10 @@ public:
 		cout << "LINE VERTEX MOVED" << endl;
 		aux->Xs(aux->X() + _x);
 		aux->Ys(aux->Y() + _y);
+	}
+
+	void printShape(ofstream &MyFile) {
+		MyFile << "LINE " << v0->X() << " " << v0->Y() << " " << v1->X() << " " << v1->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+		cout << "LINE " << v0->X() << " " << v0->Y() << " " << v1->X() << " " << v1->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
 	}
 };

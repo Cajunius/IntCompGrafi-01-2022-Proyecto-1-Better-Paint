@@ -88,13 +88,14 @@ public:
 			return 1;
 		}
 
+		/*
 #ifdef _WIN32
 		if (tinyfd_winUtf8)
-			lIn = _wfopen(tinyfd_utf8to16(lTheOpenFileName), L"r"); /* the UTF-8 filename is converted to UTF-16 */
+			lIn = _wfopen(tinyfd_utf8to16(lTheOpenFileName), L"r"); // the UTF-8 filename is converted to UTF-16 
 		else
 #endif
 			lIn = fopen(lTheOpenFileName, "r");
-
+		
 		if (!lIn)
 		{
 			tinyfd_messageBox(
@@ -109,6 +110,7 @@ public:
 		lBuffer[0] = '\0';
 		fgets(lBuffer, sizeof(lBuffer), lIn);
 		fclose(lIn);
+		*/
 
 		printf("The select Shapes File to load is: %s\n", tinyfd_utf8toMbcs(lTheOpenFileName));
 		current_file_name = tinyfd_utf8toMbcs(lTheOpenFileName);
@@ -142,10 +144,10 @@ public:
 				1);
 			return 1;
 		}
-
+		/*
 #ifdef _WIN32
 		if (tinyfd_winUtf8)
-			lIn = _wfopen(tinyfd_utf8to16(lTheSaveFileName), L"w"); /* the UTF-8 filename is converted to UTF-16 to open the file*/
+			lIn = _wfopen(tinyfd_utf8to16(lTheSaveFileName), L"w"); // the UTF-8 filename is converted to UTF-16 to open the file
 		else
 #endif
 			lIn = fopen(lTheSaveFileName, "w");
@@ -162,6 +164,7 @@ public:
 		}
 		//fputs(lPassword, lIn); // Handle saving file
 		fclose(lIn);
+		*/
 
 		printf("The selected Shapes File to save is: %s\n", tinyfd_utf8toMbcs(lTheSaveFileName));
 		current_file_name = tinyfd_utf8toMbcs(lTheSaveFileName);

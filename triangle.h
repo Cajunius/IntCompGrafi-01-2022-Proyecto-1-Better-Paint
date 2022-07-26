@@ -400,4 +400,15 @@ public:
 		aux->Xs(aux->X() + _x);
 		aux->Ys(aux->Y() + _y);
 	}
+
+	void printShape(ofstream& MyFile) {
+		if (drawFill) {
+			MyFile << "FILLED_TRIANGLE " << v0->X() << " " << v0->Y() << " " << v1->X() << " " << v1->Y() << " " << v2->X() << " " << v2->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+			cout << "FILLED_TRIANGLE " << v0->X() << " " << v0->Y() << " " << v1->X() << " " << v1->Y() << " " << v2->X() << " " << v2->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+		}
+		else {
+			MyFile << "TRIANGLE " << v0->X() << " " << v0->Y() << " " << v1->X() << " " << v1->Y() << " " << v2->X() << " " << v2->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+			cout << "TRIANGLE " << v0->X() << " " << v0->Y() << " " << v1->X() << " " << v1->Y() << " " << v2->X() << " " << v2->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+		}
+	}
 };

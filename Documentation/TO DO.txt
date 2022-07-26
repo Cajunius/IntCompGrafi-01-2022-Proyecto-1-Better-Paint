@@ -8,7 +8,7 @@
 		seleccionar y modificar vertices - DONE
 			Solve Bug for Reducing Rectangle Size - FIXED
 
-	Implementar carga y guarda de archivo
+	Implementar carga y guarda de archivo - DONE
 
 	Debugear relleno de triangulos por software  - WIP
 

@@ -345,4 +345,15 @@ public:
 		aux->Xs(aux->X() + _x);
 		aux->Ys(aux->Y() + _y);
 	}
+
+	void printShape(ofstream& MyFile) {
+		if (drawFill) {
+			MyFile << "FILLED_CIRCLE " << center->X() << " " << center->Y() << " " << radius->X() << " " << radius->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+			cout << "FILLED_CIRCLE " << center->X() << " " << center->Y() << " " << radius->X() << " " << radius->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << " " << fill_color[0] << " " << fill_color[1] << " " << fill_color[2] << endl;
+		}
+		else {
+			MyFile << "CIRCLE " << center->X() << " " << center->Y() << " " << radius->X() << " " << radius->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+			cout << "CIRCLE " << center->X() << " " << center->Y() << " " << radius->X() << " " << radius->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+		}
+	}
 };

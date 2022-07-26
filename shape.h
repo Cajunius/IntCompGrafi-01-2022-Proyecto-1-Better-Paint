@@ -195,6 +195,8 @@ public:
 
 	virtual shared_ptr<Vertex2D> LastVertex() = 0;
 
+	virtual void printShape(ofstream &MyFile) = 0;
+
 	// using putPixel
 	void plotPixel(int x1, int y1, int x2, int y2, int dx, int dy, int decide, int Width)
 	{

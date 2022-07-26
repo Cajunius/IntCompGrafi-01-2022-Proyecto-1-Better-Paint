@@ -433,4 +433,15 @@ public:
 		aux->Xs(aux->X() + _x);
 		aux->Ys(aux->Y() + _y);
 	}
+
+	void printShape(ofstream& MyFile) {
+			MyFile << "BEZIER" << grade + 1 << " ";
+			cout << "BEZIER" << grade + 1 << " ";
+			for (int i = 0; i < grade; i++) {
+				MyFile << v[i]->X() << " " << v[i]->Y() << " ";
+				cout << v[i]->X() << " " << v[i]->Y() << " ";
+			}
+			MyFile << v[grade]->X() << " " << v[grade]->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+			cout << v[grade]->X() << " " << v[grade]->Y() << " " << border_color[0] << " " << border_color[1] << " " << border_color[2] << endl;
+	}
 };

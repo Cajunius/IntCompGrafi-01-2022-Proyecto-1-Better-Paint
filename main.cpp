@@ -32,12 +32,14 @@
 
 #include <filename.h>
 #include <FileManager.h>
+#include <algorithm>  // For String to UPPER
 
 string current_file_name = "./Saved Canvas/ShapesFile.txt";
 int current_file_mode = 0;
 
 using namespace std;
 void MouseStyle(bool state);
+void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shared_ptr<Vertex2D>* _v);
 //string current_file_name = "ShapesFile.txt";
 // int width = 1280, height = 720;
 
@@ -51,6 +53,574 @@ void MouseStyle(bool state);
 
 // static int DrawingMode = 0;
 // static int FigureClicked = 0;
+
+void SaveFile() {
+	// Create and open a text file
+	ofstream MyFile(current_file_name);
+	// Aplication Code
+	int i = 0;
+	cout << "SAVING FILE" << endl;
+	MyFile << "BACKGROUND " << clear_color.x << " " << clear_color.y << " " << clear_color.z << endl;
+	cout << "BACKGROUND " << clear_color.x << " " << clear_color.y << " " << clear_color.z << endl;
+	for (auto const& x : shapes) {
+		// Write to the file
+		x->printShape(MyFile);
+		//cout << "render shape " << i << endl;
+		i++;
+	}
+	// Close the file
+	MyFile.close();
+	cout << "FILE SAVED" << endl;
+}
+
+void arrange(string str, list<string> &result)
+{
+	string w = "";
+	for (auto x : str)
+	{
+		if (x == ' ')
+		{
+			result.push_back(w);
+			//cout << w << endl;
+			w = "";
+		}
+		else {
+			w = w + x;
+		}
+	}
+	result.push_back(w);
+	//cout << w << endl;
+}
+
+void LoadFile() {
+	// Create a text string, which is used to output the text file
+	string myText;
+
+	// Read from the text file
+	ifstream MyReadFile(current_file_name);
+
+	cout << "LOADING FILE" << endl;
+	// Use a while loop together with the getline() function to read the file line by line
+	while (getline(MyReadFile, myText)) {
+		list<string> command;
+		// Output the text from the file
+		//toupper(myText);
+		transform(myText.begin(), myText.end(), myText.begin(), ::toupper);
+		cout << myText << endl;
+		try
+		{
+
+		
+		arrange(myText, command);
+		if (command.size() > 1) {
+			auto it = command.begin();
+			if (it->compare("LINE") == 0) {
+
+				FigureClicked = 1;
+				isborder = true;
+				isfill = true;
+				isvertex = true;
+
+				it++;
+				int temp = stoi(*it);
+				buffer[0]->Xs(temp);
+
+				it++;
+				temp = stoi(*it);
+				buffer[0]->Ys(temp);
+
+				it++;
+				temp = stoi(*it);
+				buffer[1]->Xs(temp);
+
+				it++;
+				temp = stoi(*it);
+				buffer[1]->Ys(temp);
+
+				clicks_on_buffer = 2;
+
+				it++;
+				float temp2 = stof(*it);
+				new_border_color.x = temp2;
+
+				it++;
+				temp2 = stof(*it);
+				new_border_color.y = temp2;
+
+				it++;
+				temp2 = stof(*it);
+				new_border_color.z = temp2;
+
+				DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+				clicks_on_buffer = 0;
+			}
+			else {
+				if (it->compare("CIRCLE") == 0) {
+					FigureClicked = 2;
+					isborder = true;
+					isfill = false;
+					isvertex = true;
+
+					it++;
+					int temp = stoi(*it);
+					buffer[0]->Xs(temp);
+
+					it++;
+					temp = stoi(*it);
+					buffer[0]->Ys(temp);
+
+					it++;
+					temp = stoi(*it);
+					buffer[1]->Xs(temp);
+
+					it++;
+					temp = stoi(*it);
+					buffer[1]->Ys(temp);
+
+					clicks_on_buffer = 2;
+
+					it++;
+					float temp2 = stof(*it);
+					new_border_color.x = temp2;
+
+					it++;
+					temp2 = stof(*it);
+					new_border_color.y = temp2;
+
+					it++;
+					temp2 = stof(*it);
+					new_border_color.z = temp2;
+
+					DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+					clicks_on_buffer = 0;
+				}
+				else {
+					if (it->compare("FILLED_CIRCLE") == 0) {
+						FigureClicked = 2;
+						isborder = true;
+						isfill = true;
+						isvertex = true;
+
+
+						it++;
+						int temp = stoi(*it);
+						buffer[0]->Xs(temp);
+
+						it++;
+						temp = stoi(*it);
+						buffer[0]->Ys(temp);
+
+						it++;
+						temp = stoi(*it);
+						buffer[1]->Xs(temp);
+
+						it++;
+						temp = stoi(*it);
+						buffer[1]->Ys(temp);
+
+						clicks_on_buffer = 2;
+
+						it++;
+						float temp2 = stof(*it);
+						new_border_color.x = temp2;
+
+						it++;
+						temp2 = stof(*it);
+						new_border_color.y = temp2;
+
+						it++;
+						temp2 = stof(*it);
+						new_border_color.z = temp2;
+
+						it++;
+						temp2 = stof(*it);
+						new_fill_color.x = temp2;
+
+						it++;
+						temp2 = stof(*it);
+						new_fill_color.y = temp2;
+
+						it++;
+						temp2 = stof(*it);
+						new_fill_color.z = temp2;
+
+						DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+						clicks_on_buffer = 0;
+					}
+					else {
+						if (it->compare("ELLIPSE") == 0) {
+							FigureClicked = 3;
+							isborder = true;
+							isfill = false;
+							isvertex = true;
+
+							it++;
+							int temp = stoi(*it);
+							buffer[0]->Xs(temp);
+
+							it++;
+							temp = stoi(*it);
+							buffer[0]->Ys(temp);
+
+							it++;
+							int rx = stoi(*it);
+							it++;
+							int ry = stoi(*it);
+
+							buffer[1]->XY(buffer[0]->X()+rx, buffer[0]->Y());
+							buffer[2]->XY(buffer[0]->X(), buffer[0]->Y()+ry);
+
+							clicks_on_buffer = 3;
+
+							it++;
+							float temp2 = stof(*it);
+							new_border_color.x = temp2;
+
+							it++;
+							temp2 = stof(*it);
+							new_border_color.y = temp2;
+
+							it++;
+							temp2 = stof(*it);
+							new_border_color.z = temp2;
+
+							DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+							clicks_on_buffer = 0;
+						}
+						else {
+							if (it->compare("FILLED_ELLIPSE") == 0) {
+								FigureClicked = 3;
+								isborder = true;
+								isfill = true;
+								isvertex = true;
+
+								it++;
+								int temp = stoi(*it);
+								buffer[0]->Xs(temp);
+
+								it++;
+								temp = stoi(*it);
+								buffer[0]->Ys(temp);
+
+								it++;
+								int rx = stoi(*it);
+								it++;
+								int ry = stoi(*it);
+
+								buffer[1]->XY(buffer[0]->X() + rx, buffer[0]->Y());
+								buffer[2]->XY(buffer[0]->X(), buffer[0]->Y() + ry);
+
+								clicks_on_buffer = 3;
+
+								it++;
+								float temp2 = stof(*it);
+								new_border_color.x = temp2;
+
+								it++;
+								temp2 = stof(*it);
+								new_border_color.y = temp2;
+
+								it++;
+								temp2 = stof(*it);
+								new_border_color.z = temp2;
+
+								it++;
+								temp2 = stof(*it);
+								new_fill_color.x = temp2;
+
+								it++;
+								temp2 = stof(*it);
+								new_fill_color.y = temp2;
+
+								it++;
+								temp2 = stof(*it);
+								new_fill_color.z = temp2;
+
+								DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+								clicks_on_buffer = 0;
+							}
+							else {
+								if (it->compare("RECTANGLE") == 0) {
+									FigureClicked = 4;
+									isborder = true;
+									isfill = false;
+									isvertex = true;
+
+									it++;
+									int temp = stoi(*it);
+									buffer[0]->Xs(temp);
+
+									it++;
+									temp = stoi(*it);
+									buffer[0]->Ys(temp);
+
+									it++;
+									temp = stoi(*it);
+									buffer[1]->Xs(temp);
+
+									it++;
+									temp = stoi(*it);
+									buffer[1]->Ys(temp);
+									clicks_on_buffer = 2;
+
+									it++;
+									float temp2 = stof(*it);
+									new_border_color.x = temp2;
+
+									it++;
+									temp2 = stof(*it);
+									new_border_color.y = temp2;
+
+									it++;
+									temp2 = stof(*it);
+									new_border_color.z = temp2;
+
+									DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+									clicks_on_buffer = 0;
+								}
+								else {
+									if (it->compare("FILLED_RECTANGLE") == 0) {
+										FigureClicked = 4;
+										isborder = true;
+										isfill = true;
+										isvertex = true;
+
+										it++;
+										int temp = stoi(*it);
+										buffer[0]->Xs(temp);
+
+										it++;
+										temp = stoi(*it);
+										buffer[0]->Ys(temp);
+
+										it++;
+										temp = stoi(*it);
+										buffer[1]->Xs(temp);
+
+										it++;
+										temp = stoi(*it);
+										buffer[1]->Ys(temp);
+										clicks_on_buffer = 2;
+
+										it++;
+										float temp2 = stof(*it);
+										new_border_color.x = temp2;
+
+										it++;
+										temp2 = stof(*it);
+										new_border_color.y = temp2;
+
+										it++;
+										temp2 = stof(*it);
+										new_border_color.z = temp2;
+
+										it++;
+										temp2 = stof(*it);
+										new_fill_color.x = temp2;
+
+										it++;
+										temp2 = stof(*it);
+										new_fill_color.y = temp2;
+
+										it++;
+										temp2 = stof(*it);
+										new_fill_color.z = temp2;
+
+										DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+										clicks_on_buffer = 0;
+									}
+									else {
+										if (it->compare("TRIANGLE") == 0) {
+											FigureClicked = 5;
+											isborder = true;
+											isfill = false;
+											isvertex = true;
+
+											it++;
+											int temp = stoi(*it);
+											buffer[0]->Xs(temp);
+
+											it++;
+											temp = stoi(*it);
+											buffer[0]->Ys(temp);
+
+											it++;
+											temp = stoi(*it);
+											buffer[1]->Xs(temp);
+
+											it++;
+											temp = stoi(*it);
+											buffer[1]->Ys(temp);
+
+											it++;
+											temp = stoi(*it);
+											buffer[2]->Xs(temp);
+
+											it++;
+											temp = stoi(*it);
+											buffer[2]->Ys(temp);
+											clicks_on_buffer = 3;
+
+											it++;
+											float temp2 = stof(*it);
+											new_border_color.x = temp2;
+
+											it++;
+											temp2 = stof(*it);
+											new_border_color.y = temp2;
+
+											it++;
+											temp2 = stof(*it);
+											new_border_color.z = temp2;
+
+											DrawSelectedFigure(FigureClicked, new_border_color, no_fill_color, buffer);
+											clicks_on_buffer = 0;
+										}
+										else {
+											if (it->compare("FILLED_TRIANGLE") == 0) {
+												FigureClicked = 5;
+												isborder = true;
+												isfill = true;
+												isvertex = true;
+
+												it++;
+												int temp = stoi(*it);
+												buffer[0]->Xs(temp);
+
+												it++;
+												temp = stoi(*it);
+												buffer[0]->Ys(temp);
+
+												it++;
+												temp = stoi(*it);
+												buffer[1]->Xs(temp);
+
+												it++;
+												temp = stoi(*it);
+												buffer[1]->Ys(temp);
+
+												it++;
+												temp = stoi(*it);
+												buffer[2]->Xs(temp);
+
+												it++;
+												temp = stoi(*it);
+												buffer[2]->Ys(temp);
+												clicks_on_buffer = 3;
+
+												it++;
+												float temp2 = stof(*it);
+												new_border_color.x = temp2;
+
+												it++;
+												temp2 = stof(*it);
+												new_border_color.y = temp2;
+
+												it++;
+												temp2 = stof(*it);
+												new_border_color.z = temp2;
+
+												it++;
+												temp2 = stof(*it);
+												new_fill_color.x = temp2;
+
+												it++;
+												temp2 = stof(*it);
+												new_fill_color.y = temp2;
+
+												it++;
+												temp2 = stof(*it);
+												new_fill_color.z = temp2;
+
+												DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+												clicks_on_buffer = 0;
+											}
+											else {
+												if ((it->substr(0, 6)).compare("BEZIER") == 0) {
+
+													FigureClicked = 6;
+													isborder = true;
+													isfill = true;
+													isvertex = true;
+
+													string points = (it->substr(6, it->length() - 6));
+													int temp = stoi(points);
+													for (int p = 0; p < temp; p++) {
+														it++;
+														int temp2 = stoi(*it);
+														buffer[p]->Xs(temp2);
+
+														it++;
+														temp2 = stoi(*it);
+														buffer[p]->Ys(temp2);
+													}
+													clicks_on_buffer = temp;
+
+													it++;
+													float temp2 = stof(*it);
+													new_border_color.x = temp2;
+
+													it++;
+													temp2 = stof(*it);
+													new_border_color.y = temp2;
+
+													it++;
+													temp2 = stof(*it);
+													new_border_color.z = temp2;
+
+													DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
+													clicks_on_buffer = 0;
+												}
+												else {
+													if (it->compare("BACKGROUND") == 0) {
+														FigureClicked = 0;
+														isborder = true;
+														isfill = true;
+														isvertex = true;
+
+														if (current_shape != NULL) {
+															lastClickedVertex = NULL;
+															current_shape->isSelected = false;
+															current_shape = NULL;
+														}
+														it++;
+														float temp2 = stof(*it);
+														clear_color.x = temp2;
+
+														it++;
+														temp2 = stof(*it);
+														clear_color.y = temp2;
+
+														it++;
+														temp2 = stof(*it);
+														clear_color.z = temp2;
+														clicks_on_buffer = 0;
+													}
+													else {
+														cout << "Line \"" << myText << "\" was not recognized." << endl;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		}
+		catch (const std::exception&)
+		{
+			cout << endl << "ERROR" << endl;
+		}
+	}
+
+	// Close the file
+	MyReadFile.close();
+	cout << "FILE LOADED" << endl;
+}
 
 // [SECTION] Display
 void my_display_code()
@@ -356,11 +926,13 @@ void renderScene(void)
 	if (current_file_mode != 0) {
 		if (current_file_mode == 1) {
 			// LOAD FILE
+			LoadFile();
 			current_file_mode = 0; // Reset File Mode
 		}
 		else {
 			if (current_file_mode == 2) {
 				// SAVE FILE
+				SaveFile();
 				current_file_mode = 0; // Reset File Mode
 			}
 		}
@@ -447,6 +1019,7 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 
 			new_line->drawBorder = isborder;
 			new_line->drawFill = isfill;
+			new_line->drawVertex = isvertex;
 
 			shapes.push_back(new_line);
 			current_shape = new_line;
@@ -460,6 +1033,11 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 		case 2: // Circle
 			new_c = make_shared <CCircle>(new_border_color, new_fill_color);
 			new_c->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
+
+			new_c->drawBorder = isborder;
+			new_c->drawFill = isfill;
+			new_c->drawVertex = isvertex;
+
 			shapes.push_back(new_c);
 			current_shape = new_c;
 			position = shapes.size();
@@ -471,6 +1049,11 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 		case 3: // Elipse
 			new_e = make_shared <CElipse>(new_border_color, new_fill_color);
 			new_e->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
+			
+			new_e->drawBorder = isborder;
+			new_e->drawFill = isfill;
+			new_e->drawVertex = isvertex;
+
 			shapes.push_back(new_e);
 			current_shape = new_e;
 			position = shapes.size();
@@ -483,6 +1066,11 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			new_r = make_shared <CRectangle>(new_border_color, new_fill_color);
 			//r1->set(500, 100, 100, 500, 100, 100, 500, 500);
 			new_r->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y());
+
+			new_r->drawBorder = isborder;
+			new_r->drawFill = isfill;
+			new_r->drawVertex = isvertex;
+
 			shapes.push_back(new_r);
 			current_shape = new_r;
 			position = shapes.size();
@@ -494,6 +1082,11 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 		case 5: // Triangle
 			new_t = make_shared <CTriangle>(new_border_color, new_fill_color);
 			new_t->set(_v[0]->X(), _v[0]->Y(), _v[1]->X(), _v[1]->Y(), _v[2]->X(), _v[2]->Y());
+
+			new_t->drawBorder = isborder;
+			new_t->drawFill = isfill;
+			new_t->drawVertex = isvertex;
+
 			shapes.push_back(new_t);
 			current_shape = new_t;
 			position = shapes.size();
@@ -506,6 +1099,11 @@ void DrawSelectedFigure(int figure, ImVec4 border_color, ImVec4 fill_color, shar
 			new_b = make_shared <CBezier>(new_border_color, new_fill_color);
 			for(int i = 0; i < clicks_on_buffer; i++)
 				new_b->addVertex(_v[i]->X(), _v[i]->Y());
+
+
+			new_b->drawBorder = isborder;
+			new_b->drawFill = isfill;
+			new_b->drawVertex = isvertex;
 
 			shapes.push_back(new_b);
 			current_shape = new_b;
@@ -862,6 +1460,7 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 																						//fm->save(true);
 																						fm->save(false);
 																						fm->~FileManager();
+																						SaveFile();
 																					}
 																					else {
 																						if (key == (unsigned char)'L') {
@@ -870,6 +1469,7 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 																							FileManager* fm = new FileManager();
 																							fm->open();
 																							fm->~FileManager();
+																							LoadFile();
 																						}
 																						else {
 																							if (key == (unsigned char)'x') {
@@ -1104,12 +1704,12 @@ void TESTBEZIERS() {
 
 void TEST() {
 	// Aplication Code
-	//TESTLINES();
-	//TESTTRIANGLES();
-	//TESTRECTANGLES();
-	//TESTCIRCLES();
-	//TESTELIPSES();
-	//TESTBEZIERS();
+	TESTLINES();
+	TESTTRIANGLES();
+	TESTRECTANGLES();
+	TESTCIRCLES();
+	TESTELIPSES();
+	TESTBEZIERS();
 }
 
 // Defines Mouse Style
