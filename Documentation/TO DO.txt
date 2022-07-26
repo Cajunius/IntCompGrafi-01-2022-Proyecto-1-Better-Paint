@@ -1,4 +1,4 @@
-25/07/2022 - 2:18 AM
+25/07/2022 - 9:56 PM
 	
 	Implementar Borrar Figuras - DONE
 	Implementar Borrar Todas - DONE
