@@ -7,13 +7,11 @@
 #include <colors.h>
 #include <shape.h>
 #include <line.h>
-//#include <triangle.h>
 
 // FreeGlut
 #include "./GL/freeglut.h"
 // ImGui
 #include "./imgui/imgui.h"
-//#include "imgui/imgui_draw.cpp"
 #include "./imgui/backends/imgui_impl_glut.h"
 #include "./imgui/backends/imgui_impl_opengl2.h"
 
@@ -21,7 +19,7 @@
 int width = 1280, height = 720;
 
 // Our state
-static bool show_config_window = true; //Set true when Press "0"
+static bool show_config_window = true; //Set true when Press on UI.
 static bool show_another_window = true;
 
 // Extras
@@ -51,14 +49,11 @@ shared_ptr<Vertex2D> buffer[20];
 
 
 // List helpers
-static int position = 1; // TO DO: Sustitute this fetching the current figureposition...
+static int position = 1;
 
 static bool isborder = true;
 static bool isfill = true;
 static bool isvertex = true;
-// TO DO: Change to Modify Selected Figure colors
-
-
 
 
 int drawingMode() {

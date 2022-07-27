@@ -263,6 +263,13 @@ public:
 		if (vertex == MAX_VERTEXS) { //Es dibujable
 			// cout << DrawingMode << endl;
 
+			// Ordering Vertex taking into account the figure:
+			/*
+				v1 -> v2
+				|	  |
+				v0 <- v3
+			*/
+
 			int minX = min(v0->X(), v1->X());
 			minX = min(minX, v2->X());
 			minX = min(minX, v3->X());
@@ -295,7 +302,6 @@ public:
 			if (drawVertex) {
 				drawvertex(drawingMode);
 			}
-
 		}
 	}
 

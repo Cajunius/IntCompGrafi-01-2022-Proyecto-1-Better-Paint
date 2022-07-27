@@ -3,9 +3,7 @@
 #include <iostream>
 #include <colors.h>
 
-
 using namespace std;
-
 
 class Vertex2D
 {

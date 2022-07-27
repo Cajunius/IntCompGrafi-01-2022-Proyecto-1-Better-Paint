@@ -339,7 +339,6 @@ public:
 			if (drawVertex) {
 				drawvertex(drawingMode);
 			}
-			
 		}
 	}
 
@@ -370,7 +369,6 @@ public:
 		v1->Ys(v1->Y() + _y);
 		v2->Xs(v2->X() + _x);
 		v2->Ys(v2->Y() + _y);
-		
 	}
 
 	shared_ptr<Vertex2D> selectedVertex(int _x, int _y) {
@@ -401,7 +399,6 @@ public:
 				}
 			}
 		}
-
 		return aux;
 	}
 

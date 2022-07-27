@@ -11,7 +11,7 @@ class CShape
 {
 protected:
 	
-	
+
 public:
 	int ID = 0;
 	float border_color[4];

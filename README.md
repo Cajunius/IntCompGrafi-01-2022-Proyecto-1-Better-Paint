@@ -5,11 +5,13 @@ Clean Canvas:
 ![00](./Documentation/Imgs/00.png)
 
 Demos: 
+	Testing Canvas:
 ![01](./Documentation/Imgs/01.png)
 
+	Smily Shunshine Face:
 ![03](./Documentation/Imgs/03.png)
 
-Config, PROGGRAMER & USER GUIDE:
+Config Window: About, PROGRAMMER & USER GUIDE:
 
 ![04](./Documentation/Imgs/04.png)
 ![05](./Documentation/Imgs/05.png)

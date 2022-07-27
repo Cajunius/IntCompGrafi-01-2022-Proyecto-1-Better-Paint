@@ -41,19 +41,6 @@ using namespace std;
 void MouseStyle(bool state);
 void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, shared_ptr<Vertex2D>* _v);
 void TEST();
-//string current_file_name = "ShapesFile.txt";
-// int width = 1280, height = 720;
-
-// list <shared_ptr<CShape>> shapes;
-// shared_ptr<CShape> current_shape;
-
-// Our state
-// static bool show_config_window = true; //Set true when Press "0"
-// static bool show_another_window = true;
-// static ImVec4 clear_color = ImVec4(0.01f, 0.17f, 0.31f, 1.00f);
-
-// static int DrawingMode = 0;
-// static int FigureClicked = 0;
 
 void SaveFile() {
 	// Create and open a text file
@@ -719,32 +706,13 @@ void my_display_code()
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 	if (show_config_window)
 		ImGui::ShowDemoWindow(&show_config_window, width, height);
-		//ImGui::ShowDemoWindow(&show_config_window);
-
-	// 2. Show ToolBAR. We use a Begin/End pair to created a named window.
 	{
-		//static float f = 0.0f;
-		//static int counter = 0;
-
 		ImGui::Begin("ToolBar!");                          // Create a window called "Hello, world!" and append into it.
 
 		ImGui::Text("This is the useful toolbar!.");               // Display some text (you can use a format strings too)
-		//ImGui::Checkbox("Config Window", &show_config_window);      // Edit bools storing our window open/close state
-		//ImGui::Checkbox("Another Window", &show_another_window);
 		ImGui::Separator();
-
-		//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 		ImGui::ColorEdit3("clear (background) color", (float*)&clear_color); // Edit 3 floats representing a color
 
-		/*
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-		*/
-		//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		
 		ImGui::Separator();
 
 		ImGui::AlignTextToFramePadding();
@@ -777,13 +745,6 @@ void my_display_code()
 			ImGui::PopID();
 		}
 		
-
-		// static bool border = true;
-		// static bool fill = true;
-		// TO DO: Change to Modify Selected Figure colors
-		// static ImVec4 new_border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
-		// static ImVec4 new_fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
-
 		ImGui::Checkbox("Border", &isborder);
 		ImGui::SameLine();
 		ImGui::ColorEdit4("Border color", (float*)&new_border_color);
@@ -796,7 +757,6 @@ void my_display_code()
 		ImGui::Checkbox("Vertex", &isvertex);
 		ImGui::SameLine();
 		ImGui::ColorEdit4("Vertex color", (float*)&vertex_color_unselected);
-
 
 		ImGui::Separator();
 
@@ -824,9 +784,7 @@ void my_display_code()
 				current_shape = NULL;//*(shapes.end());//NULL;//
 			}
 			ImGui::PopID();
-			//ImGui::Text(" | Position:  %d", position); // TO DO: Add Selected Figure Type
-			
-			//float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+
 			// See 'Demo->Layout->Text Baseline Alignment' for details.
 			ImGui::AlignTextToFramePadding();
 			//ImGui::Text("Figure Position: %d", position);
@@ -842,12 +800,10 @@ void my_display_code()
 			ImGui::SameLine(0.0f, spacing);
 			ImGui::PushButtonRepeat(true);
 			if (ImGui::ArrowButton("##back", ImGuiDir_Left)) { decposition(position, shapes); }
-				//if(position > 0) position--; } // TO DO: update with update figure position
 			ImGui::SameLine(0.0f, spacing);
 			ImGui::Text("%d", position);
 			ImGui::SameLine(0.0f, spacing);
 			if (ImGui::ArrowButton("##front", ImGuiDir_Right)) { incposition(position, shapes);  }
-				//if (position < shapes.size()) position++; } // TO DO: update with update figure position
 			ImGui::PopButtonRepeat();
 			ImGui::SameLine(0.0f, spacing);
 			if (ImGui::Button("To Front"))
@@ -856,17 +812,9 @@ void my_display_code()
 				//position = shapes.size();
 			}
 
-			// TO DO: Change to Modify Selected Figure colors
-			// static ImVec4 border_color = ImVec4(0.1f, 0.17f, 0.13f, 1.00f);
-			// static ImVec4 fill_color = ImVec4(0.01f, 0.71f, 0.31f, 1.00f);
-
-			//ImGui::ColorEdit4("Border color", (float*)&border_color);
-			//ImGui::ColorEdit4("Fill color", (float*)&fill_color);
-
 			ImGui::Checkbox("Border ", &current_shape->drawBorder);
 			ImGui::SameLine();
 			ImGui::ColorEdit4("Border color ", (float*)&current_shape->border_color);
-
 
 			ImGui::Checkbox("Fill ", &current_shape->drawFill);
 			ImGui::SameLine();
@@ -876,8 +824,6 @@ void my_display_code()
 			ImGui::SameLine();
 			ImGui::ColorEdit4("Vertex color ", (float*)&current_shape->vertex_color_original);
 
-			
-			//ImGui::SameLine(0.0f, spacing);
 			ImGui::Checkbox("Additional Settings:", &extraUI);
 
 			if (extraUI) {
@@ -899,9 +845,8 @@ void my_display_code()
 					if (ImGui::ArrowButton("##--", ImGuiDir_Down)) { if (current_shape->PRECISION - hardstep > 0) current_shape->PRECISION = current_shape->PRECISION - hardstep; }
 					ImGui::SameLine(0.0f, spacing);
 					if (ImGui::ArrowButton("##-", ImGuiDir_Left)) { if (current_shape->PRECISION - step > 0) current_shape->PRECISION = current_shape->PRECISION - step; }
-					//if(position > 0) position--; } // TO DO: update with update figure position
+
 					ImGui::SameLine(0.0f, spacing);
-					//ImGui::SliderDouble("PRECISION", &current_shape->PRECISION, 0.0, 1.0, 1.0);
 					float fp = (float)current_shape->PRECISION;
 					if (ImGui::SliderFloat("", &fp, 0.00001f, 1.0000f, "% .6f")) {
 						double temp = current_shape->PRECISION;
@@ -925,14 +870,6 @@ void my_display_code()
 		ImGui::Text("Extras:");
 		ImGui::SameLine();
 
-		// Trying to give it color
-		/*
-		ImGui::PushID(12);
-		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
-		ImGui::PopStyleColor(3);
-		*/
 		if (ImGui::Button("Select Figure"))
 		{
 			//Handle Select Figure
@@ -969,7 +906,6 @@ void my_display_code()
 			current_shape = NULL;//*(shapes.end());//NULL;//
 			clearALL(shapes);
 		}
-		//ImGui::PopID();
 
 		//cout << "FigureClicked: " << FigureClicked << endl;
 		// Check if we need to draw a figure
@@ -1017,12 +953,6 @@ void renderScene(void)
 
 	my_display_code();
 	
-	/*
-	ImGui::Begin("DIOS AYUDA");
-	ImGui::Text("This is some useful text.");
-	ImGui::End();
-	*/
-
 	// Rendering
 	ImGui::Render();
 	ImGuiIO& io = ImGui::GetIO();
@@ -1046,11 +976,8 @@ void renderScene(void)
 
 	// Draw clicked vertexs
 	for(int i = 0; i < clicks_on_buffer; i++){
-		//if (DrawingMode == 0) {
-		//glColor4f(vertex_color[0], vertex_color[1], vertex_color[2], vertex_color[3]);
 		aux->setColor4(vertex_color_unseted.x, vertex_color_unseted.y, vertex_color_unseted.z, vertex_color_unseted.w);
 		aux->putPixel(buffer[i], aux->vertexSize);
-		//}
 	}
 
 	if (vertex_per_figure[FigureClicked] <= clicks_on_buffer) {
@@ -1071,21 +998,6 @@ void renderScene(void)
 			}
 		}
 	}
-	//MouseStyle(true);
-
-	/*
-	// [SECTION] TEST:
-	// draws the *classic red / green / blue triangle
-	glBegin(GL_TRIANGLES);
-	glColor3f(1, 0, 0); // red
-	glVertex2i(0, 0);
-	glColor3f(0, 1, 0); // green
-	glVertex2i(100, 100);
-	glColor3f(0, 0, 1); // blue
-	glVertex2i(0, 100);
-	glEnd();
-	*/
-
 	//glUseProgram(0); // You may want this if using this code in an OpenGL 3+ context where shaders may be bound, but prefer using the GL3+ code.
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
@@ -1093,7 +1005,7 @@ void renderScene(void)
 	glutPostRedisplay();
 }
 
-// Figures
+// new Figures
 shared_ptr<CLine> new_line;
 shared_ptr<CCircle> new_c;
 shared_ptr<CElipse> new_e;
@@ -1109,8 +1021,6 @@ void DetermineWasClicked(shared_ptr<Vertex2D>* _v) {
 	if (i > 0) x--;
 	for (; i > 0; i--) {
 		if (!wasClicked) {
-			//try
-			//{
 			if ((*x)->onClick(_v[0]->X(), _v[0]->Y()))
 			{
 				current_shape = (*x);
@@ -1122,7 +1032,6 @@ void DetermineWasClicked(shared_ptr<Vertex2D>* _v) {
 		else {
 			(*x)->isSelected = false;
 		}
-		//catch (const std::exception&){}
 		if (i > 1) x--;
 	}
 	if (!wasClicked) {
@@ -1200,9 +1109,6 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 	}
 
 	if (isFigureValid(clicks_on_buffer, _v, isborder, border_color, isfill, fill_color)) {
-		//if (!isDrawingFigure) {
-			//isDrawingFigure = true;
-
 		switch (figure)
 		{
 		case 0: // Determine if a shape were clicked
@@ -1295,7 +1201,6 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 			for (int i = 0; i < clicks_on_buffer; i++)
 				new_b->addVertex(_v[i]->X(), _v[i]->Y());
 
-
 			new_b->drawBorder = isborder;
 			new_b->drawFill = isfill;
 			new_b->drawVertex = isvertex;
@@ -1322,9 +1227,6 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 			//DetermineWasClicked(_v);
 			if (current_shape != NULL) {
 				current_shape->onMove(_v[1]->X() - _v[0]->X(), _v[1]->Y() - _v[0]->Y());
-				//erasepos(position, shapes);
-				//position = -1;//shapes.size();//-1;//
-				//current_shape = NULL;//*(shapes.end());//NULL;//
 				lastClickedVertex = current_shape->LastVertex();
 			}
 			break;
@@ -1332,9 +1234,6 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 			//DetermineWasClicked(_v);
 			if (current_shape != NULL) {
 				lastClickedVertex = current_shape->selectedVertex(_v[0]->X(), _v[0]->Y());
-				//erasepos(position, shapes);
-				//position = -1;//shapes.size();//-1;//
-				//current_shape = NULL;//*(shapes.end());//NULL;//
 			}
 			break;
 		case 10: // Move Selected Vertex
@@ -1343,9 +1242,6 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 				if (lastClickedVertex != NULL) {
 					if (lastClickedVertex != NULL) {
 						current_shape->MoveVertex(lastClickedVertex, _v[1]->X() - _v[0]->X(), _v[1]->Y() - _v[0]->Y());
-						//erasepos(position, shapes);
-						//position = -1;//shapes.size();//-1;//
-						//current_shape = NULL;//*(shapes.end());//NULL;//
 					}
 				}
 			}
@@ -1353,7 +1249,6 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 		default:
 			break;
 		}
-		//}
 	}
 		if (current_shape != NULL) {
 			current_shape->isSelected = true;
@@ -1362,41 +1257,7 @@ void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, sh
 
 // [SECTION] Input Event Handlers
 void onClickCanvas(int button, int state, int x, int y) {
-	//Do Somenting
-	/*
-	if (isDrawingFigure) {
-		if (button == 0) { // Started drawing
-			//isDrawingFigure = true;
-			if (isLastVertex) {
-				isDrawingFigure = false;
-			}
-			isLastVertex = current_shape->addVertex(lastClickedVertex, isLastVertex);
-			/*
-			current_shape->VERTEXS.push_back(lastClickedVertex);
-			current_shape->vertex = +1;
-			if (current_shape->vertex == current_shape->MAX_VERTEXS -1) {
-				isLastVertex = true;
-			}
-			*/
-	/*
-		}	
-	}
-	else
-	{
-		DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, x, y);
-		isDrawingFigure = true;
-	}
-	*/
-
-	/*
 	
-	// If left button was clicked
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		// Store where the user clicked, note Y is backwards.
-		abc[NUMPOINTS].setxy((float)x, (float)(SCREEN_HEIGHT - y));
-		NUMPOINTS++;
-	}
-	*/
 	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
 		if (FigureClicked == 6) {
 			// Bezier
@@ -1411,7 +1272,7 @@ void onClickCanvas(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		// Store where the user clicked, note Y is backwards.
 		if (clicks_on_buffer > 19) {
-			//Excede el maximo de puntos permitidos por figura
+			// Exceeds the maximum number of points allowed per figure
 			DrawSelectedFigure(FigureClicked, new_border_color, new_fill_color, buffer);
 			clicks_on_buffer = 0;
 		}

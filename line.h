@@ -66,36 +66,6 @@ public:
 			v1->XY(x0, y0);
 		}
 
-		/*
-		this->x0 = x0;
-		this->y0 = y0;
-		this->x1 = x1;
-		this->y1 = y1;
-		*/
-
-		//shared_ptr<Vertex2D> v0 = make_shared <Vertex2D>(x0, y0);
-		//shared_ptr<Vertex2D> v1 = make_shared <Vertex2D>(x1, y1);
-		/*
-		v0->XY(x0, y0);
-		v1->XY(x1, y1);
-		*/
-		/*
-		// Iterate trough vertexs
-		int i = 0;
-		for (auto const& v : VERTEXS) {
-			if (i == MAX_VERTEXS) {
-				break;
-			}
-			if (i == 0)
-				v->XY(x0, y0);
-			if (i == 1)
-				v->XY(x1, y1);
-			i++;
-		}
-		*/
-		// VERTEXS.push_back(v0);
-		// VERTEXS.push_back(v1);
-
 		vertex = MAX_VERTEXS;
 		selected_vertex = vertex-1;
 	}

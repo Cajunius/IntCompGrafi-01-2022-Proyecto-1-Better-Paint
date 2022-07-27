@@ -13,20 +13,16 @@
 class CBezier : public CShape
 {
 private:
-	//int x0, y0, x1, y1;
-	//int ID = 6;
 	int grade = -1;
 	shared_ptr<Vertex2D> v[20];
 	list<shared_ptr<Vertex2D>> vL;
-	//ImVec4 vertex_color = ImVec4(1.f, 0.01f, 0.1f, 1.00f);
 
 public:
-
-	//double PRECISION = 0.05;
 
 	CBezier(float r, float g, float b) : CShape(r, g, b)
 	{
 		ID = 6;
+		PRECISION = 0.05;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 20;
@@ -38,6 +34,7 @@ public:
 	CBezier(ImVec4 border) : CShape(border)
 	{
 		ID = 6;
+		PRECISION = 0.05;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 20;
@@ -49,6 +46,7 @@ public:
 	CBezier(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
 		ID = 6;
+		PRECISION = 0.05;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 20;
@@ -76,7 +74,6 @@ public:
 		vertex = MAX_VERTEXS;
 		selected_vertex = vertex - 1;
 	}
-
 
 	bool addVertex(shared_ptr <Vertex2D> _v, bool isLastVertex) {
 		VERTEXS.push_back(_v);
@@ -264,13 +261,10 @@ public:
 			setColor4(fill_color[0], fill_color[1], fill_color[2], fill_color[3]);
 
 			// user putPixel de aquí en adelante... con Bresenham
-
 			for (int i = 0; i < grade; i++) {
 				if(i+1 <= grade)
 					drawline(v[i]->X(), v[i]->Y(), v[i+1]->X(), v[i+1]->Y(), borderWidthS);
 			}
-			
-
 		}
 	}
 
