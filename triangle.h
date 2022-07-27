@@ -7,7 +7,7 @@
 class CTriangle : public CShape
 {
 private:
-	int ID = 5;
+	//int ID = 5;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 	shared_ptr<Vertex2D> v2;
@@ -17,6 +17,7 @@ public:
 
 	CTriangle(float r, float g, float b) : CShape(r, g, b)
 	{
+		ID = 5;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;
@@ -28,6 +29,7 @@ public:
 
 	CTriangle(float r, float g, float b, float a) : CShape(r, g, b, a)
 	{
+		ID = 5;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;
@@ -39,6 +41,7 @@ public:
 
 	CTriangle(ImVec4 border) : CShape(border)
 	{
+		ID = 5;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;
@@ -50,6 +53,7 @@ public:
 
 	CTriangle(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
+		ID = 5;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 3;

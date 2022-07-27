@@ -13,6 +13,7 @@ protected:
 	
 	
 public:
+	int ID = 0;
 	float border_color[4];
 	float fill_color[4];
 	float vertex_color[4];
@@ -30,6 +31,7 @@ public:
 	float borderWidthS = 1;
 	float vertexSize = 4;
 	int click_dist_tolerance = 10; //px
+	double PRECISION = 0.05;
 
 	CShape(float r, float g, float b)
 	{

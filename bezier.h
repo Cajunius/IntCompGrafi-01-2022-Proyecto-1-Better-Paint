@@ -14,7 +14,7 @@ class CBezier : public CShape
 {
 private:
 	//int x0, y0, x1, y1;
-	int ID = 6;
+	//int ID = 6;
 	int grade = -1;
 	shared_ptr<Vertex2D> v[20];
 	list<shared_ptr<Vertex2D>> vL;
@@ -22,10 +22,11 @@ private:
 
 public:
 
-	double PRECISION = 0.05;
+	//double PRECISION = 0.05;
 
 	CBezier(float r, float g, float b) : CShape(r, g, b)
 	{
+		ID = 6;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 20;
@@ -36,6 +37,7 @@ public:
 	}
 	CBezier(ImVec4 border) : CShape(border)
 	{
+		ID = 6;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 20;
@@ -46,6 +48,7 @@ public:
 	}
 	CBezier(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
+		ID = 6;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 20;
@@ -285,7 +288,8 @@ public:
 		if (drawingMode == 0) // Hardware Mode
 		{
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
-			
+			glLineWidth(borderWidth);
+
 			// Control Line
 			glBegin(GL_LINE_STRIP);
 			for (auto const& _v : bCurve) {

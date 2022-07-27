@@ -192,6 +192,14 @@
   <ItemGroup>
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Documentation\Imgs\00.png" />
+    <Image Include="Documentation\Imgs\01.png" />
+    <Image Include="Documentation\Imgs\03.png" />
+    <Image Include="Documentation\Imgs\04.png" />
+    <Image Include="Documentation\Imgs\05.png" />
+    <Image Include="Documentation\Imgs\06.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

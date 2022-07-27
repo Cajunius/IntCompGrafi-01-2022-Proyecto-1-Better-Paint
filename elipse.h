@@ -8,7 +8,7 @@
 class CElipse : public CShape
 {
 private:
-	int ID = 3;
+	//int ID = 3;
 	shared_ptr<Vertex2D> center;
 	shared_ptr<Vertex2D> radiusX;
 	shared_ptr<Vertex2D> radiusY;
@@ -19,6 +19,7 @@ public:
 
 	CElipse(float r, float g, float b) : CShape(r, g, b)
 	{
+		ID = 3;
 		click_dist_tolerance = 0; //px
 		vertex = 0;
 		selected_vertex = vertex;
@@ -31,6 +32,7 @@ public:
 	}
 	CElipse(ImVec4 border) : CShape(border)
 	{
+		ID = 3;
 		click_dist_tolerance = 0; //px
 		vertex = 0;
 		selected_vertex = vertex;
@@ -44,6 +46,7 @@ public:
 
 	CElipse(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
+		ID = 3;
 		click_dist_tolerance = 0; //px
 		vertex = 0;
 		selected_vertex = vertex;

@@ -242,6 +242,61 @@ void ImGui::ShowUserGuide()
     ImGui::BulletText("Escape to deactivate a widget, close popup, exit child window.");
     ImGui::BulletText("Alt to jump to the menu layer of a window.");
     ImGui::Unindent();
+    ImGui::BulletText("How to Draw:");
+    ImGui::Indent();
+    ImGui::BulletText("Open \"ToolBar!\" window and select a tool to start drawing.");
+    ImGui::BulletText("Select Display Mode: Hardware/Software.");
+    ImGui::BulletText("Select Figure to Draw.");
+    ImGui::BulletText("Select Border, Fill and Vertex Color.");
+    ImGui::BulletText("Number of Left-Clicks required on Canvas to draw each figure:");
+    ImGui::Indent();
+    ImGui::BulletText("Line (2) : 1 Click for each end");
+    ImGui::BulletText("Circle (2) : 1 Click Center, 1 Click Radies");
+    ImGui::BulletText("Elipse (3) : 1 Click Center, 1 Click Radius on X-axis, 1 Click Radius on Y-axis,");
+    ImGui::BulletText("Rectangle (2) : 1 Click on opposite vertexs.");
+    ImGui::BulletText("Triangle (3) : 1 Click on each vertex.");
+    ImGui::BulletText("Bezier (from 2 to 20) : 1 Left-Click for each vertex, 1 Right-Click for last vertex.");
+    ImGui::Unindent();
+    ImGui::Unindent();
+
+    ImGui::BulletText("You can change the Border/Fill/Vertex colors of a figure later on selecting it.");
+    ImGui::BulletText("You can change the Display order of a figure later on selecting it.");
+    ImGui::BulletText("You can erase a figure later on selecting it or using the \"Delete\" tool.");
+
+
+    ImGui::BulletText("How to Select a Figure:");
+    ImGui::Indent();
+    ImGui::BulletText("Open \"ToolBar!\" window and choose \"Select\" tool.");
+    ImGui::BulletText("Left-Click in Canvas on the Figure you want to select.");
+    ImGui::Unindent();
+
+    ImGui::BulletText("How to Select a vertex:");
+    ImGui::Indent();
+    ImGui::BulletText("Select the figure you want to select a vertex.");
+    ImGui::BulletText("Open \"ToolBar!\" window and choose \"Select Vertex\" tool.");
+    ImGui::BulletText("Left-Click in Canvas on the vertex of the Figure you want to select.");
+    ImGui::Unindent();
+
+    ImGui::BulletText("How to Move a Figure:");
+    ImGui::Indent();
+    ImGui::BulletText("Select the figure you want to move.");
+    ImGui::BulletText("Open \"ToolBar!\" window and choose \"Move Selected Figure\" tool.");
+    ImGui::BulletText("Left-Click in Canvas on the initial position.");
+    ImGui::BulletText("Left-Click in Canvas on the final position.");
+    ImGui::BulletText("The Selected Figure will move by the distance between initial and final position.");
+    ImGui::Unindent();
+
+    ImGui::BulletText("How to Move a Vertex:");
+    ImGui::Indent();
+    ImGui::BulletText("Select the vertex of the figure you want to move.");
+    ImGui::BulletText("Open \"ToolBar!\" window and choose \"Move Selected Vertex\" tool.");
+    ImGui::BulletText("Left-Click in Canvas on the initial position.");
+    ImGui::BulletText("Left-Click in Canvas on the final position.");
+    ImGui::BulletText("The Selected Vertex will move by the distance between initial and final position.");
+    ImGui::Unindent();
+
+    ImGui::BulletText("You can Save your canvas on a .txt file.");
+    ImGui::BulletText("You can Load your .txt saved canvas.");
 }
 
 //-----------------------------------------------------------------------------
@@ -427,24 +482,53 @@ void ImGui::ShowDemoWindow(bool* p_open, int width, int height)
     IMGUI_DEMO_MARKER("Help");
     if (ImGui::CollapsingHeader("Help"))
     {
-        ImGui::Text("ABOUT THIS DEMO:");
-        ImGui::BulletText("Sections below are demonstrating many aspects of the library.");
-        ImGui::BulletText("The \"Examples\" menu above leads to more demo contents.");
-        ImGui::BulletText("The \"Tools\" menu above gives access to: About Box, Style Editor,\n"
+        ImGui::Text("ABOUT THIS PROTOTYPE:");
+        ImGui::BulletText("Sections below are demonstrating many aspects of the application.");
+        ImGui::BulletText("The \"Tools\" menu above leads to UI contents (\"Main menu bar\", \"Stats overlay\").");
+        ImGui::BulletText("The \"Extras\" menu above gives access to: About Box, Style Editor,\n"
                           "and Metrics/Debugger (general purpose Dear ImGui debugging tool).");
         ImGui::Separator();
 
         ImGui::Text("PROGRAMMER GUIDE:");
-        ImGui::BulletText("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
-        ImGui::BulletText("See comments in imgui.cpp.");
-        ImGui::BulletText("See example applications in the examples/ folder.");
-        ImGui::BulletText("Read the FAQ at http://www.dearimgui.org/faq/");
+        ImGui::BulletText("See the DrawSelectedFigure() code in main.cpp. <- you are here!");
+        ImGui::BulletText("See comments in main.cpp and shapes.h files.");
+        ImGui::BulletText("See example canvas in /\"Saved Canvas\"/ folder.");
+        ImGui::BulletText("Porject can be found at https://github.com/Cajunius/IntCompGrafi-01-2022-Proyecto-1-Better-Paint");
         ImGui::BulletText("Set 'io.ConfigFlags |= NavEnableKeyboard' for keyboard controls.");
         ImGui::BulletText("Set 'io.ConfigFlags |= NavEnableGamepad' for gamepad controls.");
+        ImGui::BulletText("Set 'io.MouseDrawCursor = false' for no changing mouse style.");
         ImGui::Separator();
 
         ImGui::Text("USER GUIDE:");
         ImGui::ShowUserGuide();
+    }
+    if (ImGui::CollapsingHeader("SHORTCUTS"))
+    {
+        ImGui::BulletText("'0': Change to Select Figure Tool.");
+        ImGui::BulletText("'1': Change to Draw Line Tool.");
+        ImGui::BulletText("'2': Change to Draw Circle Tool.");
+        ImGui::BulletText("'3': Change to Draw Elipse Tool.");
+        ImGui::BulletText("'4': Change to Draw Rectangle Tool.");
+        ImGui::BulletText("'5': Change to Draw Triangle Tool.");
+        ImGui::BulletText("'6': Change to Draw Bezier Tool.");
+        ImGui::BulletText("'7': Change to Erase Figure Tool.");
+        ImGui::BulletText("'8': Change to Move Figure Tool.");
+        ImGui::BulletText("'9': Change to Select Vertex Tool.");
+        ImGui::BulletText("'*': Change to Move Selected Vertex Tool.");
+        ImGui::BulletText("'c': Change border color.");
+        ImGui::BulletText("'f': Change fill color.");
+        ImGui::BulletText("'h': Change display mode (Hardware/Software).");
+        ImGui::BulletText("'F': Selected Figure to Front.");
+        ImGui::BulletText("'B': Selected Figure to Back.");
+        ImGui::BulletText("'+': Selected Figure Front + 1.");
+        ImGui::BulletText("'-': Selected Figure Back - 1.");
+        ImGui::BulletText("'u': Unselect Figure.");
+        ImGui::BulletText("'d': Delete Figure.");
+        ImGui::BulletText("'S': Save CANVAS.");
+        ImGui::BulletText("'L': Load CANVAS.");
+        ImGui::BulletText("'x': Clear ALL.");
+        ImGui::BulletText("'T': Testing Functions.");
+        ImGui::BulletText("'t': Display Testing Canvas.");
     }
 
     IMGUI_DEMO_MARKER("Configuration");

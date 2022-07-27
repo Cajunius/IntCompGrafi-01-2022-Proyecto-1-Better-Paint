@@ -8,7 +8,7 @@
 class CCircle : public CShape
 {
 private:
-	int ID = 2;
+	//int ID = 2;
 	shared_ptr<Vertex2D> center;
 	shared_ptr<Vertex2D> radius;
 	int r;
@@ -18,6 +18,7 @@ public:
 
 	CCircle(float r, float g, float b) : CShape(r, g, b)
 	{
+		ID = 2;
 		click_dist_tolerance = 5; //px
 		vertex = 0;
 		selected_vertex = vertex;
@@ -28,6 +29,7 @@ public:
 	}
 	CCircle(ImVec4 border) : CShape(border)
 	{
+		ID = 2;
 		click_dist_tolerance = 5; //px
 		vertex = 0;
 		selected_vertex = vertex;
@@ -39,6 +41,7 @@ public:
 
 	CCircle(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
+		ID = 2;
 		click_dist_tolerance = 5; //px
 		vertex = 0;
 		selected_vertex = vertex;

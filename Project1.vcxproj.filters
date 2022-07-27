@@ -34,6 +34,9 @@
     <Filter Include="Saved Canvas">
       <UniqueIdentifier>{a4dee6e2-b601-4791-8f21-dbf3a11d94e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation Files\Imgs">
+      <UniqueIdentifier>{523be982-7ee6-4c5e-a5a5-8b6c392d8d52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -159,5 +162,25 @@
     <None Include="README.md">
       <Filter>Documentation Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Documentation\Imgs\00.png">
+      <Filter>Documentation Files\Imgs</Filter>
+    </Image>
+    <Image Include="Documentation\Imgs\01.png">
+      <Filter>Documentation Files\Imgs</Filter>
+    </Image>
+    <Image Include="Documentation\Imgs\03.png">
+      <Filter>Documentation Files\Imgs</Filter>
+    </Image>
+    <Image Include="Documentation\Imgs\04.png">
+      <Filter>Documentation Files\Imgs</Filter>
+    </Image>
+    <Image Include="Documentation\Imgs\05.png">
+      <Filter>Documentation Files\Imgs</Filter>
+    </Image>
+    <Image Include="Documentation\Imgs\06.png">
+      <Filter>Documentation Files\Imgs</Filter>
+    </Image>
   </ItemGroup>
 </Project>

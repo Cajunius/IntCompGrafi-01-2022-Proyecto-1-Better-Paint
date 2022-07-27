@@ -11,7 +11,7 @@ class CLine : public CShape
 {
 private:
 	//int x0, y0, x1, y1;
-	int ID = 1;
+	//int ID = 1;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 
@@ -20,6 +20,7 @@ public:
 
 	CLine(float r, float g, float b) : CShape(r, g, b)
 	{
+		ID = 1;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 2;
@@ -29,6 +30,7 @@ public:
 	}
 	CLine(ImVec4 border) : CShape(border)
 	{
+		ID = 1;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 2;
@@ -154,6 +156,7 @@ public:
 		if (drawingMode == 0) // Hardware Mode
 		{
 			setColor4(border_color[0], border_color[1], border_color[2], border_color[3]);
+			glLineWidth(borderWidth);
 
 			glBegin(GL_LINES);
 			glVertex2i(v0->X(), v0->Y());

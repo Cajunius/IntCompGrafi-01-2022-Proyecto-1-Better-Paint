@@ -40,6 +40,7 @@ int current_file_mode = 0;
 using namespace std;
 void MouseStyle(bool state);
 void DrawSelectedFigure(int figure, ImVec4 &border_color, ImVec4 &fill_color, shared_ptr<Vertex2D>* _v);
+void TEST();
 //string current_file_name = "ShapesFile.txt";
 // int width = 1280, height = 720;
 
@@ -728,8 +729,9 @@ void my_display_code()
 		ImGui::Begin("ToolBar!");                          // Create a window called "Hello, world!" and append into it.
 
 		ImGui::Text("This is the useful toolbar!.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Config Window", &show_config_window);      // Edit bools storing our window open/close state
+		//ImGui::Checkbox("Config Window", &show_config_window);      // Edit bools storing our window open/close state
 		//ImGui::Checkbox("Another Window", &show_another_window);
+		ImGui::Separator();
 
 		//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 		ImGui::ColorEdit3("clear (background) color", (float*)&clear_color); // Edit 3 floats representing a color
@@ -804,8 +806,24 @@ void my_display_code()
 
 		if (current_shape != NULL) {
 			
+			ImGui::AlignTextToFramePadding();
 			ImGui::Text("Selected Figure:  %d", current_shape);
-			//ImGui::SameLine(0.0f, spacing);
+			ImGui::SameLine(0.0f, spacing);
+			// Trying to give it color
+			ImGui::PushID(11);
+			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
+			ImGui::PopStyleColor(3);
+
+			if (ImGui::Button("Delete"))
+			{
+				//Handle Delete
+				erasepos(position, shapes);
+				position = -1;//shapes.size();//-1;//
+				current_shape = NULL;//*(shapes.end());//NULL;//
+			}
+			ImGui::PopID();
 			//ImGui::Text(" | Position:  %d", position); // TO DO: Add Selected Figure Type
 			
 			//float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
@@ -845,7 +863,6 @@ void my_display_code()
 			//ImGui::ColorEdit4("Border color", (float*)&border_color);
 			//ImGui::ColorEdit4("Fill color", (float*)&fill_color);
 
-
 			ImGui::Checkbox("Border ", &current_shape->drawBorder);
 			ImGui::SameLine();
 			ImGui::ColorEdit4("Border color ", (float*)&current_shape->border_color);
@@ -859,23 +876,48 @@ void my_display_code()
 			ImGui::SameLine();
 			ImGui::ColorEdit4("Vertex color ", (float*)&current_shape->vertex_color_original);
 
+			
+			//ImGui::SameLine(0.0f, spacing);
+			ImGui::Checkbox("Additional Settings:", &extraUI);
 
-			// Trying to give it color
-			ImGui::PushID(11);
-			ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7 / 7.0f, 0.6f, 0.6f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(7 / 7.0f, 0.7f, 0.7f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(7 / 7.0f, 0.8f, 0.8f));
-			ImGui::PopStyleColor(3);
+			if (extraUI) {
+				if (DrawingMode == 0)
+					ImGui::SliderFloat("Border Width", &current_shape->borderWidth, 1.0, 15.0);
+				else
+					ImGui::SliderFloat("Border Width", &current_shape->borderWidthS, 1.0, 15.0);
+				ImGui::SliderFloat("Vertex Size", &current_shape->vertexSize, 1.0, 15.0);
 
-			if (ImGui::Button("Delete"))
-			{
-				//Handle Delete
-				erasepos(position, shapes);
-				position = -1;//shapes.size();//-1;//
-				current_shape = NULL;//*(shapes.end());//NULL;//
+				if (current_shape->ID == 6) {
+					double step = 0.000001;
+					double hardstep = 0.0001;
+					// Bezier
+					ImGui::AlignTextToFramePadding();
+					//ImGui::Text("Figure Position: %d", position);
+					ImGui::Text("Curve Precision:");
+					ImGui::SameLine();
+					ImGui::PushButtonRepeat(true);
+					if (ImGui::ArrowButton("##--", ImGuiDir_Down)) { if (current_shape->PRECISION - hardstep > 0) current_shape->PRECISION = current_shape->PRECISION - hardstep; }
+					ImGui::SameLine(0.0f, spacing);
+					if (ImGui::ArrowButton("##-", ImGuiDir_Left)) { if (current_shape->PRECISION - step > 0) current_shape->PRECISION = current_shape->PRECISION - step; }
+					//if(position > 0) position--; } // TO DO: update with update figure position
+					ImGui::SameLine(0.0f, spacing);
+					//ImGui::SliderDouble("PRECISION", &current_shape->PRECISION, 0.0, 1.0, 1.0);
+					float fp = (float)current_shape->PRECISION;
+					if (ImGui::SliderFloat("", &fp, 0.00001f, 1.0000f, "% .6f")) {
+						double temp = current_shape->PRECISION;
+						current_shape->PRECISION = (double)fp;
+						if (current_shape->PRECISION == 0.0) {
+							current_shape->PRECISION = temp;
+						}
+					}
+					//ImGui::Text("%f", current_shape->PRECISION);
+					ImGui::SameLine(0.0f, spacing);
+					if (ImGui::ArrowButton("##+", ImGuiDir_Right)) { if (current_shape->PRECISION + step <= 1)current_shape->PRECISION = current_shape->PRECISION + step; }
+					ImGui::SameLine(0.0f, spacing);
+					if (ImGui::ArrowButton("##++", ImGuiDir_Up)) { if (current_shape->PRECISION + hardstep <= 1) current_shape->PRECISION = current_shape->PRECISION + hardstep; }
+					ImGui::PopButtonRepeat();
+				}
 			}
-			ImGui::PopID();
-
 			ImGui::Separator();
 		}
 
@@ -956,6 +998,8 @@ void my_display_code()
 				}
 			}
 		}
+		ImGui::Separator();
+		ImGui::Checkbox("Config Window", &show_config_window);
 		ImGui::End();
 	}
 
@@ -1556,28 +1600,28 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 														}
 														else {
 															if (key == (unsigned char)'F') {
-																cout << "Figure to Front" << endl;
+																cout << "Selected Figure to Front" << endl;
 																if (current_shape != NULL) {
 																	toFront(position, shapes);
 																}
 															}
 															else {
 																if (key == (unsigned char)'B') {
-																	cout << "Figure to Back" << endl;
+																	cout << "Selected Figure to Back" << endl;
 																	if (current_shape != NULL) {
 																		toBack(position, shapes);
 																	}
 																}
 																else {
 																	if (key == (unsigned char)'+') {
-																		cout << "Figure Front + 1" << endl;
+																		cout << "Selected Figure Front + 1" << endl;
 																		if (current_shape != NULL) {
 																			incposition(position, shapes);
 																		}
 																	}
 																	else {
 																		if (key == (unsigned char)'-') {
-																			cout << "Figure Back - 1" << endl;
+																			cout << "Selected Figure Back - 1" << endl;
 																			if (current_shape != NULL) {
 																				decposition(position, shapes);
 																			}
@@ -1638,8 +1682,19 @@ void onKeyboardEntryCanvas(unsigned char key, int x, int y) {
 																									//TEST
 																									printf("[%d] current_file_name: %s\n", current_file_mode, current_file_name.c_str());
 																								}
-																								else {
-																									cout << "\"" << key << "\" is not a valid shortcut" << endl;
+																								else
+																								{
+																									if (key == (unsigned char)'t') {
+																										// TEST CANVAS
+																										// Clear ALL
+																										position = -1;//shapes.size();//-1;//
+																										current_shape = NULL;//*(shapes.end());//NULL;//
+																										clearALL(shapes);
+																										TEST();
+																									}
+																									else {
+																										cout << "\"" << key << "\" is not a valid shortcut" << endl;
+																									}
 																								}
 																							}
 																						}
@@ -1858,12 +1913,12 @@ void TESTBEZIERS() {
 
 void TEST() {
 	// Aplication Code
-	//TESTLINES();
-	//TESTTRIANGLES();
-	//TESTRECTANGLES();
-	//TESTCIRCLES();
-	//TESTELIPSES();
-	//TESTBEZIERS();
+	TESTLINES();
+	TESTTRIANGLES();
+	TESTRECTANGLES();
+	TESTCIRCLES();
+	TESTELIPSES();
+	TESTBEZIERS();
 }
 
 // Defines Mouse Style
@@ -1894,7 +1949,8 @@ int main(int argc, char** argv)
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Better Paint - Proyecto 1 - Leonardo Mendoza");
 
-	cout << "Hi Hi :,D" << endl;
+	//cout << "Hi Hi :,D" << endl;
+	cout << "Better Paint says Hi Hi :,D!" << endl;
 
 	/*
 	glViewport(0, 0, width, height);
@@ -1904,7 +1960,7 @@ int main(int argc, char** argv)
 	*/
 
 	// TEST FUNCTION
-	TEST();
+	// TEST(); // Call it with shortcut 't'.
 
 	// register callbacks
 	glutDisplayFunc(renderScene);

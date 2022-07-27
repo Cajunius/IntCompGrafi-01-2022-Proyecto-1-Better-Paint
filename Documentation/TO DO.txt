@@ -1,8 +1,8 @@
 26/07/2022 - 3:19 PM
 	
-	MAKE README.md BEAUTIER.   - WIP (50% / 100%)
+	MAKE README.md BEAUTIER.   - WIP (98% / 100%)
 
 	Debugear relleno de triangulos por software  - DONE (100% / 100%)
-	Encontrar un delta_t optimo para la curva de Bezier  - WIP (75% / 100%)
+	Encontrar un delta_t optimo para la curva de Bezier  - WIP (99% / 100%)
 	Improve Commentaries and Clean Code.  - WIP (95% / 100%)
 

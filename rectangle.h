@@ -7,7 +7,7 @@
 class CRectangle : public CShape
 {
 private:
-	int ID = 4;
+	//int ID = 4;
 	shared_ptr<Vertex2D> v0;
 	shared_ptr<Vertex2D> v1;
 	shared_ptr<Vertex2D> v2;
@@ -18,6 +18,7 @@ public:
 
 	CRectangle(float r, float g, float b) : CShape(r, g, b)
 	{
+		ID = 4;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 4;
@@ -29,6 +30,7 @@ public:
 	}
 	CRectangle(ImVec4 border) : CShape(border)
 	{
+		ID = 4;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 4;
@@ -41,6 +43,7 @@ public:
 
 	CRectangle(ImVec4 border, ImVec4 fill) : CShape(border, fill)
 	{
+		ID = 4;
 		vertex = 0;
 		selected_vertex = vertex;
 		MAX_VERTEXS = 4;

@@ -24,6 +24,9 @@ int width = 1280, height = 720;
 static bool show_config_window = true; //Set true when Press "0"
 static bool show_another_window = true;
 
+// Extras
+static bool extraUI = true;
+
 // Auxiliar objects
 shared_ptr<CLine> aux;
 
